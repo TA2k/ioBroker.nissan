@@ -65,17 +65,19 @@ class Nissan extends utils.Adapter {
         };
         const jwtToken = await this.requestClient({
             method: "post",
-            url: encodeURIComponent(
-                "https://prod.eu.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=https://prod.eu.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=31C4BA5B&locale=de&nonce=" +
-                    nonce +
-                    "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles"
-            ),
+            url:
+                "https://prod.eu.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=" +
+                encodeURIComponent(
+                    "https://prod.eu.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=31C4BA5B&locale=de&nonce=" +
+                        nonce +
+                        "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles"
+                ),
             jar: this.cookieJar,
             withCredentials: true,
             headers: headers,
         })
             .then((res) => {
-                this.log.debug(res.data);
+                this.log.debug(JSON.stringify(res.data));
                 return res.data;
             })
             .catch((error) => {
@@ -86,11 +88,13 @@ class Nissan extends utils.Adapter {
             jwtToken.callbacks[1].input[0].value = this.config.password;
             await this.requestClient({
                 method: "post",
-                url: encodeURIComponent(
-                    "https://prod.eu.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=https://prod.eu.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=31C4BA5B&locale=de&nonce=" +
-                        nonce +
-                        "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles"
-                ),
+                url:
+                    "https://prod.eu.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=" +
+                    encodeURIComponent(
+                        "https://prod.eu.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=31C4BA5B&locale=de&nonce=" +
+                            nonce +
+                            "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles"
+                    ),
 
                 jar: this.cookieJar,
                 withCredentials: true,
@@ -98,20 +102,18 @@ class Nissan extends utils.Adapter {
                 data: jwtToken,
             })
                 .then((res) => {
-                    this.log.debug(res.data);
+                    this.log.debug(JSON.stringify(res.data));
                     return res.data;
                 })
                 .catch((error) => {
                     this.log.error(error);
                 });
-            await this.requestClient({
+            const code = await this.requestClient({
                 method: "get",
-                url: encodeURIComponent(
-                    "https://prod.eu.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=https://prod.eu.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=31C4BA5B&locale=de&nonce=" +
-                        nonce +
-                        "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles"
-                ),
-
+                url:
+                    "https://prod.eu.auth.kamereon.org/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=31C4BA5B&locale=de&nonce=" +
+                    nonce +
+                    "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles",
                 jar: this.cookieJar,
                 withCredentials: true,
                 headers: {
@@ -119,7 +121,40 @@ class Nissan extends utils.Adapter {
                 },
             })
                 .then((res) => {
-                    this.log.debug(res.data);
+                    this.log.debug(JSON.stringify(res.data));
+                    return res.data;
+                })
+                .catch((error) => {
+                    let code = "";
+                    if (error.config) {
+                        this.log.debug(JSON.stringify(error.config.url));
+                        const qArray = error.config.url.split("?")[1].split("&");
+                        qArray.forEach((element) => {
+                            const elementArray = element.split("=");
+                            if (elementArray[0] === "code") {
+                                code = elementArray[1];
+                            }
+                        });
+                        this.log.debug(code);
+                    }
+                    return code;
+                });
+            await this.requestClient({
+                method: "post",
+                url: "https://prod.eu.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token",
+                jar: this.cookieJar,
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+                    Accept: "application/json",
+                },
+                data:
+                    "client_secret=z56JELIzhFxC8qSoFPJvGPuO4PsXp5eVw4EWXzAh6DqDD3PXS0z_yc3kLPua3gZA&redirect_uri=com.acms.nci%3A%2F%2Foauth2&grant_type=authorization_code&client_id=a-ncb-prod-ios&code=" +
+                    code,
+            })
+                .then((res) => {
+                    this.log.debug(JSON.stringify(res.data));
+                    this.session = res.data;
                     return res.data;
                 })
                 .catch((error) => {

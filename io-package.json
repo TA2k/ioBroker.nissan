@@ -1,0 +1,110 @@
+{
+    "common": {
+        "name": "nissan",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "titleLang": {
+            "en": "Nissan",
+            "de": "Nissan",
+            "ru": "Nissan",
+            "pt": "Nissan",
+            "nl": "Nissan",
+            "fr": "Nissan",
+            "it": "Nissan",
+            "es": "Nissan",
+            "pl": "Nissan",
+            "zh-cn": "日产"
+        },
+        "desc": {
+            "en": "Nissan Adapter",
+            "de": "Nissan-Adapter",
+            "ru": "Адаптер Nissan",
+            "pt": "Adaptador Nissan",
+            "nl": "Nissan-adapter",
+            "fr": "Adaptateur Nissan",
+            "it": "Adattatore Nissan",
+            "es": "Adaptador de Nissan",
+            "pl": "Adapter Nissana",
+            "zh-cn": "日产适配器"
+        },
+        "authors": [
+            "TA2k <tombox2020@gmail.com>"
+        ],
+        "keywords": [
+            "nissan",
+            "leaf"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "nissan.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/TA2k/ioBroker.nissan/master/admin/nissan.png",
+        "readme": "https://github.com/TA2k/ioBroker.nissan/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "vehicle",
+        "compact": true,
+        "connectionType": "cloud",
+        "dataSource": "poll",
+        "materialize": true,
+        "dependencies": [
+            {
+                "js-controller": ">=3.0.0"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=4.0.9"
+            }
+        ]
+    },
+    "encryptedNative": [
+        "password"
+    ],
+    "protectedNative": [
+        "password"
+    ],
+    "native": {
+        "user": "",
+        "password": "",
+        "interval": 5
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
+}

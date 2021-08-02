@@ -250,7 +250,9 @@ class Nissan extends utils.Adapter {
     }
     async updateVehicles() {
         const date = new Date();
-        const yyyymmm = date.getFullYear() + date.getMonth() + 1;
+        let month = date.getMonth() + 1;
+        month = (month > 9 ? "" : "0") + month;
+        const yyyymmm = date.getFullYear() + "" + month;
         const statusArray = [
             { path: "health-status", url: "https://nci-bff-web-prod.apps.eu.kamereon.io/bff-web/v1/cars/$vin/health-status?canGen=$gen" },
             { path: "battery-status", url: "https://nci-bff-web-prod.apps.eu.kamereon.io/bff-web/v1/cars/$vin/battery-status?canGen=$gen" },
@@ -298,7 +300,10 @@ class Nissan extends utils.Adapter {
                         this.extractKeys(this, vin + "." + element.path, data, preferedArrayName, forceIndex);
                     })
                     .catch((error) => {
-                        this.log.error(error);
+                        if (error.response.status !== 502) {
+                            this.log.error(error);
+                            error.response && this.log.error(JSON.stringify(error.response.data));
+                        }
                     });
             });
         });

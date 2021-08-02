@@ -54,6 +54,9 @@ class Nissan extends utils.Adapter {
             this.updateInterval = setInterval(async () => {
                 await this.updateVehicles();
             }, this.config.interval * 60 * 1000);
+            this.refreshTokenInterval = setInterval(() => {
+                this.refreshToken();
+            }, this.session.expires_in * 1000);
         }
     }
     async login() {
@@ -246,6 +249,8 @@ class Nissan extends utils.Adapter {
             });
     }
     async updateVehicles() {
+        const date = new Date();
+        const yyyymmm = date.getFullYear() + date.getMonth() + 1;
         const statusArray = [
             { path: "health-status", url: "https://nci-bff-web-prod.apps.eu.kamereon.io/bff-web/v1/cars/$vin/health-status?canGen=$gen" },
             { path: "battery-status", url: "https://nci-bff-web-prod.apps.eu.kamereon.io/bff-web/v1/cars/$vin/battery-status?canGen=$gen" },
@@ -253,6 +258,7 @@ class Nissan extends utils.Adapter {
             { path: "hvac-status", url: "https://alliance-platform-caradapter-prod.apps.eu.kamereon.io/car-adapter/v1/cars/$vin/hvac-status" },
             { path: "location", url: "https://alliance-platform-caradapter-prod.apps.eu.kamereon.io/car-adapter/v1/cars/$vin/location" },
             { path: "cockpit", url: "https://alliance-platform-caradapter-prod.apps.eu.kamereon.io/car-adapter/v2/cars/$vin/cockpit" },
+            { path: "trip-history", url: "https://alliance-platform-caradapter-prod.apps.eu.kamereon.io/car-adapter/v1/cars/$vin/trip-history/?type=month&start=" + yyyymmm + "&end=" + yyyymmm },
             {
                 path: "notification",
                 url: "https://alliance-platform-notifications-prod.apps.eu.kamereon.io/notifications/v2/notifications/users/$user/vehicles/$vin?from=1&langCode=DE&order=DESC&realm=a-ncb&to=20",
@@ -281,13 +287,43 @@ class Nissan extends utils.Adapter {
                         if (data.attributes) {
                             data = data.attributes;
                         }
-                        this.extractKeys(this, vin + "." + element.path, data, null, element.path === "notification");
+                        let forceIndex = null;
+                        let preferedArrayName = null;
+                        if (element.path === "notification") {
+                            forceIndex = true;
+                        }
+                        if (element.path === "trip-history") {
+                            preferedArrayName = "month";
+                        }
+                        this.extractKeys(this, vin + "." + element.path, data, preferedArrayName, forceIndex);
                     })
                     .catch((error) => {
                         this.log.error(error);
                     });
             });
         });
+    }
+    async refreshToken() {
+        await this.requestClient({
+            method: "post",
+            url: "https://prod.eu.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token",
+            jar: this.cookieJar,
+            withCredentials: true,
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+                Accept: "application/json",
+            },
+            data: "client_secret=z56JELIzhFxC8qSoFPJvGPuO4PsXp5eVw4EWXzAh6DqDD3PXS0z_yc3kLPua3gZA&client_id=a-ncb-prod-ios&grant_type=refresh_token&refresh_token=" + this.session.refresh_token,
+        })
+            .then((res) => {
+                this.log.debug(JSON.stringify(res.data));
+                this.session.access_token = res.data.access_token;
+                this.setState("info.connection", true, true);
+                return res.data;
+            })
+            .catch((error) => {
+                this.log.error(error);
+            });
     }
     getNonce() {
         //FF48AAFD017F43E6AA9022677CED2DC2
@@ -314,9 +350,10 @@ class Nissan extends utils.Adapter {
         try {
             // Here you must clear all timeouts or intervals that may still be active
             // clearTimeout(timeout1);
-            // clearTimeout(timeout2);
-            // ...
+            clearTimeout(this.refreshTimeout);
+
             clearInterval(this.updateInterval);
+            clearInterval(this.refreshTokenInterval);
 
             callback();
         } catch (e) {
@@ -400,6 +437,23 @@ class Nissan extends utils.Adapter {
                         .catch((error) => {
                             this.log.error(error);
                         });
+
+                    this.refreshTimeout = setTimeout(async () => {
+                        await this.updateVehicles();
+                    }, 10 * 1000);
+                }
+            } else {
+                const resultDict = { chargingStatus: "charging-start", hvacStatus: "hvac-start", lockStatus: "lock-unlock" };
+                const idArray = id.split(".");
+                const stateName = idArray[idArray.length - 1];
+
+                if (resultDict[stateName]) {
+                    const vin = id.split(".")[2];
+                    let value = true;
+                    if (!state.val || state.val === "off" || state.val === "unlocked") {
+                        value = false;
+                    }
+                    await this.setStateAsync(vin + ".remote." + resultDict[stateName], value, true);
                 }
             }
         }

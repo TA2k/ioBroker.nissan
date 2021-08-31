@@ -2,6 +2,7 @@
     "common": {
         "name": "nissan",
         "version": "0.0.1",
+        "title": "Nissan",
         "news": {
             "0.0.1": {
                 "en": "initial release",

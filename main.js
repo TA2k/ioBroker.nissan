@@ -86,7 +86,9 @@ class Nissan extends utils.Adapter {
                 return res.data;
             })
             .catch((error) => {
+                this.log.error("JWT");
                 this.log.error(error);
+                error.response && this.log.error(JSON.stringify(error.response.data));
             });
         try {
             jwtToken.callbacks[0].input[0].value = this.config.user;
@@ -111,7 +113,9 @@ class Nissan extends utils.Adapter {
                     return res.data;
                 })
                 .catch((error) => {
+                    this.log.error("Post JWT");
                     this.log.error(error);
+                    error.response && this.log.error(JSON.stringify(error.response.data));
                 });
             const code = await this.requestClient({
                 method: "get",
@@ -161,10 +165,13 @@ class Nissan extends utils.Adapter {
                     this.log.debug(JSON.stringify(res.data));
                     this.session = res.data;
                     this.setState("info.connection", true, true);
+                    this.log.info("Login successful");
                     return res.data;
                 })
                 .catch((error) => {
+                    this.log.error("Access token");
                     this.log.error(error);
+                    error.response && this.log.error(JSON.stringify(error.response.data));
                 });
         } catch (error) {
             this.log.error(error);
@@ -246,6 +253,7 @@ class Nissan extends utils.Adapter {
             })
             .catch((error) => {
                 this.log.error(error);
+                error.response && this.log.error(JSON.stringify(error.response.data));
             });
     }
     async updateVehicles() {
@@ -342,7 +350,7 @@ class Nissan extends utils.Adapter {
         return result.join("");
     }
     convertToCamelCase(string) {
-        let camelCaseString = string.replace(/-([a-z])/g, function (g) {
+        const camelCaseString = string.replace(/-([a-z])/g, function (g) {
             return g[1].toUpperCase();
         });
         return camelCaseString.charAt(0).toUpperCase() + camelCaseString.slice(1);

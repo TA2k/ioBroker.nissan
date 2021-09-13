@@ -361,8 +361,7 @@ class Nissan extends utils.Adapter {
      */
     onUnload(callback) {
         try {
-            // Here you must clear all timeouts or intervals that may still be active
-            // clearTimeout(timeout1);
+            this.setState("info.connection", false, true);
             clearTimeout(this.refreshTimeout);
 
             clearInterval(this.updateInterval);
@@ -450,7 +449,7 @@ class Nissan extends utils.Adapter {
                         .catch((error) => {
                             this.log.error(error);
                         });
-
+                    clearTimeout(this.refreshTimeout);
                     this.refreshTimeout = setTimeout(async () => {
                         await this.updateVehicles();
                     }, 10 * 1000);

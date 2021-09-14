@@ -14,9 +14,9 @@ systemDictionary = {
         pl: "Ustawienia adaptera dla nissan",
         "zh-cn": "nissan的适配器设置",
     },
-    user: {
-        en: "App Username",
-        de: "App-Benutzername",
+    "Nissan App Email": {
+        en: "Nissan App Email",
+        de: "Nissan App Email",
         ru: "Имя пользователя приложения",
         pt: "Nome de usuário do aplicativo",
         nl: "App-gebruikersnaam",
@@ -26,9 +26,9 @@ systemDictionary = {
         pl: "Nazwa użytkownika aplikacji",
         "zh-cn": "应用用户名",
     },
-    password: {
-        en: "App Password",
-        de: "App-Passwort",
+    "Nissan App Password": {
+        en: "Nissan App Password",
+        de: "Nissan App-Passwort",
         ru: "Пароль приложения",
         pt: "Senha de app",
         nl: "App-wachtwoord",
@@ -38,7 +38,7 @@ systemDictionary = {
         pl: "Hasło do aplikacji",
         "zh-cn": "应用密码",
     },
-    interval: {
+    "Update interval in minutes": {
         en: "Update interval in minutes",
         de: "Aktualisierungsintervall in Minuten",
         ru: "Интервал обновления в минутах",

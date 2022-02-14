@@ -424,7 +424,11 @@ class Nissan extends utils.Adapter {
                 }
                 if (command === "hvac-start") {
                     const tempState = await this.getStateAsync(vin + ".remote.hvac-targetTemperature");
-                    data.data.attributes.targetTemperature = tempState.val || 21.0;
+                    if (tempState && tempState.val) {
+                        data.data.attributes.targetTemperature = tempState.val;
+                    } else {
+                        data.data.attributes.targetTemperature = 21.0;
+                    }
                 }
                 if (command === "horn-lights") {
                     data.data.attributes.duration = 2;

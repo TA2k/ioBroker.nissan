@@ -1,10 +1,14 @@
 {
     "common": {
         "name": "nissan",
-        "version": "0.0.2",
+        "version": "0.0.4",
         "title": "Nissan",
         "news": {
-            "0.0.2": {
+            "0.0.4": {
+                "en": "fix hvac start",
+                "de": "Fix HVAC start"
+            },
+            "0.0.3": {
                 "en": "initial release",
                 "de": "Erstveröffentlichung",
                 "ru": "Начальная версия",
@@ -62,6 +66,11 @@
         "connectionType": "cloud",
         "dataSource": "poll",
         "materialize": true,
+        "plugins": {
+            "sentry": {
+                "dsn": "https://9310c8bb8a964f529d5ef209c009a345@sentry.iobroker.net/160"
+            }
+        },
         "dependencies": [
             {
                 "js-controller": ">=3.0.0"

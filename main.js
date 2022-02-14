@@ -233,6 +233,7 @@ class Nissan extends utils.Adapter {
                         { command: "engine-start" },
                         { command: "horn-lights" },
                         { command: "lock-unlock" },
+                        { command: "refresh", name: "Force Refresh" },
                     ];
                     remoteArray.forEach((remote) => {
                         this.setObjectNotExists(vehicle.vin + ".remote." + remote.command, {
@@ -400,6 +401,10 @@ class Nissan extends utils.Adapter {
             if (!state.ack) {
                 const vin = id.split(".")[2];
                 const command = id.split(".")[4];
+                if (command === "refresh") {
+                    this.updateVehicles();
+                    return;
+                }
                 const headers = {
                     "Content-Type": "application/vnd.api+json",
                     "User-Agent": "NissanConnect/2 CFNetwork/978.0.7 Darwin/18.7.0",
@@ -456,7 +461,7 @@ class Nissan extends utils.Adapter {
                     clearTimeout(this.refreshTimeout);
                     this.refreshTimeout = setTimeout(async () => {
                         await this.updateVehicles();
-                    }, 10 * 1000);
+                    }, 20 * 1000);
                 }
             } else {
                 const resultDict = { chargingStatus: "charging-start", hvacStatus: "hvac-start", lockStatus: "lock-unlock" };

@@ -461,7 +461,7 @@ class Nissan extends utils.Adapter {
                     clearTimeout(this.refreshTimeout);
                     this.refreshTimeout = setTimeout(async () => {
                         await this.updateVehicles();
-                    }, 20 * 1000);
+                    }, 10 * 1000);
                 }
             } else {
                 const resultDict = { chargingStatus: "charging-start", hvacStatus: "hvac-start", lockStatus: "lock-unlock" };
@@ -469,6 +469,7 @@ class Nissan extends utils.Adapter {
                 const stateName = idArray[idArray.length - 1];
 
                 if (resultDict[stateName]) {
+                    this.log.debug("Receive " + stateName + ": " + state.val + "set remote " + resultDict[stateName]);
                     const vin = id.split(".")[2];
                     let value = true;
                     if (!state.val || state.val === "off" || state.val === "unlocked") {

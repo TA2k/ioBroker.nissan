@@ -309,10 +309,11 @@ class Nissan extends utils.Adapter {
                         this.extractKeys(this, vin + "." + element.path, data, preferedArrayName, forceIndex);
                     })
                     .catch((error) => {
-                        if (error.response.status !== 502) {
-                            this.log.error(error);
-                            error.response && this.log.error(JSON.stringify(error.response.data));
+                        if (error.response && error.response.status === 502) {
+                            return;
                         }
+                        this.log.error(error);
+                        error.response && this.log.error(JSON.stringify(error.response.data));
                     });
             });
         });

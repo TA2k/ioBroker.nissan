@@ -47,7 +47,6 @@ class Nissan extends utils.Adapter {
         this.session = {};
         this.canGen = {};
         this.subscribeStates("*");
-
         await this.login();
         if (this.session.access_token) {
             await this.getVehicles();
@@ -274,14 +273,14 @@ class Nissan extends utils.Adapter {
         const statusArray = [
             { path: "health-status", url: "https://nci-bff-web-prod.apps.eu.kamereon.io/bff-web/v1/cars/$vin/health-status?canGen=$gen" },
             { path: "battery-status", url: "https://nci-bff-web-prod.apps.eu.kamereon.io/bff-web/v1/cars/$vin/battery-status?canGen=$gen" },
-            { path: "lock-status", url: "https://alliance-platform-caradapter-prod.apps.eu.kamereon.io/car-adapter/v1/cars/$vin/lock-status" },
-            { path: "hvac-status", url: "https://alliance-platform-caradapter-prod.apps.eu.kamereon.io/car-adapter/v1/cars/$vin/hvac-status" },
-            { path: "location", url: "https://alliance-platform-caradapter-prod.apps.eu.kamereon.io/car-adapter/v1/cars/$vin/location" },
-            { path: "cockpit", url: "https://alliance-platform-caradapter-prod.apps.eu.kamereon.io/car-adapter/v2/cars/$vin/cockpit" },
-            { path: "trip-history", url: "https://alliance-platform-caradapter-prod.apps.eu.kamereon.io/car-adapter/v1/cars/$vin/trip-history/?type=month&start=" + yyyymmm + "&end=" + yyyymmm },
+            { path: "lock-status", url: "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/lock-status" },
+            { path: "hvac-status", url: "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/hvac-status" },
+            { path: "location", url: "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/location" },
+            { path: "cockpit", url: "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v2/cars/$vin/cockpit" },
+            { path: "trip-history", url: "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/trip-history/?type=month&start=" + yyyymmm + "&end=" + yyyymmm },
             {
                 path: "notification",
-                url: "https://alliance-platform-notifications-prod.apps.eu.kamereon.io/notifications/v2/notifications/users/$user/vehicles/$vin?from=1&langCode=DE&order=DESC&realm=a-ncb&to=20",
+                url: "https://alliance-platform-notifications-prod.apps.eu2.kamereon.io/notifications/v2/notifications/users/$user/vehicles/$vin?from=1&langCode=DE&order=DESC&realm=a-ncb&to=20",
             },
         ];
         const headers = {
@@ -318,6 +317,7 @@ class Nissan extends utils.Adapter {
                         this.extractKeys(this, vin + "." + element.path, data, preferedArrayName, forceIndex);
                     })
                     .catch((error) => {
+                        this.log.error("Failing to get " + element.path);
                         if (error.response && error.response.status === 502) {
                             return;
                         }

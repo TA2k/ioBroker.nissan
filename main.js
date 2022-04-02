@@ -8,6 +8,7 @@
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
 const axios = require("axios");
+const qs = require("qs");
 const axiosCookieJarSupport = require("axios-cookiejar-support").default;
 const tough = require("tough-cookie");
 const { extractKeys } = require("./lib/extractKeys");
@@ -62,20 +63,22 @@ class Nissan extends utils.Adapter {
     async login() {
         const nonce = this.getNonce();
         const headers = {
-            "Accept-Api-Version": "protocol=1.0,resource=2.1",
+            "Accept-Api-Version": "protocol=1.0,resource=2.0",
             "X-Username": "anonymous",
             "X-Password": "anonymous",
             "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-NoSession": "true",
             Accept: "application/json",
         };
         const jwtToken = await this.requestClient({
             method: "post",
             url:
-                "https://prod.eu.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=" +
+                "https://prod.eu2.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=" +
                 encodeURIComponent(
-                    "https://prod.eu.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=31C4BA5B&locale=de&nonce=" +
+                    "https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=B5C9DC90&locale=de&nonce=" +
                         nonce +
-                        "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles"
+                        "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles&response_type=code&prompt="
                 ),
             jar: this.cookieJar,
             withCredentials: true,
@@ -96,11 +99,11 @@ class Nissan extends utils.Adapter {
             await this.requestClient({
                 method: "post",
                 url:
-                    "https://prod.eu.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=" +
+                    "https://prod.eu2.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=" +
                     encodeURIComponent(
-                        "https://prod.eu.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=31C4BA5B&locale=de&nonce=" +
+                        "https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=B5C9DC90&locale=de&nonce=" +
                             nonce +
-                            "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles"
+                            "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles&response_type=code&prompt="
                     ),
 
                 jar: this.cookieJar,
@@ -120,9 +123,9 @@ class Nissan extends utils.Adapter {
             const code = await this.requestClient({
                 method: "get",
                 url:
-                    "https://prod.eu.auth.kamereon.org/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=31C4BA5B&locale=de&nonce=" +
+                    "https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&nonce=" +
                     nonce +
-                    "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles",
+                    "&redirect_uri=com.acms.nci://oauth2&locale=de&state=B5C9DC90&scope=openid%20profile%20vehicles&response_type=code&prompt=",
                 jar: this.cookieJar,
                 withCredentials: true,
                 headers: {
@@ -150,16 +153,21 @@ class Nissan extends utils.Adapter {
                 });
             await this.requestClient({
                 method: "post",
-                url: "https://prod.eu.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token",
+                url: "https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token",
                 jar: this.cookieJar,
                 withCredentials: true,
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
                     Accept: "application/json",
+                    "user-agent": "NissanConnect/1 CFNetwork/1240.0.4 Darwin/20.6.0",
                 },
-                data:
-                    "client_secret=z56JELIzhFxC8qSoFPJvGPuO4PsXp5eVw4EWXzAh6DqDD3PXS0z_yc3kLPua3gZA&redirect_uri=com.acms.nci%3A%2F%2Foauth2&grant_type=authorization_code&client_id=a-ncb-prod-ios&code=" +
-                    code,
+                data: qs.stringify({
+                    redirect_uri: "com.acms.nci://oauth2",
+                    client_id: "a-ncb-prod-ios",
+                    client_secret: "QUUkg0oW5NXse7a2iFHVWZ4zXTvQEecKuXZ8447OqwvklIk6yvxMZy6nuDlBklLB",
+                    grant_type: "authorization_code",
+                    code: code,
+                }),
             })
                 .then((res) => {
                     this.log.debug(JSON.stringify(res.data));
@@ -181,13 +189,13 @@ class Nissan extends utils.Adapter {
         const headers = {
             "Content-Type": "application/json",
             Accept: "*/*",
-            "User-Agent": "NissanConnect/2 CFNetwork/978.0.7 Darwin/18.7.0",
+            "User-Agent": "NissanConnect/1 CFNetwork/1240.0.4 Darwin/20.6.0",
             Authorization: "Bearer " + this.session.access_token,
             "Accept-Language": "de-de",
         };
         this.userId = await this.requestClient({
             method: "get",
-            url: "https://alliance-platform-usersadapter-prod.apps.eu.kamereon.io/user-adapter/v1/users/current",
+            url: "https://alliance-platform-usersadapter-prod.apps.eu2.kamereon.io/user-adapter/v1/users/current",
             headers: headers,
         })
             .then((res) => {
@@ -253,6 +261,7 @@ class Nissan extends utils.Adapter {
                 }
             })
             .catch((error) => {
+                this.log.error("Failing to get cars");
                 this.log.error(error);
                 error.response && this.log.error(JSON.stringify(error.response.data));
             });

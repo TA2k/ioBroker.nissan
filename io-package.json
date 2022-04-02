@@ -1,9 +1,12 @@
 {
     "common": {
         "name": "nissan",
-        "version": "0.0.4",
+        "version": "0.0.5",
         "title": "Nissan",
         "news": {
+            "0.0.5": {
+                "en": "fix login"
+            },
             "0.0.4": {
                 "en": "fix hvac start",
                 "de": "Fix HVAC start"

@@ -65,6 +65,8 @@ class Nissan extends utils.Adapter {
                     debug: false,
                     // pollingInterval: 30000, // in seconds
                 });
+
+                this.setState("info.connection", true, true);
                 this.log.info("Connected to Nissan EV");
                 await this.getNissanEvVehicles();
             } catch (error) {
@@ -107,19 +109,23 @@ class Nissan extends utils.Adapter {
     }
     async updateNissanEv() {
         try {
+            this.log.debug("Update Nissan EV");
             const status = await this.nissanEvClient.status();
-            this.extractKeys(this, this.vehicle.vin + ".status", status);
+            this.log.debug(status);
+            this.extractKeys(this, this.vehicle.vin + ".status", JSON.parse(status));
             const climateStatus = await this.nissanEvClient.climateControlStatus();
-            this.extractKeys(this, this.vehicle.vin + ".climateStatus", climateStatus);
+            this.log.debug(climateStatus);
+            this.extractKeys(this, this.vehicle.vin + ".climateStatus", JSON.parse(climateStatus));
             const history = await this.nissanEvClient.history();
-            this.extractKeys(this, this.vehicle.vin + ".history", history);
+            this.log.debug(history);
+            this.extractKeys(this, this.vehicle.vin + ".history", JSON.parse(history));
         } catch (error) {
             this.log.error(error);
         }
     }
     async getNissanEvVehicles() {
-        this.log.debug(this.nissanEvClient.sessinInfo());
-        this.vehicle = this.nissanEvClient.sessinInfo().vehicle.profile;
+        this.log.debug(this.nissanEvClient.sessionInfo());
+        this.vehicle = JSON.parse(this.nissanEvClient.sessionInfo()).vehicle.profile;
 
         await this.setObjectNotExistsAsync(this.vehicle.vin, {
             type: "device",

@@ -21,6 +21,7 @@
         "axios": "^0.21.4",
         "axios-cookiejar-support": "^1.0.1",
         "json-bigint": "^1.0.0",
+        "leaf-connect": "^1.0.3",
         "qs": "^6.10.3",
         "tough-cookie": "^4.0.0"
     },

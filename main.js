@@ -8,6 +8,7 @@
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
 const axios = require("axios");
+const leafConnect = require("leaf-connect");
 const qs = require("qs");
 const axiosCookieJarSupport = require("axios-cookiejar-support").default;
 const tough = require("tough-cookie");
@@ -47,6 +48,51 @@ class Nissan extends utils.Adapter {
         this.session = {};
         this.canGen = {};
         this.subscribeStates("*");
+
+        if (!this.config.user || !this.config.password) {
+            this.log.error("Please set username and password");
+            return;
+        }
+
+        if (this.config.nissanev) {
+            try {
+                this.log.info("Start Connecting to Nissan EV");
+                this.nissanEvClient = await leafConnect({
+                    username: this.config.user,
+                    password: this.config.password,
+                    regionCode: "NE",
+                    locale: "de-DE",
+                    debug: false,
+                    // pollingInterval: 30000, // in seconds
+                });
+                this.log.info("Connected to Nissan EV");
+                await this.getNissanEvVehicles();
+            } catch (error) {
+                this.log.error(error);
+            }
+
+            this.updateNissanEv();
+            this.updateInterval = setInterval(async () => {
+                await this.updateNissanEv();
+            }, this.config.interval * 60 * 1000);
+            this.refreshTokenInterval = setInterval(async () => {
+                try {
+                    this.nissanEvClient = await leafConnect({
+                        username: this.config.user,
+                        password: this.config.password,
+                        regionCode: "NE",
+                        locale: "de-DE",
+                        debug: false,
+                        // pollingInterval: 30000, // in seconds
+                    });
+                } catch (error) {
+                    this.log.error(error);
+                }
+            }, 22 * 60 * 60 * 1000);
+
+            return;
+        }
+
         await this.login();
         if (this.session.access_token) {
             await this.getVehicles();
@@ -59,6 +105,54 @@ class Nissan extends utils.Adapter {
             }, this.session.expires_in * 1000);
         }
     }
+    async updateNissanEv() {
+        try {
+            const status = await this.nissanEvClient.status();
+            this.extractKeys(this, this.vehicle.vin + ".status", status);
+            const climateStatus = await this.nissanEvClient.climateControlStatus();
+            this.extractKeys(this, this.vehicle.vin + ".climateStatus", climateStatus);
+            const history = await this.nissanEvClient.history();
+            this.extractKeys(this, this.vehicle.vin + ".history", history);
+        } catch (error) {
+            this.log.error(error);
+        }
+    }
+    async getNissanEvVehicles() {
+        this.log.debug(this.nissanEvClient.sessinInfo());
+        this.vehicle = this.nissanEvClient.sessinInfo().vehicle.profile;
+
+        await this.setObjectNotExistsAsync(this.vehicle.vin, {
+            type: "device",
+            common: {
+                name: this.vehicle.nickname || this.vehicle.registrationNumber || this.vehicle.modelName,
+                role: "indicator",
+            },
+            native: {},
+        });
+        await this.setObjectNotExistsAsync(this.vehicle.vin + ".remote", {
+            type: "channel",
+            common: {
+                name: "Remote Controls",
+                role: "indicator",
+            },
+            native: {},
+        });
+        const remoteArray = [{ command: "climateControlTurnOn" }, { command: "climateControlTurnOff" }, { command: "chargingStart" }, { command: "refresh", name: "Force Refresh" }];
+        remoteArray.forEach((remote) => {
+            this.setObjectNotExists(this.vehicle.vin + ".remote." + remote.command, {
+                type: "state",
+                common: {
+                    name: remote.name || "",
+                    type: remote.type || "boolean",
+                    role: remote.role || "boolean",
+                    write: true,
+                    read: true,
+                },
+                native: {},
+            });
+        });
+    }
+
     async login() {
         const nonce = this.getNonce();
         const headers = {
@@ -412,7 +506,20 @@ class Nissan extends utils.Adapter {
                 const vin = id.split(".")[2];
                 const command = id.split(".")[4];
                 if (command === "refresh") {
+                    if (this.config.nissanev) {
+                        this.updateNissanEv();
+                        return;
+                    }
                     this.updateVehicles();
+                    return;
+                }
+                if (this.config.nissanev) {
+                    try {
+                        this.nissanEvClient[command]();
+                    } catch (error) {
+                        this.log.error(error);
+                    }
+
                     return;
                 }
                 const headers = {

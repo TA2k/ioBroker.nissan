@@ -120,7 +120,7 @@ class Nissan extends utils.Adapter {
             });
             this.log.debug(cachedStatus);
             if (JSON.parse(cachedStatus).status === 401) {
-                this.log.error("Nissan EV Session expired");
+                this.log.info("Nissan EV Session expired. Start Relogin");
                 await this.loginEV();
             }
             this.extractKeys(this, this.vehicle.vin + ".cachedStatus", JSON.parse(cachedStatus));
@@ -146,7 +146,7 @@ class Nissan extends utils.Adapter {
             });
             this.log.debug(status);
             if (JSON.parse(status).status === 401) {
-                this.log.error("Nissan EV Session expired");
+                this.log.info("Nissan EV Session expired. Start Relogin");
                 await this.loginEV();
             }
             this.extractKeys(this, this.vehicle.vin + ".status", JSON.parse(status));
@@ -552,9 +552,12 @@ class Nissan extends utils.Adapter {
                 }
                 if (this.config.nissanev) {
                     try {
-                        this.nissanEvClient[command]().catch((error) => {
-                            this.log.error(error);
-                        });
+                        this.log.info("Start: " + command);
+                        this.log.info(
+                            await this.nissanEvClient[command]().catch((error) => {
+                                this.log.error(error);
+                            })
+                        );
                     } catch (error) {
                         this.log.error(error);
                     }

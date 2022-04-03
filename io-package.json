@@ -1,9 +1,12 @@
 {
     "common": {
         "name": "nissan",
-        "version": "0.0.6",
+        "version": "0.0.7",
         "title": "Nissan",
         "news": {
+            "0.0.7": {
+                "en": "add support for old nissan models < 2019"
+            },
             "0.0.6": {
                 "en": "fix login"
             },

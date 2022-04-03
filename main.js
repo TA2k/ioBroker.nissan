@@ -8,7 +8,8 @@
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
 const axios = require("axios");
-const leafConnect = require("leaf-connect");
+const leafConnect = require("./lib/leaf-connect");
+// const leafConnect = require("leaf-connect");
 const qs = require("qs");
 const axiosCookieJarSupport = require("axios-cookiejar-support").default;
 const tough = require("tough-cookie");
@@ -57,15 +58,7 @@ class Nissan extends utils.Adapter {
         if (this.config.nissanev) {
             try {
                 this.log.info("Start Connecting to Nissan EV");
-                this.nissanEvClient = await leafConnect({
-                    username: this.config.user,
-                    password: this.config.password,
-                    regionCode: "NE",
-                    locale: "de-DE",
-                    debug: false,
-                    // pollingInterval: 30000, // in seconds
-                });
-
+                await this.loginEV();
                 this.setState("info.connection", true, true);
                 this.log.info("Connected to Nissan EV");
                 await this.getNissanEvVehicles();
@@ -78,18 +71,7 @@ class Nissan extends utils.Adapter {
                 await this.updateNissanEv();
             }, this.config.interval * 60 * 1000);
             this.refreshTokenInterval = setInterval(async () => {
-                try {
-                    this.nissanEvClient = await leafConnect({
-                        username: this.config.user,
-                        password: this.config.password,
-                        regionCode: "NE",
-                        locale: "de-DE",
-                        debug: false,
-                        // pollingInterval: 30000, // in seconds
-                    });
-                } catch (error) {
-                    this.log.error(error);
-                }
+                await this.loginEV();
             }, 22 * 60 * 60 * 1000);
 
             return;
@@ -98,25 +80,70 @@ class Nissan extends utils.Adapter {
         await this.login();
         if (this.session.access_token) {
             await this.getVehicles();
-            await this.updateVehicles();
+            await this.updateVehicles().catch((error) => {
+                this.log.error(error);
+            });
             this.updateInterval = setInterval(async () => {
-                await this.updateVehicles();
+                await this.updateVehicles().catch((error) => {
+                    this.log.error(error);
+                });
             }, this.config.interval * 60 * 1000);
             this.refreshTokenInterval = setInterval(() => {
                 this.refreshToken();
             }, this.session.expires_in * 1000);
         }
     }
+    async loginEV() {
+        try {
+            this.nissanEvClient = await leafConnect({
+                username: this.config.user,
+                password: this.config.password,
+                regionCode: "NE",
+                locale: "de-DE",
+                debug: false,
+                // pollingInterval: 30000, // in seconds
+            }).catch((error) => {
+                this.log.error(error);
+            });
+        } catch (error) {
+            this.log.error(error);
+        }
+    }
+
     async updateNissanEv() {
         try {
             this.log.debug("Update Nissan EV");
-            const status = await this.nissanEvClient.status();
+
+            this.log.debug("status");
+            const status = await this.nissanEvClient.status().catch((error) => {
+                this.log.error(error);
+            });
             this.log.debug(status);
+            if (JSON.parse(status).status === 401) {
+                this.log.error("Nissan EV Session expired");
+                await this.loginEV();
+            }
             this.extractKeys(this, this.vehicle.vin + ".status", JSON.parse(status));
-            const climateStatus = await this.nissanEvClient.climateControlStatus();
+
+            this.log.debug("cachedStatus");
+            const cachedStatus = await this.nissanEvClient.cachedStatus().catch((error) => {
+                this.log.error(error);
+            });
+            this.log.debug(cachedStatus);
+            this.extractKeys(this, this.vehicle.vin + ".cachedStatus", JSON.parse(cachedStatus));
+
+            this.log.debug("climateStatus");
+            const climateStatus = await this.nissanEvClient.climateControlStatus().catch((error) => {
+                this.log.error(error);
+            });
             this.log.debug(climateStatus);
+
             this.extractKeys(this, this.vehicle.vin + ".climateStatus", JSON.parse(climateStatus));
-            const history = await this.nissanEvClient.history();
+
+            this.log.debug("history");
+            const history = await this.nissanEvClient.history().catch((error) => {
+                this.log.error(error);
+            });
             this.log.debug(history);
             this.extractKeys(this, this.vehicle.vin + ".history", JSON.parse(history));
         } catch (error) {
@@ -521,7 +548,9 @@ class Nissan extends utils.Adapter {
                 }
                 if (this.config.nissanev) {
                     try {
-                        this.nissanEvClient[command]();
+                        this.nissanEvClient[command]().catch((error) => {
+                            this.log.error(error);
+                        });
                     } catch (error) {
                         this.log.error(error);
                     }

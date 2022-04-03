@@ -114,22 +114,15 @@ class Nissan extends utils.Adapter {
         try {
             this.log.debug("Update Nissan EV");
 
-            this.log.debug("status");
-            const status = await this.nissanEvClient.status().catch((error) => {
-                this.log.error(error);
-            });
-            this.log.debug(status);
-            if (JSON.parse(status).status === 401) {
-                this.log.error("Nissan EV Session expired");
-                await this.loginEV();
-            }
-            this.extractKeys(this, this.vehicle.vin + ".status", JSON.parse(status));
-
             this.log.debug("cachedStatus");
             const cachedStatus = await this.nissanEvClient.cachedStatus().catch((error) => {
                 this.log.error(error);
             });
             this.log.debug(cachedStatus);
+            if (JSON.parse(cachedStatus).status === 401) {
+                this.log.error("Nissan EV Session expired");
+                await this.loginEV();
+            }
             this.extractKeys(this, this.vehicle.vin + ".cachedStatus", JSON.parse(cachedStatus));
 
             this.log.debug("climateStatus");
@@ -146,6 +139,17 @@ class Nissan extends utils.Adapter {
             });
             this.log.debug(history);
             this.extractKeys(this, this.vehicle.vin + ".history", JSON.parse(history));
+
+            this.log.debug("status");
+            const status = await this.nissanEvClient.status().catch((error) => {
+                this.log.error(error);
+            });
+            this.log.debug(status);
+            if (JSON.parse(status).status === 401) {
+                this.log.error("Nissan EV Session expired");
+                await this.loginEV();
+            }
+            this.extractKeys(this, this.vehicle.vin + ".status", JSON.parse(status));
         } catch (error) {
             this.log.error(error);
         }

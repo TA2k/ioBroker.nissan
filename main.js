@@ -120,7 +120,7 @@ class Nissan extends utils.Adapter {
             });
             this.log.debug(cachedStatus);
             if (JSON.parse(cachedStatus).status === 401) {
-                this.log.info("Nissan EV Session expired. Start Relogin");
+                this.log.debug("Nissan EV Session expired. Start Relogin");
                 await this.loginEV();
             }
             this.extractKeys(this, this.vehicle.vin + ".cachedStatus", JSON.parse(cachedStatus));
@@ -450,6 +450,11 @@ class Nissan extends utils.Adapter {
                     .catch((error) => {
                         this.log.error("Failing to get " + element.path);
                         if (error.response && error.response.status === 502) {
+                            return;
+                        }
+                        if (error.response && error.response.status === 401 && element.path === "cockpit") {
+                            this.log.warn("Authentication error, trying to refresh token");
+                            this.refreshToken();
                             return;
                         }
                         this.log.error(error);

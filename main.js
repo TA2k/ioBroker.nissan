@@ -603,7 +603,7 @@ class Nissan extends utils.Adapter {
                     data.data.attributes.lock = state.val ? "lock" : "unlock";
                 }
                 this.log.debug(JSON.stringify(data));
-                const url = "https://alliance-platform-caradapter-prod.apps.eu.kamereon.io/car-adapter/v1/cars/" + vin + "/actions/" + command;
+                const url = "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/" + vin + "/actions/" + command;
                 if (id.indexOf(".remote.")) {
                     await this.requestClient({
                         method: "post",

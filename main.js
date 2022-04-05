@@ -466,7 +466,7 @@ class Nissan extends utils.Adapter {
     async refreshToken() {
         await this.requestClient({
             method: "post",
-            url: "https://prod.eu.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token",
+            url: "https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token",
             jar: this.cookieJar,
             withCredentials: true,
             headers: {

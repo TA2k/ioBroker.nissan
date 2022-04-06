@@ -420,7 +420,11 @@ class Nissan extends utils.Adapter {
             "User-Agent": "NissanConnect/2 CFNetwork/978.0.7 Darwin/18.7.0",
             Authorization: "Bearer " + this.session.access_token,
         };
-        this.vinArray.forEach((vin) => {
+        this.vinArray.forEach(async (vin) => {
+            await this.setRemoteCommand("refresh-battery-status", true, vin);
+            await this.setRemoteCommand("refresh-location", true, vin);
+            await this.setRemoteCommand("wake-up-vehicle", true, vin);
+            await this.sleep(25000);
             statusArray.forEach(async (element) => {
                 const url = element.url.replace("$vin", vin).replace("$gen", this.canGen[vin]).replace("$user", this.userId);
                 await this.requestClient({
@@ -508,6 +512,7 @@ class Nissan extends utils.Adapter {
      */
     onUnload(callback) {
         try {
+            this.adapterStopped = true;
             this.setState("info.connection", false, true);
             clearTimeout(this.refreshTimeout);
 
@@ -545,6 +550,9 @@ class Nissan extends utils.Adapter {
     async onStateChange(id, state) {
         if (state) {
             if (!state.ack) {
+                if (id.indexOf(".remote.") === -1) {
+                    return;
+                }
                 const vin = id.split(".")[2];
                 const command = id.split(".")[4];
                 if (command === "refresh") {
@@ -569,64 +577,12 @@ class Nissan extends utils.Adapter {
 
                     return;
                 }
-                const headers = {
-                    "Content-Type": "application/vnd.api+json",
-                    "User-Agent": "NissanConnect/2 CFNetwork/978.0.7 Darwin/18.7.0",
-                    Accept: "*/*",
-                    "Accept-Language": "de-de",
-                    Authorization: "Bearer " + this.session.access_token,
-                };
-                let data = {
-                    data: {
-                        type: this.convertToCamelCase(command),
-                    },
-                };
-                if (command.endsWith("-start")) {
-                    data = {
-                        data: {
-                            type: this.convertToCamelCase(command),
-                            attributes: {
-                                action: state.val ? "start" : "stop",
-                            },
-                        },
-                    };
-                }
-                if (command === "hvac-start") {
-                    const tempState = await this.getStateAsync(vin + ".remote.hvac-targetTemperature");
-                    if (tempState && tempState.val) {
-                        data.data.attributes.targetTemperature = tempState.val;
-                    } else {
-                        data.data.attributes.targetTemperature = 21.0;
-                    }
-                }
-                if (command === "horn-lights") {
-                    data.data.attributes.duration = 2;
-                    data.data.attributes.target = "horn_lights";
-                }
-                if (command === "lock-unlock") {
-                    delete data.data.attributes.action;
-                    data.data.attributes.lock = state.val ? "lock" : "unlock";
-                }
-                this.log.debug(JSON.stringify(data));
-                const url = "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/" + vin + "/actions/" + command;
-                if (id.indexOf(".remote.")) {
-                    await this.requestClient({
-                        method: "post",
-                        url: url,
-                        headers: headers,
-                        data: data,
-                    })
-                        .then((res) => {
-                            this.log.debug(JSON.stringify(res.data));
-                        })
-                        .catch((error) => {
-                            this.log.error(error);
-                        });
-                    clearTimeout(this.refreshTimeout);
-                    this.refreshTimeout = setTimeout(async () => {
-                        await this.updateVehicles();
-                    }, 25 * 1000);
-                }
+                const value = state.val;
+                await this.setRemoteCommand(command, value, vin);
+                this.refreshTimeout && clearTimeout(this.refreshTimeout);
+                this.refreshTimeout = setTimeout(async () => {
+                    await this.updateVehicles();
+                }, 25 * 1000);
             } else {
                 const resultDict = { chargingStatus: "charging-start", hvacStatus: "hvac-start", lockStatus: "lock-unlock" };
                 const idArray = id.split(".");
@@ -643,6 +599,67 @@ class Nissan extends utils.Adapter {
                 }
             }
         }
+    }
+    sleep(ms) {
+        if (this.adapterStopped) {
+            ms = 0;
+        }
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+    async setRemoteCommand(command, value, vin) {
+        const headers = {
+            "Content-Type": "application/vnd.api+json",
+            "User-Agent": "NissanConnect/2 CFNetwork/978.0.7 Darwin/18.7.0",
+            Accept: "*/*",
+            "Accept-Language": "de-de",
+            Authorization: "Bearer " + this.session.access_token,
+        };
+        let data = {
+            data: {
+                type: this.convertToCamelCase(command),
+            },
+        };
+        if (command.endsWith("-start")) {
+            data = {
+                data: {
+                    type: this.convertToCamelCase(command),
+                    attributes: {
+                        action: value ? "start" : "stop",
+                    },
+                },
+            };
+        }
+        if (command === "hvac-start") {
+            const tempState = await this.getStateAsync(vin + ".remote.hvac-targetTemperature");
+            if (tempState && tempState.val) {
+                data.data.attributes.targetTemperature = tempState.val;
+            } else {
+                data.data.attributes.targetTemperature = 21.0;
+            }
+        }
+        if (command === "horn-lights") {
+            data.data.attributes.duration = 2;
+            data.data.attributes.target = "horn_lights";
+        }
+        if (command === "lock-unlock") {
+            delete data.data.attributes.action;
+            data.data.attributes.lock = value ? "lock" : "unlock";
+        }
+        this.log.debug(JSON.stringify(data));
+        const url = "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/" + vin + "/actions/" + command;
+
+        await this.requestClient({
+            method: "post",
+            url: url,
+            headers: headers,
+            data: data,
+        })
+            .then((res) => {
+                this.log.debug(JSON.stringify(res.data));
+            })
+            .catch((error) => {
+                this.log.error(error);
+            });
     }
 }
 

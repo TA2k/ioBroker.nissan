@@ -26,6 +26,7 @@ class Nissan extends utils.Adapter {
         this.on("ready", this.onReady.bind(this));
         this.on("stateChange", this.onStateChange.bind(this));
         this.on("unload", this.onUnload.bind(this));
+        this.isInLogin = false;
     }
 
     /**
@@ -95,6 +96,10 @@ class Nissan extends utils.Adapter {
     }
     async loginEV() {
         try {
+            if (this.isInLogin) {
+                return;
+            }
+            this.isInLogin = true;
             this.nissanEvClient = await leafConnect({
                 username: this.config.user,
                 password: this.config.password,
@@ -105,7 +110,9 @@ class Nissan extends utils.Adapter {
             }).catch((error) => {
                 this.log.error(error);
             });
+            this.isInLogin = false;
         } catch (error) {
+            this.isInLogin = false;
             this.log.error(error);
         }
     }
@@ -113,7 +120,11 @@ class Nissan extends utils.Adapter {
     async updateNissanEv() {
         try {
             this.log.debug("Update Nissan EV");
-
+            if (!this.nissanEvClient) {
+                this.log.warn("Nissan EV not connected. Start Relogin");
+                this.loginEV();
+                return;
+            }
             this.log.debug("cachedStatus");
             const cachedStatus = await this.nissanEvClient.cachedStatus().catch((error) => {
                 this.log.error(error);

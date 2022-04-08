@@ -1,9 +1,12 @@
 {
     "common": {
         "name": "nissan",
-        "version": "0.0.8",
+        "version": "0.0.9",
         "title": "Nissan",
         "news": {
+            "0.0.9": {
+                "en": "fix refresh token and enforce refresh"
+            },
             "0.0.8": {
                 "en": "fix 401 error, fix remote controls"
             },

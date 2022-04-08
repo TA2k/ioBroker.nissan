@@ -488,15 +488,17 @@ class Nissan extends utils.Adapter {
                 "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
                 Accept: "application/json",
             },
-            data: "client_secret=z56JELIzhFxC8qSoFPJvGPuO4PsXp5eVw4EWXzAh6DqDD3PXS0z_yc3kLPua3gZA&client_id=a-ncb-prod-ios&grant_type=refresh_token&refresh_token=" + this.session.refresh_token,
+            data: "client_secret=QUUkg0oW5NXse7a2iFHVWZ4zXTvQEecKuXZ8447OqwvklIk6yvxMZy6nuDlBklLB&client_id=a-ncb-prod-ios&grant_type=refresh_token&refresh_token=" + this.session.refresh_token,
         })
             .then((res) => {
+                this.log.debug("Refreshtoken success");
                 this.log.debug(JSON.stringify(res.data));
                 this.session.access_token = res.data.access_token;
                 this.setState("info.connection", true, true);
                 return res.data;
             })
             .catch((error) => {
+                this.log.error("Refresh token failed");
                 this.log.error(error);
             });
     }

@@ -11,7 +11,8 @@ const axios = require("axios").default;
 const leafConnect = require("./lib/leaf-connect");
 // const leafConnect = require("leaf-connect");
 const qs = require("qs");
-const axiosCookieJarSupport = require("axios-cookiejar-support").default;
+
+const { HttpsCookieAgent } = require("http-cookie-agent/http");
 const tough = require("tough-cookie");
 const { extractKeys } = require("./lib/extractKeys");
 class Nissan extends utils.Adapter {
@@ -27,9 +28,15 @@ class Nissan extends utils.Adapter {
     this.on("stateChange", this.onStateChange.bind(this));
     this.on("unload", this.onUnload.bind(this));
     this.isInLogin = false;
-    axiosCookieJarSupport(axios);
     this.cookieJar = new tough.CookieJar();
-    this.requestClient = axios.create();
+    this.requestClient = axios.create({
+      withCredentials: true,
+      httpsAgent: new HttpsCookieAgent({
+        cookies: {
+          jar: this.cookieJar
+        }
+      })
+    });
     this.updateInterval = null;
     this.extractKeys = extractKeys;
     this.vinArray = [];

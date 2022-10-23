@@ -434,8 +434,8 @@ class Nissan extends utils.Adapter {
     month = (month > 9 ? "" : "0") + month;
     const yyyymmm = date.getFullYear() + "" + month;
     const statusArray = [
-      { path: "health-status", url: "https://nci-bff-web-prod.apps.eu.kamereon.io/bff-web/v1/cars/$vin/health-status?canGen=$gen" },
-      { path: "battery-status", url: "https://nci-bff-web-prod.apps.eu.kamereon.io/bff-web/v1/cars/$vin/battery-status?canGen=$gen" },
+      { path: "health-status", url: "https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v1/cars/$vin/health-status?canGen=$gen" },
+      { path: "battery-status", url: "https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v1/cars/$vin/battery-status?canGen=$gen" },
       { path: "lock-status", url: "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/lock-status" },
       { path: "hvac-status", url: "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/hvac-status" },
       { path: "location", url: "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/location" },

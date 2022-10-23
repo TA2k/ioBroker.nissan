@@ -22,7 +22,7 @@ class Nissan extends utils.Adapter {
   constructor(options) {
     super({
       ...options,
-      name: "nissan"
+      name: "nissan",
     });
     this.on("ready", this.onReady.bind(this));
     this.on("stateChange", this.onStateChange.bind(this));
@@ -33,9 +33,9 @@ class Nissan extends utils.Adapter {
       withCredentials: true,
       httpsAgent: new HttpsCookieAgent({
         cookies: {
-          jar: this.cookieJar
-        }
-      })
+          jar: this.cookieJar,
+        },
+      }),
     });
     this.updateInterval = null;
     this.extractKeys = extractKeys;
@@ -113,7 +113,7 @@ class Nissan extends utils.Adapter {
         password: this.config.password,
         regionCode: "NE",
         locale: "de-DE",
-        debug: false
+        debug: false,
         // pollingInterval: 30000, // in seconds
       }).catch((error) => {
         this.log.error(error);
@@ -181,23 +181,23 @@ class Nissan extends utils.Adapter {
       type: "device",
       common: {
         name: this.vehicle.nickname || this.vehicle.registrationNumber || this.vehicle.modelName,
-        role: "indicator"
+        role: "indicator",
       },
-      native: {}
+      native: {},
     });
     await this.setObjectNotExistsAsync(this.vehicle.vin + ".remote", {
       type: "channel",
       common: {
         name: "Remote Controls",
-        role: "indicator"
+        role: "indicator",
       },
-      native: {}
+      native: {},
     });
     const remoteArray = [
       { command: "climateControlTurnOn" },
       { command: "climateControlTurnOff" },
       { command: "chargingStart" },
-      { command: "refresh", name: "Force Refresh" }
+      { command: "refresh", name: "Force Refresh" },
     ];
     remoteArray.forEach((remote) => {
       this.setObjectNotExists(this.vehicle.vin + ".remote." + remote.command, {
@@ -207,9 +207,9 @@ class Nissan extends utils.Adapter {
           type: remote.type || "boolean",
           role: remote.role || "boolean",
           write: true,
-          read: true
+          read: true,
         },
-        native: {}
+        native: {},
       });
     });
   }
@@ -223,7 +223,7 @@ class Nissan extends utils.Adapter {
       "Content-Type": "application/json",
       "X-Requested-With": "XMLHttpRequest",
       "X-NoSession": "true",
-      Accept: "application/json"
+      Accept: "application/json",
     };
     const jwtToken = await this.requestClient({
       method: "post",
@@ -236,7 +236,7 @@ class Nissan extends utils.Adapter {
         ),
       jar: this.cookieJar,
       withCredentials: true,
-      headers: headers
+      headers: headers,
     })
       .then((res) => {
         this.log.debug(JSON.stringify(res.data));
@@ -263,7 +263,7 @@ class Nissan extends utils.Adapter {
         jar: this.cookieJar,
         withCredentials: true,
         headers: headers,
-        data: jwtToken
+        data: jwtToken,
       })
         .then((res) => {
           this.log.debug(JSON.stringify(res.data));
@@ -283,8 +283,8 @@ class Nissan extends utils.Adapter {
         jar: this.cookieJar,
         withCredentials: true,
         headers: {
-          Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-        }
+          Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        },
       })
         .then((res) => {
           this.log.debug(JSON.stringify(res.data));
@@ -313,15 +313,15 @@ class Nissan extends utils.Adapter {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
           Accept: "application/json",
-          "user-agent": "NissanConnect/1 CFNetwork/1240.0.4 Darwin/20.6.0"
+          "user-agent": "NissanConnect/1 CFNetwork/1240.0.4 Darwin/20.6.0",
         },
         data: qs.stringify({
           redirect_uri: "com.acms.nci://oauth2",
           client_id: "a-ncb-prod-ios",
           client_secret: "QUUkg0oW5NXse7a2iFHVWZ4zXTvQEecKuXZ8447OqwvklIk6yvxMZy6nuDlBklLB",
           grant_type: "authorization_code",
-          code: code
-        })
+          code: code,
+        }),
       })
         .then((res) => {
           this.log.debug(JSON.stringify(res.data));
@@ -345,12 +345,12 @@ class Nissan extends utils.Adapter {
       Accept: "*/*",
       "User-Agent": "NissanConnect/1 CFNetwork/1240.0.4 Darwin/20.6.0",
       Authorization: "Bearer " + this.session.access_token,
-      "Accept-Language": "de-de"
+      "Accept-Language": "de-de",
     };
     this.userId = await this.requestClient({
       method: "get",
       url: "https://alliance-platform-usersadapter-prod.apps.eu2.kamereon.io/user-adapter/v1/users/current",
-      headers: headers
+      headers: headers,
     })
       .then((res) => {
         this.log.debug(JSON.stringify(res.data));
@@ -361,8 +361,8 @@ class Nissan extends utils.Adapter {
       });
     await this.requestClient({
       method: "get",
-      url: "https://nci-bff-web-prod.apps.eu.kamereon.io/bff-web/v4/users/" + this.userId + "/cars",
-      headers: headers
+      url: "https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v5/users/" + this.userId + "/cars",
+      headers: headers,
     })
       .then(async (res) => {
         this.log.debug(JSON.stringify(res.data));
@@ -372,17 +372,17 @@ class Nissan extends utils.Adapter {
             type: "device",
             common: {
               name: vehicle.nickname || vehicle.registrationNumber || vehicle.modelName,
-              role: "indicator"
+              role: "indicator",
             },
-            native: {}
+            native: {},
           });
           await this.setObjectNotExistsAsync(vehicle.vin + ".remote", {
             type: "channel",
             common: {
               name: "Remote Controls",
-              role: "indicator"
+              role: "indicator",
             },
-            native: {}
+            native: {},
           });
           const remoteArray = [
             { command: "wake-up-vehicle" },
@@ -395,7 +395,7 @@ class Nissan extends utils.Adapter {
             { command: "engine-start" },
             { command: "horn-lights" },
             { command: "lock-unlock" },
-            { command: "refresh", name: "Force Refresh" }
+            { command: "refresh", name: "Force Refresh" },
           ];
           remoteArray.forEach((remote) => {
             this.setObjectNotExists(vehicle.vin + ".remote." + remote.command, {
@@ -405,9 +405,9 @@ class Nissan extends utils.Adapter {
                 type: remote.type || "boolean",
                 role: remote.role || "boolean",
                 write: true,
-                read: true
+                read: true,
               },
-              native: {}
+              native: {},
             });
           });
           this.canGen[vehicle.vin] = vehicle.canGeneration;
@@ -438,18 +438,18 @@ class Nissan extends utils.Adapter {
           "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/trip-history/?type=month&start=" +
           yyyymmm +
           "&end=" +
-          yyyymmm
+          yyyymmm,
       },
       {
         path: "notification",
-        url: "https://alliance-platform-notifications-prod.apps.eu2.kamereon.io/notifications/v2/notifications/users/$user/vehicles/$vin?from=1&langCode=DE&order=DESC&realm=a-ncb&to=20"
-      }
+        url: "https://alliance-platform-notifications-prod.apps.eu2.kamereon.io/notifications/v2/notifications/users/$user/vehicles/$vin?from=1&langCode=DE&order=DESC&realm=a-ncb&to=20",
+      },
     ];
     const headers = {
       "Content-Type": "application/vnd.api+json",
       Accept: "*/*",
       "User-Agent": "NissanConnect/2 CFNetwork/978.0.7 Darwin/18.7.0",
-      Authorization: "Bearer " + this.session.access_token
+      Authorization: "Bearer " + this.session.access_token,
     };
     this.vinArray.forEach(async (vin) => {
       await this.setRemoteCommand("refresh-battery-status", true, vin);
@@ -461,7 +461,7 @@ class Nissan extends utils.Adapter {
         await this.requestClient({
           method: "get",
           url: url,
-          headers: headers
+          headers: headers,
         })
           .then((res) => {
             this.log.debug(JSON.stringify(res.data));
@@ -507,11 +507,11 @@ class Nissan extends utils.Adapter {
       withCredentials: true,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-        Accept: "application/json"
+        Accept: "application/json",
       },
       data:
         "client_secret=QUUkg0oW5NXse7a2iFHVWZ4zXTvQEecKuXZ8447OqwvklIk6yvxMZy6nuDlBklLB&client_id=a-ncb-prod-ios&grant_type=refresh_token&refresh_token=" +
-        this.session.refresh_token
+        this.session.refresh_token,
     })
       .then((res) => {
         this.log.debug("Refreshtoken success");
@@ -648,21 +648,21 @@ class Nissan extends utils.Adapter {
       "User-Agent": "NissanConnect/2 CFNetwork/978.0.7 Darwin/18.7.0",
       Accept: "*/*",
       "Accept-Language": "de-de",
-      Authorization: "Bearer " + this.session.access_token
+      Authorization: "Bearer " + this.session.access_token,
     };
     let data = {
       data: {
-        type: this.convertToCamelCase(command)
-      }
+        type: this.convertToCamelCase(command),
+      },
     };
     if (command.endsWith("-start")) {
       data = {
         data: {
           type: this.convertToCamelCase(command),
           attributes: {
-            action: value ? "start" : "stop"
-          }
-        }
+            action: value ? "start" : "stop",
+          },
+        },
       };
     }
     if (command === "hvac-start") {
@@ -688,7 +688,7 @@ class Nissan extends utils.Adapter {
       method: "post",
       url: url,
       headers: headers,
-      data: data
+      data: data,
     })
       .then((res) => {
         this.log.debug(JSON.stringify(res.data));

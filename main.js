@@ -89,11 +89,16 @@ class Nissan extends utils.Adapter {
     await this.login();
     if (this.session.access_token) {
       await this.getVehicles();
-      await this.updateVehicles().catch((error) => {
+      if (this.config.forceRefresh) {
+        this.log.info("Force Refresh is active. Please check your 12V Battery");
+      } else {
+        this.log.info("Force Refresh is not active. Updates only when you refresh in the App or via nissan.0.xx.remote.refresh");
+      }
+      await this.updateVehicles(this.config.forceRefresh).catch((error) => {
         this.log.error(error);
       });
       this.updateInterval = setInterval(async () => {
-        await this.updateVehicles().catch((error) => {
+        await this.updateVehicles(this.config.forceRefresh).catch((error) => {
           this.log.error(error);
         });
       }, this.config.interval * 60 * 1000);
@@ -428,7 +433,7 @@ class Nissan extends utils.Adapter {
         error.response && this.log.error(JSON.stringify(error.response.data));
       });
   }
-  async updateVehicles() {
+  async updateVehicles(forceRefresh) {
     const date = new Date();
     let month = date.getMonth() + 1;
     month = (month > 9 ? "" : "0") + month;
@@ -460,10 +465,12 @@ class Nissan extends utils.Adapter {
       Authorization: "Bearer " + this.session.access_token,
     };
     this.vinArray.forEach(async (vin) => {
-      await this.setRemoteCommand("refresh-battery-status", true, vin);
-      await this.setRemoteCommand("refresh-location", true, vin);
-      await this.setRemoteCommand("wake-up-vehicle", true, vin);
-      await this.sleep(25000);
+      if (forceRefresh) {
+        await this.setRemoteCommand("refresh-battery-status", true, vin);
+        await this.setRemoteCommand("refresh-location", true, vin);
+        await this.setRemoteCommand("wake-up-vehicle", true, vin);
+        await this.sleep(25000);
+      }
       statusArray.forEach(async (element) => {
         const url = element.url.replace("$vin", vin).replace("$gen", this.canGen[vin]).replace("$user", this.userId);
         await this.requestClient({
@@ -604,7 +611,7 @@ class Nissan extends utils.Adapter {
             this.updateNissanEv();
             return;
           }
-          this.updateVehicles();
+          this.updateVehicles(true);
           return;
         }
         if (this.config.nissanev) {
@@ -625,7 +632,7 @@ class Nissan extends utils.Adapter {
         await this.setRemoteCommand(command, value, vin);
         this.refreshTimeout && clearTimeout(this.refreshTimeout);
         this.refreshTimeout = setTimeout(async () => {
-          await this.updateVehicles();
+          await this.updateVehicles(true);
         }, 25 * 1000);
       } else {
         const resultDict = { chargingStatus: "charging-start", hvacStatus: "hvac-start", lockStatus: "lock-unlock" };

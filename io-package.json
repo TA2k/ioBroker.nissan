@@ -1,11 +1,11 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "title": "Nissan",
     "news": {
-      "0.0.10": {
-        "en": "fix login and endpoints"
+      "0.0.11": {
+        "en": "Add forceRefresh Option in settings. Fix login and endpoints"
       },
       "0.0.9": {
         "en": "fix refresh token and enforce refresh"
@@ -98,7 +98,8 @@
     "user": "",
     "password": "",
     "interval": 10,
-    "nissanev": false
+    "nissanev": false,
+    "forceRefresh": false
   },
   "objects": [],
   "instanceObjects": [

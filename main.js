@@ -296,18 +296,17 @@ class Nissan extends utils.Adapter {
         })
         .catch((error) => {
           let code = "";
-          if (error.config) {
-            this.log.debug(JSON.stringify(error.config.url));
-            const qArray = error.config.url.split("?")[1].split("&");
-            qArray.forEach((element) => {
-              const elementArray = element.split("=");
-              if (elementArray[0] === "code") {
-                code = elementArray[1];
-              }
-            });
-            this.log.debug(code);
+          if (error.message && error.message.includes("Unsupported protocol")) {
+            if (error.config) {
+              this.log.debug(JSON.stringify(error.config.url));
+              const parameters = qs.parse(error.request._options.path.split("?")[1]);
+              this.log.debug(JSON.stringify(parameters));
+              return parameters.code;
+            }
+            return code;
           }
-          return code;
+          this.log.error(error);
+          error.response && this.log.error(JSON.stringify(error.response.data));
         });
       if (!code) {
         this.log.error("No code received");

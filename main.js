@@ -247,6 +247,10 @@ class Nissan extends utils.Adapter {
         this.log.error(error);
         error.response && this.log.error(JSON.stringify(error.response.data));
       });
+    if (!jwtToken) {
+      this.log.error("JWT Token not found");
+      return;
+    }
     try {
       jwtToken.callbacks[0].input[0].value = this.config.user;
       jwtToken.callbacks[1].input[0].value = this.config.password;
@@ -305,6 +309,10 @@ class Nissan extends utils.Adapter {
           }
           return code;
         });
+      if (!code) {
+        this.log.error("No code received");
+        return;
+      }
       await this.requestClient({
         method: "post",
         url: "https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token",
@@ -366,6 +374,7 @@ class Nissan extends utils.Adapter {
     })
       .then(async (res) => {
         this.log.debug(JSON.stringify(res.data));
+        this.log.info(`Found ${res.data.data.length} vehicles`);
         for (const vehicle of res.data.data) {
           this.vinArray.push(vehicle.vin);
           await this.setObjectNotExistsAsync(vehicle.vin, {

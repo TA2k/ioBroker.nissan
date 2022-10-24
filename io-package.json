@@ -1,9 +1,12 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.0.11",
+    "version": "0.0.12",
     "title": "Nissan",
     "news": {
+      "0.0.12": {
+        "en": "Fix remote commands"
+      },
       "0.0.11": {
         "en": "Add forceRefresh Option in settings. Fix login and endpoints"
       },

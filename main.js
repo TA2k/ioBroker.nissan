@@ -689,12 +689,25 @@ class Nissan extends utils.Adapter {
       }
     }
     if (command === "horn-lights") {
-      data.data.attributes.duration = 2;
-      data.data.attributes.target = "horn_lights";
+      data = {
+        data: {
+          type: this.convertToCamelCase(command),
+          attributes: {
+            duration: 2,
+            target: "horn_lights",
+          },
+        },
+      };
     }
     if (command === "lock-unlock") {
-      delete data.data.attributes.action;
-      data.data.attributes.lock = value ? "lock" : "unlock";
+      data = {
+        data: {
+          type: this.convertToCamelCase(command),
+          attributes: {
+            lock: value ? "lock" : "unlock",
+          },
+        },
+      };
     }
     this.log.debug(JSON.stringify(data));
     const url = "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/" + vin + "/actions/" + command;

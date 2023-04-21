@@ -494,6 +494,7 @@ class Nissan extends utils.Adapter {
             }
             if (element.path === "trip-history") {
               preferedArrayName = "month";
+              forceIndex = true;
             }
             this.extractKeys(this, vin + "." + element.path, data, preferedArrayName, forceIndex);
           })

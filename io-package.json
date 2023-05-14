@@ -1,9 +1,12 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.0.12",
+    "version": "0.0.15",
     "title": "Nissan",
     "news": {
+      "0.0.15": {
+        "en": "Make Nissan EV compatible with Node >=18"
+      },
       "0.0.12": {
         "en": "Fix remote commands"
       },

@@ -235,7 +235,7 @@ class Nissan extends utils.Adapter {
       url:
         'https://prod.eu2.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=' +
         encodeURIComponent(
-          'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=B5C9DC90&locale=de&nonce=' +
+          'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-nc-android-prod&response_type=code&state=B5C9DC90&locale=de&nonce=' +
             nonce +
             '&redirect_uri=org.kamereon.service.nci:/oauth2redirect&scope=openid%20profile%20vehicles&response_type=code&prompt=',
         ),
@@ -264,9 +264,9 @@ class Nissan extends utils.Adapter {
         url:
           'https://prod.eu2.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=' +
           encodeURIComponent(
-            'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=B5C9DC90&locale=de&nonce=' +
+            'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-nc-android-prod&response_type=code&state=B5C9DC90&locale=de&nonce=' +
               nonce +
-              '&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles&response_type=code&prompt=',
+              '&redirect_uri=org.kamereon.service.nci:/oauth2redirect&scope=openid%20profile%20vehicles&response_type=code&prompt=',
           ),
 
         jar: this.cookieJar,
@@ -286,9 +286,9 @@ class Nissan extends utils.Adapter {
       const code = await this.requestClient({
         method: 'get',
         url:
-          'https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&nonce=' +
+          'https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-nc-android-prod&nonce=' +
           nonce +
-          '&redirect_uri=com.acms.nci://oauth2&locale=de&state=B5C9DC90&scope=openid%20profile%20vehicles&response_type=code&prompt=',
+          '&redirect_uri=org.kamereon.service.nci:/oauth2redirect&locale=de&state=B5C9DC90&scope=openid%20profile%20vehicles&response_type=code&prompt=',
         jar: this.cookieJar,
         withCredentials: true,
         headers: {
@@ -329,8 +329,8 @@ class Nissan extends utils.Adapter {
         },
         data: qs.stringify({
           redirect_uri: 'org.kamereon.service.nci:/oauth2redirect',
-          client_id: 'a-ncb-prod-ios',
-          client_secret: 'QUUkg0oW5NXse7a2iFHVWZ4zXTvQEecKuXZ8447OqwvklIk6yvxMZy6nuDlBklLB',
+          client_id: 'a-ncb-nc-android-prod',
+          client_secret: '6GKIax7fGT5yPHuNmWNVOc4q5POBw1WRSW39ubRA8WPBmQ7MOxhm75EsmKMKENem',
           grant_type: 'authorization_code',
           code: code,
         }),
@@ -526,7 +526,7 @@ class Nissan extends utils.Adapter {
         Accept: 'application/json',
       },
       data:
-        'client_secret=QUUkg0oW5NXse7a2iFHVWZ4zXTvQEecKuXZ8447OqwvklIk6yvxMZy6nuDlBklLB&client_id=a-ncb-prod-ios&grant_type=refresh_token&refresh_token=' +
+        'client_secret=QUUkg0oW5NXse7a2iFHVWZ4zXTvQEecKuXZ8447OqwvklIk6yvxMZy6nuDlBklLB&client_id=a-ncb-nc-android-prod&grant_type=refresh_token&refresh_token=' +
         this.session.refresh_token,
     })
       .then((res) => {

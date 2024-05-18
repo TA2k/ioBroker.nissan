@@ -1,9 +1,22 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.0.15",
+    "version": "0.1.0",
     "title": "Nissan",
     "news": {
+      "0.1.0": {
+        "en": "login fixed",
+        "de": "Login gefixt",
+        "ru": "фиксированный",
+        "pt": "login fixo",
+        "nl": "login vast",
+        "fr": "login corrigé",
+        "it": "login fisso",
+        "es": "login fijo",
+        "pl": "login stały",
+        "uk": "логін",
+        "zh-cn": "登录已固定"
+      },
       "0.0.15": {
         "en": "Make Nissan EV compatible with Node >=18"
       },
@@ -21,25 +34,6 @@
       },
       "0.0.7": {
         "en": "add support for old nissan models < 2019"
-      },
-      "0.0.6": {
-        "en": "fix login"
-      },
-      "0.0.4": {
-        "en": "fix hvac start",
-        "de": "Fix HVAC start"
-      },
-      "0.0.3": {
-        "en": "initial release",
-        "de": "Erstveröffentlichung",
-        "ru": "Начальная версия",
-        "pt": "lançamento inicial",
-        "nl": "Eerste uitgave",
-        "fr": "Première version",
-        "it": "Versione iniziale",
-        "es": "Versión inicial",
-        "pl": "Pierwsze wydanie",
-        "zh-cn": "首次出版"
       }
     },
     "titleLang": {

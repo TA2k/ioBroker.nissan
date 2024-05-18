@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /*
  * Created with @iobroker/create-adapter v1.34.1
@@ -6,15 +6,15 @@
 
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
-const utils = require("@iobroker/adapter-core");
-const axios = require("axios").default;
-const leafConnect = require("./lib/leaf-connect");
+const utils = require('@iobroker/adapter-core');
+const axios = require('axios').default;
+const leafConnect = require('./lib/leaf-connect');
 // const leafConnect = require("leaf-connect");
-const qs = require("qs");
+const qs = require('qs');
 
-const { HttpsCookieAgent } = require("http-cookie-agent/http");
-const tough = require("tough-cookie");
-const { extractKeys } = require("./lib/extractKeys");
+const { HttpsCookieAgent } = require('http-cookie-agent/http');
+const tough = require('tough-cookie');
+const { extractKeys } = require('./lib/extractKeys');
 class Nissan extends utils.Adapter {
   /**
    * @param {Partial<utils.AdapterOptions>} [options={}]
@@ -22,11 +22,11 @@ class Nissan extends utils.Adapter {
   constructor(options) {
     super({
       ...options,
-      name: "nissan",
+      name: 'nissan',
     });
-    this.on("ready", this.onReady.bind(this));
-    this.on("stateChange", this.onStateChange.bind(this));
-    this.on("unload", this.onUnload.bind(this));
+    this.on('ready', this.onReady.bind(this));
+    this.on('stateChange', this.onStateChange.bind(this));
+    this.on('unload', this.onUnload.bind(this));
     this.isInLogin = false;
     this.cookieJar = new tough.CookieJar();
     this.requestClient = axios.create({
@@ -51,25 +51,25 @@ class Nissan extends utils.Adapter {
     // Initialize your adapter here
 
     // Reset the connection indicator during startup
-    this.setState("info.connection", false, true);
+    this.setState('info.connection', false, true);
     if (this.config.interval < 0.5) {
-      this.log.info("Set interval to minimum 0.5");
+      this.log.info('Set interval to minimum 0.5');
       this.config.interval = 0.5;
     }
 
-    this.subscribeStates("*");
+    this.subscribeStates('*');
 
     if (!this.config.user || !this.config.password) {
-      this.log.error("Please set username and password");
+      this.log.error('Please set username and password');
       return;
     }
 
     if (this.config.nissanev) {
       try {
-        this.log.info("Start Connecting to Nissan EV");
+        this.log.info('Start Connecting to Nissan EV');
         await this.loginEV();
-        this.setState("info.connection", true, true);
-        this.log.info("Connected to Nissan EV");
+        this.setState('info.connection', true, true);
+        this.log.info('Connected to Nissan EV');
         await this.getNissanEvVehicles();
       } catch (error) {
         this.log.error(error);
@@ -90,9 +90,9 @@ class Nissan extends utils.Adapter {
     if (this.session.access_token) {
       await this.getVehicles();
       if (this.config.forceRefresh) {
-        this.log.info("Force Refresh is active. Please check your 12V Battery");
+        this.log.info('Force Refresh is active. Please check your 12V Battery');
       } else {
-        this.log.info("Force Refresh is not active. Updates only when you refresh in the App or via nissan.0.xx.remote.refresh");
+        this.log.info('Force Refresh is not active. Updates only when you refresh in the App or via nissan.0.xx.remote.refresh');
       }
       await this.updateVehicles(this.config.forceRefresh).catch((error) => {
         this.log.error(error);
@@ -116,8 +116,8 @@ class Nissan extends utils.Adapter {
       this.nissanEvClient = await leafConnect({
         username: this.config.user,
         password: this.config.password,
-        regionCode: "NE",
-        locale: "de-DE",
+        regionCode: 'NE',
+        locale: 'de-DE',
         debug: false,
         // pollingInterval: 30000, // in seconds
       }).catch((error) => {
@@ -132,48 +132,48 @@ class Nissan extends utils.Adapter {
 
   async updateNissanEv() {
     try {
-      this.log.debug("Update Nissan EV");
+      this.log.debug('Update Nissan EV');
       if (!this.nissanEvClient) {
-        this.log.warn("Nissan EV not connected. Start Relogin");
+        this.log.warn('Nissan EV not connected. Start Relogin');
         this.loginEV();
         return;
       }
-      this.log.debug("cachedStatus");
+      this.log.debug('cachedStatus');
       const cachedStatus = await this.nissanEvClient.cachedStatus().catch((error) => {
         this.log.error(error);
       });
       this.log.debug(cachedStatus);
       if (JSON.parse(cachedStatus).status === 401) {
-        this.log.debug("Nissan EV Session expired. Start Relogin");
+        this.log.debug('Nissan EV Session expired. Start Relogin');
         await this.loginEV();
       }
-      this.extractKeys(this, this.vehicle.vin + ".cachedStatus", JSON.parse(cachedStatus));
+      this.extractKeys(this, this.vehicle.vin + '.cachedStatus', JSON.parse(cachedStatus));
 
-      this.log.debug("climateStatus");
+      this.log.debug('climateStatus');
       const climateStatus = await this.nissanEvClient.climateControlStatus().catch((error) => {
         this.log.error(error);
       });
       this.log.debug(climateStatus);
 
-      this.extractKeys(this, this.vehicle.vin + ".climateStatus", JSON.parse(climateStatus));
+      this.extractKeys(this, this.vehicle.vin + '.climateStatus', JSON.parse(climateStatus));
 
-      this.log.debug("history");
+      this.log.debug('history');
       const history = await this.nissanEvClient.history().catch((error) => {
         this.log.error(error);
       });
       this.log.debug(history);
-      this.extractKeys(this, this.vehicle.vin + ".history", JSON.parse(history));
+      this.extractKeys(this, this.vehicle.vin + '.history', JSON.parse(history));
 
-      this.log.debug("status");
+      this.log.debug('status');
       const status = await this.nissanEvClient.status().catch((error) => {
         this.log.error(error);
       });
       this.log.debug(status);
       if (JSON.parse(status).status === 401) {
-        this.log.info("Nissan EV Session expired. Start Relogin");
+        this.log.info('Nissan EV Session expired. Start Relogin');
         await this.loginEV();
       }
-      this.extractKeys(this, this.vehicle.vin + ".status", JSON.parse(status));
+      this.extractKeys(this, this.vehicle.vin + '.status', JSON.parse(status));
     } catch (error) {
       this.log.error(error);
     }
@@ -183,34 +183,34 @@ class Nissan extends utils.Adapter {
     this.vehicle = JSON.parse(this.nissanEvClient.sessionInfo()).vehicle.profile;
 
     await this.setObjectNotExistsAsync(this.vehicle.vin, {
-      type: "device",
+      type: 'device',
       common: {
         name: this.vehicle.nickname || this.vehicle.registrationNumber || this.vehicle.modelName,
-        role: "indicator",
+        role: 'indicator',
       },
       native: {},
     });
-    await this.setObjectNotExistsAsync(this.vehicle.vin + ".remote", {
-      type: "channel",
+    await this.setObjectNotExistsAsync(this.vehicle.vin + '.remote', {
+      type: 'channel',
       common: {
-        name: "Remote Controls",
-        role: "indicator",
+        name: 'Remote Controls',
+        role: 'indicator',
       },
       native: {},
     });
     const remoteArray = [
-      { command: "climateControlTurnOn" },
-      { command: "climateControlTurnOff" },
-      { command: "chargingStart" },
-      { command: "refresh", name: "Force Refresh" },
+      { command: 'climateControlTurnOn' },
+      { command: 'climateControlTurnOff' },
+      { command: 'chargingStart' },
+      { command: 'refresh', name: 'Force Refresh' },
     ];
     remoteArray.forEach((remote) => {
-      this.setObjectNotExists(this.vehicle.vin + ".remote." + remote.command, {
-        type: "state",
+      this.setObjectNotExists(this.vehicle.vin + '.remote.' + remote.command, {
+        type: 'state',
         common: {
-          name: remote.name || "",
-          type: remote.type || "boolean",
-          role: remote.role || "boolean",
+          name: remote.name || '',
+          type: remote.type || 'boolean',
+          role: remote.role || 'boolean',
           write: true,
           read: true,
         },
@@ -222,22 +222,22 @@ class Nissan extends utils.Adapter {
   async login() {
     const nonce = this.getNonce();
     const headers = {
-      "Accept-Api-Version": "protocol=1.0,resource=2.0",
-      "X-Username": "anonymous",
-      "X-Password": "anonymous",
-      "Content-Type": "application/json",
-      "X-Requested-With": "XMLHttpRequest",
-      "X-NoSession": "true",
-      Accept: "application/json",
+      'Accept-Api-Version': 'protocol=1.0,resource=2.0',
+      'X-Username': 'anonymous',
+      'X-Password': 'anonymous',
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+      'X-NoSession': 'true',
+      Accept: 'application/json',
     };
     const jwtToken = await this.requestClient({
-      method: "post",
+      method: 'post',
       url:
-        "https://prod.eu2.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=" +
+        'https://prod.eu2.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=' +
         encodeURIComponent(
-          "https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=B5C9DC90&locale=de&nonce=" +
+          'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=B5C9DC90&locale=de&nonce=' +
             nonce +
-            "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles&response_type=code&prompt="
+            '&redirect_uri=org.kamereon.service.nci:/oauth2redirect&scope=openid%20profile%20vehicles&response_type=code&prompt=',
         ),
       jar: this.cookieJar,
       withCredentials: true,
@@ -248,25 +248,25 @@ class Nissan extends utils.Adapter {
         return res.data;
       })
       .catch((error) => {
-        this.log.error("JWT");
+        this.log.error('JWT');
         this.log.error(error);
         error.response && this.log.error(JSON.stringify(error.response.data));
       });
     if (!jwtToken) {
-      this.log.error("JWT Token not found");
+      this.log.error('JWT Token not found');
       return;
     }
     try {
       jwtToken.callbacks[0].input[0].value = this.config.user;
       jwtToken.callbacks[1].input[0].value = this.config.password;
       await this.requestClient({
-        method: "post",
+        method: 'post',
         url:
-          "https://prod.eu2.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=" +
+          'https://prod.eu2.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=' +
           encodeURIComponent(
-            "https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=B5C9DC90&locale=de&nonce=" +
+            'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&response_type=code&state=B5C9DC90&locale=de&nonce=' +
               nonce +
-              "&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles&response_type=code&prompt="
+              '&redirect_uri=com.acms.nci://oauth2&scope=openid%20profile%20vehicles&response_type=code&prompt=',
           ),
 
         jar: this.cookieJar,
@@ -279,20 +279,20 @@ class Nissan extends utils.Adapter {
           return res.data;
         })
         .catch((error) => {
-          this.log.error("Post JWT");
+          this.log.error('Post JWT');
           this.log.error(error);
           error.response && this.log.error(JSON.stringify(error.response.data));
         });
       const code = await this.requestClient({
-        method: "get",
+        method: 'get',
         url:
-          "https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&nonce=" +
+          'https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-prod-ios&nonce=' +
           nonce +
-          "&redirect_uri=com.acms.nci://oauth2&locale=de&state=B5C9DC90&scope=openid%20profile%20vehicles&response_type=code&prompt=",
+          '&redirect_uri=com.acms.nci://oauth2&locale=de&state=B5C9DC90&scope=openid%20profile%20vehicles&response_type=code&prompt=',
         jar: this.cookieJar,
         withCredentials: true,
         headers: {
-          Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         },
       })
         .then((res) => {
@@ -300,11 +300,11 @@ class Nissan extends utils.Adapter {
           return res.data;
         })
         .catch((error) => {
-          let code = "";
-          if (error.message && error.message.includes("Unsupported protocol")) {
+          const code = '';
+          if (error.message && error.message.includes('Unsupported protocol')) {
             if (error.config) {
               this.log.debug(JSON.stringify(error.config.url));
-              const parameters = qs.parse(error.request._options.path.split("?")[1]);
+              const parameters = qs.parse(error.request._options.path.split('?')[1]);
               this.log.debug(JSON.stringify(parameters));
               return parameters.code;
             }
@@ -314,36 +314,36 @@ class Nissan extends utils.Adapter {
           error.response && this.log.error(JSON.stringify(error.response.data));
         });
       if (!code) {
-        this.log.error("No code received");
+        this.log.error('No code received');
         return;
       }
       await this.requestClient({
-        method: "post",
-        url: "https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token",
+        method: 'post',
+        url: 'https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token',
         jar: this.cookieJar,
         withCredentials: true,
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-          Accept: "application/json",
-          "user-agent": "NissanConnect/1 CFNetwork/1240.0.4 Darwin/20.6.0",
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+          Accept: 'application/json',
+          'user-agent': 'NissanConnect/1 CFNetwork/1240.0.4 Darwin/20.6.0',
         },
         data: qs.stringify({
-          redirect_uri: "com.acms.nci://oauth2",
-          client_id: "a-ncb-prod-ios",
-          client_secret: "QUUkg0oW5NXse7a2iFHVWZ4zXTvQEecKuXZ8447OqwvklIk6yvxMZy6nuDlBklLB",
-          grant_type: "authorization_code",
+          redirect_uri: 'org.kamereon.service.nci:/oauth2redirect',
+          client_id: 'a-ncb-prod-ios',
+          client_secret: 'QUUkg0oW5NXse7a2iFHVWZ4zXTvQEecKuXZ8447OqwvklIk6yvxMZy6nuDlBklLB',
+          grant_type: 'authorization_code',
           code: code,
         }),
       })
         .then((res) => {
           this.log.debug(JSON.stringify(res.data));
           this.session = res.data;
-          this.setState("info.connection", true, true);
-          this.log.info("Login successful");
+          this.setState('info.connection', true, true);
+          this.log.info('Login successful');
           return res.data;
         })
         .catch((error) => {
-          this.log.error("Access token");
+          this.log.error('Access token');
           this.log.error(error);
           error.response && this.log.error(JSON.stringify(error.response.data));
         });
@@ -353,15 +353,15 @@ class Nissan extends utils.Adapter {
   }
   async getVehicles() {
     const headers = {
-      "Content-Type": "application/json",
-      Accept: "*/*",
-      "User-Agent": "NissanConnect/1 CFNetwork/1240.0.4 Darwin/20.6.0",
-      Authorization: "Bearer " + this.session.access_token,
-      "Accept-Language": "de-de",
+      'Content-Type': 'application/json',
+      Accept: '*/*',
+      'User-Agent': 'NissanConnect/1 CFNetwork/1240.0.4 Darwin/20.6.0',
+      Authorization: 'Bearer ' + this.session.access_token,
+      'Accept-Language': 'de-de',
     };
     this.userId = await this.requestClient({
-      method: "get",
-      url: "https://alliance-platform-usersadapter-prod.apps.eu2.kamereon.io/user-adapter/v1/users/current",
+      method: 'get',
+      url: 'https://alliance-platform-usersadapter-prod.apps.eu2.kamereon.io/user-adapter/v1/users/current',
       headers: headers,
     })
       .then((res) => {
@@ -372,8 +372,8 @@ class Nissan extends utils.Adapter {
         this.log.error(error);
       });
     await this.requestClient({
-      method: "get",
-      url: "https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v5/users/" + this.userId + "/cars",
+      method: 'get',
+      url: 'https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v5/users/' + this.userId + '/cars',
       headers: headers,
     })
       .then(async (res) => {
@@ -382,41 +382,41 @@ class Nissan extends utils.Adapter {
         for (const vehicle of res.data.data) {
           this.vinArray.push(vehicle.vin);
           await this.setObjectNotExistsAsync(vehicle.vin, {
-            type: "device",
+            type: 'device',
             common: {
               name: vehicle.nickname || vehicle.registrationNumber || vehicle.modelName,
-              role: "indicator",
+              role: 'indicator',
             },
             native: {},
           });
-          await this.setObjectNotExistsAsync(vehicle.vin + ".remote", {
-            type: "channel",
+          await this.setObjectNotExistsAsync(vehicle.vin + '.remote', {
+            type: 'channel',
             common: {
-              name: "Remote Controls",
-              role: "indicator",
+              name: 'Remote Controls',
+              role: 'indicator',
             },
             native: {},
           });
           const remoteArray = [
-            { command: "wake-up-vehicle" },
-            { command: "refresh-battery-status" },
-            { command: "refresh-hvac-status" },
-            { command: "refresh-location" },
-            { command: "hvac-start", name: "AC True=Start False=Stop" },
-            { command: "hvac-targetTemperature", name: "AC Target Temperature", type: "number", role: "value" },
-            { command: "charging-start" },
-            { command: "engine-start" },
-            { command: "horn-lights" },
-            { command: "lock-unlock" },
-            { command: "refresh", name: "Force Refresh" },
+            { command: 'wake-up-vehicle' },
+            { command: 'refresh-battery-status' },
+            { command: 'refresh-hvac-status' },
+            { command: 'refresh-location' },
+            { command: 'hvac-start', name: 'AC True=Start False=Stop' },
+            { command: 'hvac-targetTemperature', name: 'AC Target Temperature', type: 'number', role: 'value' },
+            { command: 'charging-start' },
+            { command: 'engine-start' },
+            { command: 'horn-lights' },
+            { command: 'lock-unlock' },
+            { command: 'refresh', name: 'Force Refresh' },
           ];
           remoteArray.forEach((remote) => {
-            this.setObjectNotExists(vehicle.vin + ".remote." + remote.command, {
-              type: "state",
+            this.setObjectNotExists(vehicle.vin + '.remote.' + remote.command, {
+              type: 'state',
               common: {
-                name: remote.name || "",
-                type: remote.type || "boolean",
-                role: remote.role || "boolean",
+                name: remote.name || '',
+                type: remote.type || 'boolean',
+                role: remote.role || 'boolean',
                 write: true,
                 read: true,
               },
@@ -424,11 +424,11 @@ class Nissan extends utils.Adapter {
             });
           });
           this.canGen[vehicle.vin] = vehicle.canGeneration;
-          this.extractKeys(this, vehicle.vin + ".general", vehicle);
+          this.extractKeys(this, vehicle.vin + '.general', vehicle);
         }
       })
       .catch((error) => {
-        this.log.error("Failing to get cars");
+        this.log.error('Failing to get cars');
         this.log.error(error);
         error.response && this.log.error(JSON.stringify(error.response.data));
       });
@@ -436,45 +436,45 @@ class Nissan extends utils.Adapter {
   async updateVehicles(forceRefresh) {
     const date = new Date();
     let month = date.getMonth() + 1;
-    month = (month > 9 ? "" : "0") + month;
-    const yyyymmm = date.getFullYear() + "" + month;
+    month = (month > 9 ? '' : '0') + month;
+    const yyyymmm = date.getFullYear() + '' + month;
     const statusArray = [
-      { path: "health-status", url: "https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v1/cars/$vin/health-status?canGen=$gen" },
-      { path: "battery-status", url: "https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v1/cars/$vin/battery-status?canGen=$gen" },
-      { path: "lock-status", url: "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/lock-status" },
-      { path: "hvac-status", url: "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/hvac-status" },
-      { path: "location", url: "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/location" },
-      { path: "cockpit", url: "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v2/cars/$vin/cockpit" },
+      { path: 'health-status', url: 'https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v1/cars/$vin/health-status?canGen=$gen' },
+      { path: 'battery-status', url: 'https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v1/cars/$vin/battery-status?canGen=$gen' },
+      { path: 'lock-status', url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/lock-status' },
+      { path: 'hvac-status', url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/hvac-status' },
+      { path: 'location', url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/location' },
+      { path: 'cockpit', url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v2/cars/$vin/cockpit' },
       {
-        path: "trip-history",
+        path: 'trip-history',
         url:
-          "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/trip-history/?type=month&start=" +
+          'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/trip-history/?type=month&start=' +
           yyyymmm +
-          "&end=" +
+          '&end=' +
           yyyymmm,
       },
       {
-        path: "notification",
-        url: "https://alliance-platform-notifications-prod.apps.eu2.kamereon.io/notifications/v2/notifications/users/$user/vehicles/$vin?from=1&langCode=DE&order=DESC&realm=a-ncb&to=20",
+        path: 'notification',
+        url: 'https://alliance-platform-notifications-prod.apps.eu2.kamereon.io/notifications/v2/notifications/users/$user/vehicles/$vin?from=1&langCode=DE&order=DESC&realm=a-ncb&to=20',
       },
     ];
     const headers = {
-      "Content-Type": "application/vnd.api+json",
-      Accept: "*/*",
-      "User-Agent": "NissanConnect/2 CFNetwork/978.0.7 Darwin/18.7.0",
-      Authorization: "Bearer " + this.session.access_token,
+      'Content-Type': 'application/vnd.api+json',
+      Accept: '*/*',
+      'User-Agent': 'NissanConnect/2 CFNetwork/978.0.7 Darwin/18.7.0',
+      Authorization: 'Bearer ' + this.session.access_token,
     };
     this.vinArray.forEach(async (vin) => {
       if (forceRefresh) {
-        await this.setRemoteCommand("refresh-battery-status", true, vin);
-        await this.setRemoteCommand("refresh-location", true, vin);
-        await this.setRemoteCommand("wake-up-vehicle", true, vin);
+        await this.setRemoteCommand('refresh-battery-status', true, vin);
+        await this.setRemoteCommand('refresh-location', true, vin);
+        await this.setRemoteCommand('wake-up-vehicle', true, vin);
         await this.sleep(25000);
       }
       statusArray.forEach(async (element) => {
-        const url = element.url.replace("$vin", vin).replace("$gen", this.canGen[vin]).replace("$user", this.userId);
+        const url = element.url.replace('$vin', vin).replace('$gen', this.canGen[vin]).replace('$user', this.userId);
         await this.requestClient({
-          method: "get",
+          method: 'get',
           url: url,
           headers: headers,
         })
@@ -489,14 +489,14 @@ class Nissan extends utils.Adapter {
             }
             let forceIndex = null;
             let preferedArrayName = null;
-            if (element.path === "notification") {
+            if (element.path === 'notification') {
               forceIndex = true;
             }
-            if (element.path === "trip-history") {
-              preferedArrayName = "month";
+            if (element.path === 'trip-history') {
+              preferedArrayName = 'month';
               forceIndex = true;
             }
-            this.extractKeys(this, vin + "." + element.path, data, preferedArrayName, forceIndex);
+            this.extractKeys(this, vin + '.' + element.path, data, preferedArrayName, forceIndex);
           })
           .catch((error) => {
             this.log.error(`Failing to get ${element.path} for ${vin} code: ${error.response && error.response.status} `);
@@ -504,8 +504,8 @@ class Nissan extends utils.Adapter {
             if (error.response && error.response.status === 502) {
               return;
             }
-            if (error.response && error.response.status === 401 && element.path === "cockpit") {
-              this.log.warn("Authentication error, trying to refresh token");
+            if (error.response && error.response.status === 401 && element.path === 'cockpit') {
+              this.log.warn('Authentication error, trying to refresh token');
               this.refreshToken();
               return;
             }
@@ -517,27 +517,27 @@ class Nissan extends utils.Adapter {
   }
   async refreshToken() {
     await this.requestClient({
-      method: "post",
-      url: "https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token",
+      method: 'post',
+      url: 'https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token',
       jar: this.cookieJar,
       withCredentials: true,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-        Accept: "application/json",
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        Accept: 'application/json',
       },
       data:
-        "client_secret=QUUkg0oW5NXse7a2iFHVWZ4zXTvQEecKuXZ8447OqwvklIk6yvxMZy6nuDlBklLB&client_id=a-ncb-prod-ios&grant_type=refresh_token&refresh_token=" +
+        'client_secret=QUUkg0oW5NXse7a2iFHVWZ4zXTvQEecKuXZ8447OqwvklIk6yvxMZy6nuDlBklLB&client_id=a-ncb-prod-ios&grant_type=refresh_token&refresh_token=' +
         this.session.refresh_token,
     })
       .then((res) => {
-        this.log.debug("Refreshtoken success");
+        this.log.debug('Refreshtoken success');
         this.log.debug(JSON.stringify(res.data));
         this.session.access_token = res.data.access_token;
-        this.setState("info.connection", true, true);
+        this.setState('info.connection', true, true);
         return res.data;
       })
       .catch((error) => {
-        this.log.error("Refresh token failed");
+        this.log.error('Refresh token failed');
         this.log.error(error);
       });
   }
@@ -545,12 +545,12 @@ class Nissan extends utils.Adapter {
     //FF48AAFD017F43E6AA9022677CED2DC2
     const length = 32;
     const result = [];
-    const characters = "ABCDEF0123456789";
+    const characters = 'ABCDEF0123456789';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
       result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
     }
-    return result.join("");
+    return result.join('');
   }
   convertToCamelCase(string) {
     const camelCaseString = string.replace(/-([a-z])/g, function (g) {
@@ -565,7 +565,7 @@ class Nissan extends utils.Adapter {
   onUnload(callback) {
     try {
       this.adapterStopped = true;
-      this.setState("info.connection", false, true);
+      this.setState('info.connection', false, true);
       clearTimeout(this.refreshTimeout);
 
       clearInterval(this.updateInterval);
@@ -602,12 +602,12 @@ class Nissan extends utils.Adapter {
   async onStateChange(id, state) {
     if (state) {
       if (!state.ack) {
-        if (id.indexOf(".remote.") === -1) {
+        if (id.indexOf('.remote.') === -1) {
           return;
         }
-        const vin = id.split(".")[2];
-        const command = id.split(".")[4];
-        if (command === "refresh") {
+        const vin = id.split('.')[2];
+        const command = id.split('.')[4];
+        if (command === 'refresh') {
           if (this.config.nissanev) {
             this.updateNissanEv();
             return;
@@ -617,11 +617,11 @@ class Nissan extends utils.Adapter {
         }
         if (this.config.nissanev) {
           try {
-            this.log.info("Start: " + command);
+            this.log.info('Start: ' + command);
             this.log.info(
               await this.nissanEvClient[command]().catch((error) => {
                 this.log.error(error);
-              })
+              }),
             );
           } catch (error) {
             this.log.error(error);
@@ -636,18 +636,18 @@ class Nissan extends utils.Adapter {
           await this.updateVehicles(true);
         }, 25 * 1000);
       } else {
-        const resultDict = { chargingStatus: "charging-start", hvacStatus: "hvac-start", lockStatus: "lock-unlock" };
-        const idArray = id.split(".");
+        const resultDict = { chargingStatus: 'charging-start', hvacStatus: 'hvac-start', lockStatus: 'lock-unlock' };
+        const idArray = id.split('.');
         const stateName = idArray[idArray.length - 1];
 
         if (resultDict[stateName]) {
-          this.log.debug("Receive " + stateName + " : " + state.val + " set remote " + resultDict[stateName]);
-          const vin = id.split(".")[2];
+          this.log.debug('Receive ' + stateName + ' : ' + state.val + ' set remote ' + resultDict[stateName]);
+          const vin = id.split('.')[2];
           let value = true;
-          if (!state.val || state.val === "off" || state.val === "unlocked") {
+          if (!state.val || state.val === 'off' || state.val === 'unlocked') {
             value = false;
           }
-          await this.setStateAsync(vin + ".remote." + resultDict[stateName], value, true);
+          await this.setStateAsync(vin + '.remote.' + resultDict[stateName], value, true);
         }
       }
     }
@@ -660,61 +660,61 @@ class Nissan extends utils.Adapter {
   }
   async setRemoteCommand(command, value, vin) {
     const headers = {
-      "Content-Type": "application/vnd.api+json",
-      "User-Agent": "NissanConnect/2 CFNetwork/978.0.7 Darwin/18.7.0",
-      Accept: "*/*",
-      "Accept-Language": "de-de",
-      Authorization: "Bearer " + this.session.access_token,
+      'Content-Type': 'application/vnd.api+json',
+      'User-Agent': 'NissanConnect/2 CFNetwork/978.0.7 Darwin/18.7.0',
+      Accept: '*/*',
+      'Accept-Language': 'de-de',
+      Authorization: 'Bearer ' + this.session.access_token,
     };
     let data = {
       data: {
         type: this.convertToCamelCase(command),
       },
     };
-    if (command.endsWith("-start")) {
+    if (command.endsWith('-start')) {
       data = {
         data: {
           type: this.convertToCamelCase(command),
           attributes: {
-            action: value ? "start" : "stop",
+            action: value ? 'start' : 'stop',
           },
         },
       };
     }
-    if (command === "hvac-start") {
-      const tempState = await this.getStateAsync(vin + ".remote.hvac-targetTemperature");
+    if (command === 'hvac-start') {
+      const tempState = await this.getStateAsync(vin + '.remote.hvac-targetTemperature');
       if (tempState && tempState.val) {
         data.data.attributes.targetTemperature = tempState.val;
       } else {
         data.data.attributes.targetTemperature = 21.0;
       }
     }
-    if (command === "horn-lights") {
+    if (command === 'horn-lights') {
       data = {
         data: {
           type: this.convertToCamelCase(command),
           attributes: {
             duration: 2,
-            target: "horn_lights",
+            target: 'horn_lights',
           },
         },
       };
     }
-    if (command === "lock-unlock") {
+    if (command === 'lock-unlock') {
       data = {
         data: {
           type: this.convertToCamelCase(command),
           attributes: {
-            lock: value ? "lock" : "unlock",
+            lock: value ? 'lock' : 'unlock',
           },
         },
       };
     }
     this.log.debug(JSON.stringify(data));
-    const url = "https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/" + vin + "/actions/" + command;
+    const url = 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/' + vin + '/actions/' + command;
 
     await this.requestClient({
-      method: "post",
+      method: 'post',
       url: url,
       headers: headers,
       data: data,

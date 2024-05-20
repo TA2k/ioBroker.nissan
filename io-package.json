@@ -1,9 +1,22 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "title": "Nissan",
     "news": {
+      "0.1.1": {
+        "en": "Login fixed.",
+        "de": "Login gefixt.",
+        "ru": "Запись установлена.",
+        "pt": "Registo fixo.",
+        "nl": "Login gerepareerd.",
+        "fr": "Connexion corrigée.",
+        "it": "Login fisso.",
+        "es": "Acceder fijo.",
+        "pl": "Zaloguj się.",
+        "uk": "Вхід фіксований.",
+        "zh-cn": "登录已修复 ."
+      },
       "0.1.0": {
         "en": "login fixed",
         "de": "Login gefixt",
@@ -31,9 +44,6 @@
       },
       "0.0.8": {
         "en": "fix 401 error, fix remote controls"
-      },
-      "0.0.7": {
-        "en": "add support for old nissan models < 2019"
       }
     },
     "titleLang": {

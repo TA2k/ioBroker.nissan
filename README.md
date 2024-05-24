@@ -16,7 +16,18 @@
 
 Nissan Adapter
 
+Feel free to follow the discussions in the german [iobroker forum](https://forum.iobroker.net/topic/46700/test-adapter-nissan-v-0-0-x)
+
 ## Changelog
+
+<!--
+	Placeholder for the next version (at the beginning of the line):
+	### **WORK IN PROGRESS**
+-->
+
+### **WORK IN PROGRESS**
+- (bolliy) Dependency and configuration updates
+
 ### 0.1.1 (2024-05-20)
 
 - Login fixed.
@@ -33,7 +44,7 @@ Nissan Adapter
 
 MIT License
 
-Copyright (c) 2021-2030 TA2k <tombox2020@gmail.com>
+Copyright (c) 2024 TA2k <tombox2020@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

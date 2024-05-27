@@ -12,9 +12,15 @@
 
 **Tests:** ![Test and Release](https://github.com/TA2k/ioBroker.nissan/workflows/Test%20and%20Release/badge.svg)
 
+**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.**\
+For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)!\
+Sentry reporting is used starting with js-controller 3.0.
+
 ## nissan adapter for ioBroker
 
 Nissan Adapter
+
+## Forum
 
 Feel free to follow the discussions in the german [iobroker forum](https://forum.iobroker.net/topic/46700/test-adapter-nissan-v-0-0-x)
 

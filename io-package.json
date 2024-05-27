@@ -72,7 +72,12 @@
     },
     "authors": ["TA2k <tombox2020@gmail.com>"],
     "keywords": ["nissan", "leaf"],
-    "license": "MIT",
+    "tier": 2,
+    "licenseInformation": {
+      "license": "MIT",
+      "link": "https://opensource.org/license/mit/",
+      "type": "free"
+    },
     "platform": "Javascript/Node.js",
     "main": "main.js",
     "icon": "nissan.png",

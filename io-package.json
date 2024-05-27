@@ -30,19 +30,69 @@
         "zh-cn": "登录已固定"
       },
       "0.0.15": {
-        "en": "Make Nissan EV compatible with Node >=18"
+        "en": "Make Nissan EV compatible with Node >=18",
+        "de": "Machen Sie Nissan EV mit Knoten >=18 kompatibel",
+        "ru": "Сделать Nissan EV совместимым с Node >=18",
+        "pt": "Tornar o Nissan EV compatível com Node >=18",
+        "nl": "Maak Nissan EV compatibel met Node >=18",
+        "fr": "Rendre Nissan EV compatible avec Node >=18",
+        "it": "Rendi Nissan EV compatibile con Nodo >=18",
+        "es": "Hacer que Nissan EV sea compatible con Node >=18",
+        "pl": "Spraw, aby Nissan EV był kompatybilny z węzłem >=18",
+        "uk": "Зробіть Nissan EV сумісним із Node >=18",
+        "zh-cn": "使 Nissan EV 与 Node >=18 兼容"
       },
       "0.0.12": {
-        "en": "Fix remote commands"
+        "en": "Fix remote commands",
+        "de": "Korrigieren Sie Remote-Befehle",
+        "ru": "Исправление удаленных команд",
+        "pt": "Corrigir comandos remotos",
+        "nl": "Herstel opdrachten op afstand",
+        "fr": "Corriger les commandes à distance",
+        "it": "Correggi i comandi remoti",
+        "es": "Reparar comandos remotos",
+        "pl": "Napraw zdalne polecenia",
+        "uk": "Виправити віддалені команди",
+        "zh-cn": "修复远程命令"
       },
       "0.0.11": {
-        "en": "Add forceRefresh Option in settings. Fix login and endpoints"
+        "en": "Add forceRefresh Option in settings. Fix login and endpoints",
+        "de": "Fügen Sie in den Einstellungen die Option „forceRefresh“ hinzu. Anmeldung und Endpunkte korrigieren",
+        "ru": "Добавьте опцию ForceRefresh в настройки. Исправление входа и конечных точек",
+        "pt": "Adicione a opção forceRefresh nas configurações. Corrigir login e endpoints",
+        "nl": "ForceRefresh-optie toevoegen in instellingen. Login en eindpunten repareren",
+        "fr": "Ajoutez l'option forceRefresh dans les paramètres. Corriger la connexion et les points de terminaison",
+        "it": "Aggiungi l'opzione forceRefresh nelle impostazioni. Correggi login ed endpoint",
+        "es": "Agregue la opción forceRefresh en la configuración. Reparar inicio de sesión y puntos finales",
+        "pl": "Dodaj opcję forceRefresh w ustawieniach. Napraw login i punkty końcowe",
+        "uk": "Додайте опцію forceRefresh у налаштуваннях. Виправте логін і кінцеві точки",
+        "zh-cn": "在设置中添加强制刷新选项。修复登录和端点"
       },
       "0.0.9": {
-        "en": "fix refresh token and enforce refresh"
+        "en": "fix refresh token and enforce refresh",
+        "de": "Aktualisierungstoken reparieren und Aktualisierung erzwingen",
+        "ru": "исправить токен обновления и принудительно обновить",
+        "pt": "corrigir token de atualização e impor atualização",
+        "nl": "repareer het vernieuwingstoken en dwing vernieuwing af",
+        "fr": "corriger le jeton d'actualisation et appliquer l'actualisation",
+        "it": "correggere il token di aggiornamento e imporre l'aggiornamento",
+        "es": "arreglar el token de actualización y aplicar la actualización",
+        "pl": "napraw token odświeżania i wymuś odświeżanie",
+        "uk": "виправити маркер оновлення та примусове оновлення",
+        "zh-cn": "修复刷新令牌并强制刷新"
       },
       "0.0.8": {
-        "en": "fix 401 error, fix remote controls"
+        "en": "fix 401 error, fix remote controls",
+        "de": "401-Fehler beheben, Fernbedienungen reparieren",
+        "ru": "исправить ошибку 401, исправить пульты дистанционного управления",
+        "pt": "corrigir erro 401, corrigir controles remotos",
+        "nl": "fix 401-fout, repareer afstandsbedieningen",
+        "fr": "corriger l'erreur 401, réparer les télécommandes",
+        "it": "correggere l'errore 401, correggere i telecomandi",
+        "es": "arreglar error 401, arreglar controles remotos",
+        "pl": "napraw błąd 401, napraw piloty",
+        "uk": "виправити помилку 401, виправити пульти дистанційного керування",
+        "zh-cn": "修复401错误，修复远程控制"
       }
     },
     "titleLang": {
@@ -55,7 +105,8 @@
       "it": "Nissan",
       "es": "Nissan",
       "pl": "Nissan",
-      "zh-cn": "日产"
+      "zh-cn": "日产",
+      "uk": "Nissan"
     },
     "desc": {
       "en": "Nissan Adapter",
@@ -67,10 +118,16 @@
       "it": "Adattatore Nissan",
       "es": "Adaptador de Nissan",
       "pl": "Adapter Nissana",
-      "zh-cn": "日产适配器"
+      "zh-cn": "日产适配器",
+      "uk": "Адаптер Nissan"
     },
-    "authors": ["TA2k <tombox2020@gmail.com>"],
-    "keywords": ["nissan", "leaf"],
+    "authors": [
+      "TA2k <tombox2020@gmail.com>"
+    ],
+    "keywords": [
+      "nissan",
+      "leaf"
+    ],
     "tier": 2,
     "licenseInformation": {
       "license": "MIT",
@@ -106,8 +163,12 @@
       }
     ]
   },
-  "encryptedNative": ["password"],
-  "protectedNative": ["password"],
+  "encryptedNative": [
+    "password"
+  ],
+  "protectedNative": [
+    "password"
+  ],
   "native": {
     "user": "",
     "password": "",

@@ -126,7 +126,8 @@
     ],
     "keywords": [
       "nissan",
-      "leaf"
+      "leaf",
+      "nissanconnect"
     ],
     "tier": 2,
     "licenseInformation": {
@@ -135,7 +136,6 @@
       "type": "free"
     },
     "platform": "Javascript/Node.js",
-    "main": "main.js",
     "icon": "nissan.png",
     "enabled": true,
     "extIcon": "https://raw.githubusercontent.com/TA2k/ioBroker.nissan/master/admin/nissan.png",
@@ -146,7 +146,9 @@
     "compact": true,
     "connectionType": "cloud",
     "dataSource": "poll",
-    "materialize": true,
+    "adminUI": {
+      "config": "json"
+    },
     "plugins": {
       "sentry": {
         "dsn": "https://9310c8bb8a964f529d5ef209c009a345@sentry.iobroker.net/160"
@@ -154,12 +156,12 @@
     },
     "dependencies": [
       {
-        "js-controller": ">=3.0.0"
+        "js-controller": ">=5.0.0"
       }
     ],
     "globalDependencies": [
       {
-        "admin": ">=4.0.9"
+        "admin": ">=5.1.13"
       }
     ]
   },

@@ -123,8 +123,9 @@ class Nissan extends utils.Adapter {
       }).catch((error) => {
         this.log.error(error);
       });
+      */
       this.isInLogin = false;
-    } catch (error) {
+    } catch(error) {
       this.isInLogin = false;
       this.log.error(error);
     }
@@ -142,10 +143,12 @@ class Nissan extends utils.Adapter {
       const cachedStatus = await this.nissanEvClient.cachedStatus().catch((error) => {
         this.log.error(error);
       });
-      this.log.debug(cachedStatus);
-      if (JSON.parse(cachedStatus).status === 401) {
-        this.log.debug('Nissan EV Session expired. Start Relogin');
-        await this.loginEV();
+      if (cachedStatus) {
+        this.log.debug(cachedStatus);
+        if (JSON.parse(cachedStatus).status === 401) {
+          this.log.debug('Nissan EV Session expired. Start Relogin');
+          await this.loginEV();
+        }
       }
       this.extractKeys(this, this.vehicle.vin + '.cachedStatus', JSON.parse(cachedStatus));
 
@@ -153,9 +156,14 @@ class Nissan extends utils.Adapter {
       const climateStatus = await this.nissanEvClient.climateControlStatus().catch((error) => {
         this.log.error(error);
       });
+      if (climateStatus) {
+      this.log.debug(climateStatus);
       this.log.debug(climateStatus);
 
-      this.extractKeys(this, this.vehicle.vin + '.climateStatus', JSON.parse(climateStatus));
+        this.log.debug(climateStatus);
+
+        this.extractKeys(this, this.vehicle.vin + '.climateStatus', JSON.parse(climateStatus));
+      }
 
       this.log.debug('history');
       const history = await this.nissanEvClient.history().catch((error) => {

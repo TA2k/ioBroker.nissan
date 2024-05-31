@@ -1,9 +1,22 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "title": "Nissan",
     "news": {
+      "0.1.2": {
+        "en": "Refresh Token fix",
+        "de": "Refresh Token fix",
+        "ru": "Освещение Токена",
+        "pt": "Atualizar a correção Token",
+        "nl": "Tokenfix vernieuwen",
+        "fr": "Correction du jeton rafraîchi",
+        "it": "Refresh Token fix",
+        "es": "Refresh Token fix",
+        "pl": "Odśwież Token fix",
+        "uk": "Refresh Token виправити",
+        "zh-cn": "刷新调试修正"
+      },
       "0.1.1": {
         "en": "Login fixed.",
         "de": "Login gefixt.",
@@ -41,9 +54,6 @@
       },
       "0.0.9": {
         "en": "fix refresh token and enforce refresh"
-      },
-      "0.0.8": {
-        "en": "fix 401 error, fix remote controls"
       }
     },
     "titleLang": {
@@ -70,8 +80,13 @@
       "pl": "Adapter Nissana",
       "zh-cn": "日产适配器"
     },
-    "authors": ["TA2k <tombox2020@gmail.com>"],
-    "keywords": ["nissan", "leaf"],
+    "authors": [
+      "TA2k <tombox2020@gmail.com>"
+    ],
+    "keywords": [
+      "nissan",
+      "leaf"
+    ],
     "license": "MIT",
     "platform": "Javascript/Node.js",
     "main": "main.js",
@@ -102,8 +117,12 @@
       }
     ]
   },
-  "encryptedNative": ["password"],
-  "protectedNative": ["password"],
+  "encryptedNative": [
+    "password"
+  ],
+  "protectedNative": [
+    "password"
+  ],
   "native": {
     "user": "",
     "password": "",

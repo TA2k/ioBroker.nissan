@@ -121,7 +121,6 @@
       "nissan",
       "leaf"
     ],
-    "license": "MIT",
     "platform": "Javascript/Node.js",
     "icon": "nissan.png",
     "enabled": true,

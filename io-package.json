@@ -176,7 +176,8 @@
     "password": "",
     "interval": 10,
     "nissanev": false,
-    "forceRefresh": false
+    "forceRefresh": false,
+    "regionev": "NE"
   },
   "objects": [],
   "instanceObjects": [

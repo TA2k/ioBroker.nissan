@@ -391,8 +391,7 @@ class Nissan extends utils.Adapter {
       await this.requestClient({
         method: 'post',
         url: 'https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token',
-        jar: this.cookieJar,
-        withCredentials: true,
+
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
           Accept: 'application/json',
@@ -591,15 +590,17 @@ class Nissan extends utils.Adapter {
     await this.requestClient({
       method: 'post',
       url: 'https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token',
-      jar: this.cookieJar,
-      withCredentials: true,
+
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
         Accept: 'application/json',
       },
-      data:
-        'client_secret=QUUkg0oW5NXse7a2iFHVWZ4zXTvQEecKuXZ8447OqwvklIk6yvxMZy6nuDlBklLB&client_id=a-ncb-nc-android-prod&grant_type=refresh_token&refresh_token=' +
-        this.session.refresh_token,
+      data: qs.stringify({
+        client_id: 'a-ncb-nc-android-prod',
+        client_secret: '6GKIax7fGT5yPHuNmWNVOc4q5POBw1WRSW39ubRA8WPBmQ7MOxhm75EsmKMKENem',
+        grant_type: 'refresh_token',
+        refresh_token: this.session.refresh_token,
+      }),
     })
       .then((res) => {
         this.log.debug('Refreshtoken success');

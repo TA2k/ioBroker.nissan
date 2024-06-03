@@ -3,6 +3,19 @@
     "name": "nissan",
     "version": "0.1.1",
     "news": {
+      "0.1.2": {
+        "en": "Refresh Token fix",
+        "de": "Refresh Token fix",
+        "ru": "Освещение Токена",
+        "pt": "Atualizar a correção Token",
+        "nl": "Tokenfix vernieuwen",
+        "fr": "Correction du jeton rafraîchi",
+        "it": "Refresh Token fix",
+        "es": "Refresh Token fix",
+        "pl": "Odśwież Token fix",
+        "uk": "Refresh Token виправити",
+        "zh-cn": "刷新调试修正"
+      },
       "0.1.1": {
         "en": "Login fixed.",
         "de": "Login gefixt.",
@@ -67,32 +80,6 @@
         "pl": "Dodaj opcję forceRefresh w ustawieniach. Napraw login i punkty końcowe",
         "uk": "Додайте опцію forceRefresh у налаштуваннях. Виправте логін і кінцеві точки",
         "zh-cn": "在设置中添加强制刷新选项。修复登录和端点"
-      },
-      "0.0.9": {
-        "en": "fix refresh token and enforce refresh",
-        "de": "Aktualisierungstoken reparieren und Aktualisierung erzwingen",
-        "ru": "исправить токен обновления и принудительно обновить",
-        "pt": "corrigir token de atualização e impor atualização",
-        "nl": "repareer het vernieuwingstoken en dwing vernieuwing af",
-        "fr": "corriger le jeton d'actualisation et appliquer l'actualisation",
-        "it": "correggere il token di aggiornamento e imporre l'aggiornamento",
-        "es": "arreglar el token de actualización y aplicar la actualización",
-        "pl": "napraw token odświeżania i wymuś odświeżanie",
-        "uk": "виправити маркер оновлення та примусове оновлення",
-        "zh-cn": "修复刷新令牌并强制刷新"
-      },
-      "0.0.8": {
-        "en": "fix 401 error, fix remote controls",
-        "de": "401-Fehler beheben, Fernbedienungen reparieren",
-        "ru": "исправить ошибку 401, исправить пульты дистанционного управления",
-        "pt": "corrigir erro 401, corrigir controles remotos",
-        "nl": "fix 401-fout, repareer afstandsbedieningen",
-        "fr": "corriger l'erreur 401, réparer les télécommandes",
-        "it": "correggere l'errore 401, correggere i telecomandi",
-        "es": "arreglar error 401, arreglar controles remotos",
-        "pl": "napraw błąd 401, napraw piloty",
-        "uk": "виправити помилку 401, виправити пульти дистанційного керування",
-        "zh-cn": "修复401错误，修复远程控制"
       }
     },
     "titleLang": {
@@ -135,6 +122,14 @@
       "link": "https://opensource.org/license/mit/",
       "type": "free"
     },
+    "authors": [
+      "TA2k <tombox2020@gmail.com>"
+    ],
+    "keywords": [
+      "nissan",
+      "leaf"
+    ],
+    "license": "MIT",
     "platform": "Javascript/Node.js",
     "icon": "nissan.png",
     "enabled": true,

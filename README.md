@@ -38,6 +38,10 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 - (bolliy) ConnectEV: Update status before reading cachedeStatus
 - (bolliy) ConnectEV: change adminUI to json (js-controller >= 5.0)
 
+### 0.1.2 (2024-05-31)
+
+- Refresh Token fix
+
 ### 0.1.1 (2024-05-20)
 
 - Login fixed.

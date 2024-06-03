@@ -17,7 +17,7 @@
                 },
                 "password": {
                     "type": "password",
-                    "label": "password",
+                    "label": "Password",
                     "tooltip": "",
                     "sm": 12,
                     "md": 8,

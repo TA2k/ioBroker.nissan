@@ -81,7 +81,7 @@ class Nissan extends utils.Adapter {
         if (error instanceof Error) this.log.error(error.message);
       }
       */
-
+      this.log.info('Start Connecting to Nissan EV');
       this.updateNissanEv();
       this.updateInterval = setInterval(async () => {
         await this.updateNissanEv();
@@ -92,7 +92,6 @@ class Nissan extends utils.Adapter {
 
       return;
     }
-
     await this.login();
     if (this.session.access_token) {
       await this.getVehicles();
@@ -117,12 +116,6 @@ class Nissan extends utils.Adapter {
 
   async loginEV() {
     try {
-      /*
-      if (this.isInLogin) {
-        return;
-      }
-      this.isInLogin = true;
-      */
       this.nissanEvClient = await leafConnect({
         username: this.config.user,
         password: this.config.password,
@@ -131,12 +124,6 @@ class Nissan extends utils.Adapter {
         // debug: false,
         // pollingInterval: 30000, // in seconds
       });
-      /*
-      .catch((error) => {
-        this.log.error(error);
-      });
-      */
-      //this.isInLogin = false;
       this.isInLogin = true;
       if (!this.isReady) {
         this.log.info('Connected to Nissan EV');
@@ -161,7 +148,7 @@ class Nissan extends utils.Adapter {
       if (status === 401) {
         this.log.debug('Nissan EV Session expired. Start Relogin');
       } else {
-        this.log.warn('Response Error status '+status);
+        this.log.warn('Response Error status '+status+'. Start Relogin');
       }
       await this.loginEV();
     }
@@ -171,13 +158,8 @@ class Nissan extends utils.Adapter {
 
   async updateNissanEv() {
     //try {
-    //this.log.debug('Update Nissan EV');
     if (!this.nissanEvClient || !this.isInLogin) {
-      this.log.info('Start Connecting to Nissan EV');
-      //this.log.warn('Nissan EV not connected. Start Relogin');
       await this.loginEV();
-      this.log.info('Connected to Nissan EV');
-      //return;
     }
 
     if (!this.nissanEvClient) return;
@@ -248,7 +230,7 @@ class Nissan extends utils.Adapter {
     this.log.debug(this.nissanEvClient.sessionInfo());
     this.vehicle = JSON.parse(this.nissanEvClient.sessionInfo()).vehicle.profile;
 
-    await this.extendObjectAsync(this.vehicle.vin, {
+    await this.extendObject(this.vehicle.vin, {
       type: 'device',
       common: {
         name: this.vehicle.nickname || this.vehicle.registrationNumber || this.vehicle.modelName,
@@ -256,7 +238,7 @@ class Nissan extends utils.Adapter {
       },
       native: {},
     });
-    await this.extendObjectAsync(this.vehicle.vin + '.remote', {
+    await this.extendObject(this.vehicle.vin + '.remote', {
       type: 'channel',
       common: {
         name: 'Remote Controls',
@@ -271,12 +253,12 @@ class Nissan extends utils.Adapter {
       { command: 'refresh', name: 'Force Refresh' },
     ];
     remoteArray.forEach((remote) => {
-      this.extendObjectAsync(this.vehicle.vin + '.remote.' + remote.command, {
+      this.extendObject(this.vehicle.vin + '.remote.' + remote.command, {
         type: 'state',
         common: {
           name: remote.name || '',
           type: remote.type || 'boolean',
-          role: remote.role || 'boolean',
+          role: remote.role || 'switch',
           write: true,
           read: true,
         },

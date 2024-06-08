@@ -37,6 +37,7 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 - (bolliy) Dependency and configuration updates
 - (bolliy) Added Admin 5 configuration
 - (bolliy) ConnectEV: Update status before reading cachedeStatus
+- (bolliy) improve State roles and types
 
 ### 0.1.2 (2024-05-31)
 

@@ -157,70 +157,69 @@ class Nissan extends utils.Adapter {
 
 
   async updateNissanEv() {
-    //try {
-    if (!this.nissanEvClient || !this.isInLogin) {
-      await this.loginEV();
-    }
+    try {
+      if (!this.nissanEvClient || !this.isInLogin) {
+        await this.loginEV();
+      }
 
-    if (!this.nissanEvClient) return;
+      if (!this.nissanEvClient) return;
 
-    this.log.debug('Update Nissan EV');
-    this.log.debug('cachedStatus...');
-    const cachedStatus = await this.nissanEvClient.cachedStatus().catch((error) => {
-      this.log.error(error);
-    });
-    if (cachedStatus) {
-      this.log.debug(cachedStatus);
-      this.extractKeys(this, this.vehicle.vin + '.cachedStatus', JSON.parse(cachedStatus));
-      await this.checkResponseNissanEv(cachedStatus);
-    }
-
-    this.log.debug('status...');
-    const status = await this.nissanEvClient.status().catch((error) => {
-      this.log.error(error);
-    });
-    if (status) {
-      this.log.debug(status);
-      this.extractKeys(this, this.vehicle.vin + '.status', JSON.parse(status));
-      await this.checkResponseNissanEv(status);
-    }
-
-    this.log.debug('cachedStatus...');
-    const cachedStatus2 = await this.nissanEvClient.cachedStatus().catch((error) => {
-      this.log.error(error);
-    });
-    if (cachedStatus2) {
-      this.log.debug(cachedStatus2);
-      this.extractKeys(this, this.vehicle.vin + '.cachedStatus', JSON.parse(cachedStatus2));
-      await this.checkResponseNissanEv(cachedStatus2);
-    }
-
-    this.log.debug('climateStatus...');
-    const climateStatus = await this.nissanEvClient.climateControlStatus()
-      .catch((error) => {
+      this.log.debug('Update Nissan EV');
+      this.log.debug('cachedStatus...');
+      const cachedStatus = await this.nissanEvClient.cachedStatus().catch((error) => {
         this.log.error(error);
       });
-    if (climateStatus) {
-      this.log.debug(climateStatus);
-      this.extractKeys(this, this.vehicle.vin + '.climateStatus', JSON.parse(climateStatus));
-      await this.checkResponseNissanEv(climateStatus);
-    }
+      if (cachedStatus) {
+        this.log.debug(cachedStatus);
+        this.extractKeys(this, this.vehicle.vin + '.cachedStatus', JSON.parse(cachedStatus));
+        await this.checkResponseNissanEv(cachedStatus);
+      }
 
-    this.log.debug('history...');
-    const history = await this.nissanEvClient.history()
-      .catch((error) => {
+      this.log.debug('status...');
+      const status = await this.nissanEvClient.status().catch((error) => {
         this.log.error(error);
       });
-    if (history) {
-      this.log.debug(history);
-      this.extractKeys(this, this.vehicle.vin + '.history', JSON.parse(history));
-      await this.checkResponseNissanEv(climateStatus);
-    }
-    /*
+      if (status) {
+        this.log.debug(status);
+        this.extractKeys(this, this.vehicle.vin + '.status', JSON.parse(status));
+        await this.checkResponseNissanEv(status);
+      }
+
+      this.log.debug('cachedStatus...');
+      const cachedStatus2 = await this.nissanEvClient.cachedStatus().catch((error) => {
+        this.log.error(error);
+      });
+      if (cachedStatus2) {
+        this.log.debug(cachedStatus2);
+        this.extractKeys(this, this.vehicle.vin + '.cachedStatus', JSON.parse(cachedStatus2));
+        await this.checkResponseNissanEv(cachedStatus2);
+      }
+
+      this.log.debug('climateStatus...');
+      const climateStatus = await this.nissanEvClient.climateControlStatus()
+        .catch((error) => {
+          this.log.error(error);
+        });
+      if (climateStatus) {
+        this.log.debug(climateStatus);
+        this.extractKeys(this, this.vehicle.vin + '.climateStatus', JSON.parse(climateStatus));
+        await this.checkResponseNissanEv(climateStatus);
+      }
+
+      this.log.debug('history...');
+      const history = await this.nissanEvClient.history()
+        .catch((error) => {
+          this.log.error(error);
+        });
+      if (history) {
+        this.log.debug(history);
+        this.extractKeys(this, this.vehicle.vin + '.history', JSON.parse(history));
+        await this.checkResponseNissanEv(climateStatus);
+      }
     } catch (error) {
       if (error instanceof Error) this.log.error(error.message);
     }
-    */
+
   }
 
   async getNissanEvVehicles() {

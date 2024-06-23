@@ -1,0 +1,73 @@
+{
+    "i18n": true,
+    "type": "tabs",
+    "items": {
+        "mainTab": {
+            "type": "panel",
+            "label": "Main settings",
+            "items": {
+                "user": {
+                    "type": "text",
+                    "label": "Nissan App Email",
+                    "tooltip": "Nissan App Email",
+                    "sm": 12,
+                    "md": 8,
+                    "lg": 2,
+                    "newLine": true
+                },
+                "password": {
+                    "type": "password",
+                    "label": "Password",
+                    "tooltip": "",
+                    "sm": 12,
+                    "md": 8,
+                    "lg": 2,
+                    "newLine": true
+                },
+                "forceRefresh": {
+                    "type": "checkbox",
+                    "label": "Force Update to receive new data. This will drain 12V Battery. Please check 12V Battery",
+                    "newLine": true,
+                    "tooltip": "Force Update to receive new data. This will drain 12V Battery. Please check 12V Battery"
+                }, 
+                "interval": {
+                    "type": "number",
+                    "label": "Update interval (min)",
+                    "min" : 5,
+                    "max" : 120,
+                    "newLine": true,
+                    "tooltip": "Update interval in minutes"
+                }
+            }    
+        },
+        "tab2": {
+            "type": "panel",
+            "label": "vehicle before 2019",
+            "items": {
+                "nissanev": {
+                    "type": "checkbox",
+                    "label": "Old Nissan EV App for models before 2019",
+                    "newLine": true,
+                    "tooltip": "Old Nissan EV App for models before 2019"
+                }, 
+                "regionev": {
+                    "type": "select",
+                    "label": "Region",
+                    "options":[
+                        {"label": "Europe", "value":"NE"},
+                        {"label": "USA", "value":"NNA"},
+                        {"label": "Canada", "value":"NCI"},
+                        {"label": "Australia", "value":"NMA"},
+                        {"label": "Japan", "value":"NML"}
+                    ],
+                    "default": "NE",
+                    "sm":3,
+                    "md":3,
+                    "lg":3,
+                    "xs":3,
+                    "newLine": true
+                }
+            }
+        }              
+    }       
+}

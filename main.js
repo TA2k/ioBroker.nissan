@@ -335,7 +335,7 @@ class Nissan extends utils.Adapter {
           this.log.error(error);
           error.response && this.log.error(JSON.stringify(error.response.data));
         });
-      // @ts-ignore
+
       const code = await this.requestClient({
         method: 'get',
         url:

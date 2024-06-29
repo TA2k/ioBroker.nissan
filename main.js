@@ -128,6 +128,7 @@ class Nissan extends utils.Adapter {
       if (!this.isReady) {
         this.log.info('Connected to Nissan EV');
         await this.getNissanEvVehicles();
+
       }
     } catch(error) {
       this.isInLogin = false;
@@ -264,6 +265,7 @@ class Nissan extends utils.Adapter {
         native: {},
       });
     });
+    this.isReady = true;
   }
 
   async login() {
@@ -333,7 +335,7 @@ class Nissan extends utils.Adapter {
           this.log.error(error);
           error.response && this.log.error(JSON.stringify(error.response.data));
         });
-      // @ts-ignore
+
       const code = await this.requestClient({
         method: 'get',
         url:

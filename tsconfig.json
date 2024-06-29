@@ -32,7 +32,7 @@
     "include": [
         "**/*.js",
         "**/*.d.ts"
-    ],
+, "lib/leaf-connect/lib/encrypt-password.js"    ],
     "exclude": [
         "node_modules/**"
     ]

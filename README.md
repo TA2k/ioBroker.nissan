@@ -32,7 +32,8 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 0.1.3 (2024-07-07)
+### 0.1.4 (2024-07-07)
+
 - (bolliy) dependency and configuration updates
 - (bolliy) breaking change: added Admin 5 configuration
 - (bolliy) ConnectEV: update status before reading cachedeStatus

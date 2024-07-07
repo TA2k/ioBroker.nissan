@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "news": {
+      "0.1.4": {
+        "en": "dependency and configuration updates\nbreaking change: added Admin 5 configuration\nConnectEV: update status before reading cachedeStatus\nimprove State roles and types\nConnectEV: update Blowfish v4.1",
+        "de": "abhängigkeits- und konfigurationsupdates\nänderung: Admin 5 Konfiguration hinzugefügt\nConnectEV: Status vor dem Lesen von cachedeStatus aktualisieren\nverbesserung Staatliche Rollen und Typen\nConnectEV: Update Blowfish v4.1",
+        "ru": "обновления зависимости и конфигурации\nизменение: добавлена конфигурация Админ 5\nConnectEV: обновление состояния перед чтением cachedeStatus\nулучшение Государственные роли и виды\nConnectEV: обновление Blowfish v4.1",
+        "pt": "atualizações de dependência e configuração\nalteração de quebra: adicionado configuração Admin 5\nConnectEV: status de atualização antes de ler cachedeStatus\nmelhorar Funções e tipos de Estado\nConnectEV: atualização Blowfish v4.1",
+        "nl": "afhankelijkheid en configuratie-updates\nbreak change: Admin 5 configuratie toegevoegd\nConnectEV: status bijwerken voordat u cachedeStatus leest\nverbeteren De rol en het type van de staat\nConnectEV: update Blowfish v4.1",
+        "fr": "mises à jour de la dépendance et de la configuration\nchangement de rupture: ajout de la configuration Admin 5\nConnectEV: mettre à jour l'état avant de lire cachedeStatus\naméliorer Rôles et types d ' États\nConnectEV: mettre à jour Blowfish v4.1",
+        "it": "aggiornamenti di dipendenza e configurazione\ncambiamento di rottura: aggiunta Admin 5 configurazione\nConnectEV: stato di aggiornamento prima di leggere cachedeStatus\nmigliorare ruoli e tipi di Stato\nConnectEV: aggiornamento Blowfish v4.1",
+        "es": "actualizaciones de dependencia y configuración\ncambio de ruptura: añadido configuración de Admin 5\nConnectEV: estado de actualización antes de leer cachedeStatus\nmejora Funciones y tipos de Estado\nConnectEV: Actualización Blowfish v4.1",
+        "pl": "aktualizacje zależności i konfiguracji\nzmiana łamania: dodana konfiguracja Admin 5\nConnectEV: stan aktualizacji przed czytaniem cachedeStatus\npoprawa Role i typy państw\nConnectEV: aktualizacja Blowfish v4.1",
+        "uk": "оновлення залежності та конфігурації\nзміна перерву: додано налаштування Admin 5\nConnectEV: статус оновлення до читання cchedeStatus\nполіпшення Державні ролі та види\nConnectEV: оновлення Blowfish v4.1",
+        "zh-cn": "依赖和配置更新\n断开更改: 添加管理员 5 配置\n连接EV: 读取缓存状态前的更新状态\n改进 国家的作用和类型\n连接EV: 更新 Blowfish v4.1"
+      },
       "0.1.3": {
         "en": "dependency and configuration updates\nbreaking change: added Admin 5 configuration\nConnectEV: update status before reading cachedeStatus\nimprove State roles and types\nConnectEV: update Blowfish v4.1",
         "de": "abhängigkeits- und konfigurationsupdates\nänderung: Admin 5 Konfiguration hinzugefügt\nConnectEV: Status vor dem Lesen von cachedeStatus aktualisieren\nverbesserung Staatliche Rollen und Typen\nConnectEV: Update Blowfish v4.1",
@@ -80,19 +93,6 @@
         "pl": "Napraw zdalne polecenia",
         "uk": "Виправити віддалені команди",
         "zh-cn": "修复远程命令"
-      },
-      "0.0.11": {
-        "en": "Add forceRefresh Option in settings. Fix login and endpoints",
-        "de": "Fügen Sie in den Einstellungen die Option „forceRefresh“ hinzu. Anmeldung und Endpunkte korrigieren",
-        "ru": "Добавьте опцию ForceRefresh в настройки. Исправление входа и конечных точек",
-        "pt": "Adicione a opção forceRefresh nas configurações. Corrigir login e endpoints",
-        "nl": "ForceRefresh-optie toevoegen in instellingen. Login en eindpunten repareren",
-        "fr": "Ajoutez l'option forceRefresh dans les paramètres. Corriger la connexion et les points de terminaison",
-        "it": "Aggiungi l'opzione forceRefresh nelle impostazioni. Correggi login ed endpoint",
-        "es": "Agregue la opción forceRefresh en la configuración. Reparar inicio de sesión y puntos finales",
-        "pl": "Dodaj opcję forceRefresh w ustawieniach. Napraw login i punkty końcowe",
-        "uk": "Додайте опцію forceRefresh у налаштуваннях. Виправте логін і кінцеві точки",
-        "zh-cn": "在设置中添加强制刷新选项。修复登录和端点"
       }
     },
     "titleLang": {

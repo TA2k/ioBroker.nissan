@@ -32,13 +32,12 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.1.3 (2024-07-07)
 - (bolliy) dependency and configuration updates
 - (bolliy) breaking change: added Admin 5 configuration
 - (bolliy) ConnectEV: update status before reading cachedeStatus
 - (bolliy) improve State roles and types
-- (bolliy) ConnectEV: update Blowfish v4.1 
+- (bolliy) ConnectEV: update Blowfish v4.1
 
 ### 0.1.2 (2024-05-31)
 

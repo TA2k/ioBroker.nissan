@@ -114,7 +114,7 @@ class Nissan extends utils.Adapter {
     }
   }
 
-  async loginEV() {
+  async loginEV(connectMsg = false) {
     try {
       this.nissanEvClient = await leafConnect({
         username: this.config.user,
@@ -125,10 +125,9 @@ class Nissan extends utils.Adapter {
         // pollingInterval: 30000, // in seconds
       });
       this.isInLogin = true;
+      if (connectMsg) this.log.info('Connected to Nissan EV');
       if (!this.isReady) {
-        this.log.info('Connected to Nissan EV');
         await this.getNissanEvVehicles();
-
       }
     } catch(error) {
       this.isInLogin = false;
@@ -151,7 +150,7 @@ class Nissan extends utils.Adapter {
       } else {
         this.log.warn('Response Error status '+status+'. Start Relogin');
       }
-      await this.loginEV();
+      await this.loginEV(status !== 401);
     }
   }
   //bolliy ++
@@ -160,7 +159,7 @@ class Nissan extends utils.Adapter {
   async updateNissanEv() {
     try {
       if (!this.nissanEvClient || !this.isInLogin) {
-        await this.loginEV();
+        await this.loginEV(true);
       }
 
       if (!this.nissanEvClient) return;

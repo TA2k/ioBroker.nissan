@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.1.6",
-    "axios": "^1.7.2",
+    "axios": "^1.7.7",
     "egoroof-blowfish": "^4.0.1",
     "eslint-plugin-import": "^2.29.1",
     "http-cookie-agent": "^4.0.2",

@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "news": {
+      "0.1.5": {
+        "en": "Requirements from ioBroker Check and Service Bot\ndependency and configuration updates",
+        "de": "Anforderungen von ioBroker Check und Service Bot\nabhängigkeits- und konfigurationsupdates",
+        "ru": "Требования от ioBroker Check и Service Bot\nобновления зависимости и конфигурации",
+        "pt": "Requisitos de ioBroker Check e Service Bot\natualizações de dependência e configuração",
+        "nl": "Vereisten van ioBroker Check and Service Bot\nafhankelijkheid en configuratie-updates",
+        "fr": "Exigences de ioBroker Check and Service Bot\nmises à jour de la dépendance et de la configuration",
+        "it": "Requisiti da ioBroker Check and Service Bot\naggiornamenti di dipendenza e configurazione",
+        "es": "Requisitos de ioBroker Check and Service Bot\nactualizaciones de dependencia y configuración",
+        "pl": "Wymagania dotyczące kontroli ioBroker i serwisu Bot\naktualizacje zależności i konfiguracji",
+        "uk": "Вимоги до ioBroker Check and Service Bot\nоновлення залежності та конфігурації",
+        "zh-cn": "ioBroker检查和服务瓶所需资源\n依赖和配置更新"
+      },
       "0.1.4": {
         "en": "dependency and configuration updates\nbreaking change: added Admin 5 configuration\nConnectEV: update status before reading cachedeStatus\nimprove State roles and types\nConnectEV: update Blowfish v4.1",
         "de": "abhängigkeits- und konfigurationsupdates\nänderung: Admin 5 Konfiguration hinzugefügt\nConnectEV: Status vor dem Lesen von cachedeStatus aktualisieren\nverbesserung Staatliche Rollen und Typen\nConnectEV: Update Blowfish v4.1",

@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "news": {
+      "0.1.6": {
+        "en": "dependency and configuration updates",
+        "de": "abhängigkeits- und konfigurationsupdates",
+        "ru": "обновления зависимости и конфигурации",
+        "pt": "atualizações de dependência e configuração",
+        "nl": "afhankelijkheid en configuratie-updates",
+        "fr": "mises à jour de la dépendance et de la configuration",
+        "it": "aggiornamenti di dipendenza e configurazione",
+        "es": "actualizaciones de dependencia y configuración",
+        "pl": "aktualizacje zależności i konfiguracji",
+        "uk": "оновлення залежності та конфігурації",
+        "zh-cn": "依赖和配置更新"
+      },
       "0.1.5": {
         "en": "Requirements from ioBroker Check and Service Bot\ndependency and configuration updates",
         "de": "Anforderungen von ioBroker Check und Service Bot\nabhängigkeits- und konfigurationsupdates",
@@ -80,19 +93,6 @@
         "pl": "Spraw, aby Nissan EV był kompatybilny z węzłem >=18",
         "uk": "Зробіть Nissan EV сумісним із Node >=18",
         "zh-cn": "使 Nissan EV 与 Node >=18 兼容"
-      },
-      "0.0.12": {
-        "en": "Fix remote commands",
-        "de": "Korrigieren Sie Remote-Befehle",
-        "ru": "Исправление удаленных команд",
-        "pt": "Corrigir comandos remotos",
-        "nl": "Herstel opdrachten op afstand",
-        "fr": "Corriger les commandes à distance",
-        "it": "Correggi i comandi remoti",
-        "es": "Reparar comandos remotos",
-        "pl": "Napraw zdalne polecenia",
-        "uk": "Виправити віддалені команди",
-        "zh-cn": "修复远程命令"
       }
     },
     "titleLang": {

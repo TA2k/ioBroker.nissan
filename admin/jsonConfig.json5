@@ -1,6 +1,9 @@
 {
     "i18n": true,
     "type": "tabs",
+    "tabsStyle": {
+        "width": "calc(100% - 100px)"
+    },
     "items": {
         "mainTab": {
             "type": "panel",
@@ -10,31 +13,45 @@
                     "type": "text",
                     "label": "Nissan App Email",
                     "tooltip": "Nissan App Email",
+                    "xs": 12,
                     "sm": 12,
-                    "md": 8,
-                    "lg": 2,
+                    "md": 6,
+                    "lg": 4,
+                    "xl": 4,
                     "newLine": true
                 },
                 "password": {
                     "type": "password",
                     "label": "Password",
                     "tooltip": "",
+                    "xs": 12,
                     "sm": 12,
-                    "md": 8,
-                    "lg": 2,
+                    "md": 6,
+                    "lg": 4,
+                    "xl": 4,                    
                     "newLine": true
                 },
                 "forceRefresh": {
                     "type": "checkbox",
                     "label": "Force Update to receive new data. This will drain 12V Battery. Please check 12V Battery",
                     "newLine": true,
-                    "tooltip": "Force Update to receive new data. This will drain 12V Battery. Please check 12V Battery"
+                    "tooltip": "Force Update to receive new data. This will drain 12V Battery. Please check 12V Battery",
+                    "xs": 12,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4,
+                    "xl": 4
                 }, 
                 "interval": {
                     "type": "number",
                     "label": "Update interval (min)",
                     "min" : 5,
                     "max" : 120,
+                    "xs": 12,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4,
+                    "xl": 4,
                     "newLine": true,
                     "tooltip": "Update interval in minutes"
                 }
@@ -48,7 +65,12 @@
                     "type": "checkbox",
                     "label": "Old Nissan EV App for models before 2019",
                     "newLine": true,
-                    "tooltip": "Old Nissan EV App for models before 2019"
+                    "tooltip": "Old Nissan EV App for models before 2019",
+                    "xs": 12,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4,
+                    "xl": 4
                 }, 
                 "regionev": {
                     "type": "select",
@@ -61,10 +83,11 @@
                         {"label": "Japan", "value":"NML"}
                     ],
                     "default": "NE",
-                    "sm":3,
-                    "md":3,
-                    "lg":3,
-                    "xs":3,
+                    "xs": 12,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4,
+                    "xl": 4,         
                     "newLine": true
                 }
             }

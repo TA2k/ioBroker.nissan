@@ -32,6 +32,9 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (bolliy) dependency and configuration updates
+
 ### 0.1.5 (2024-11-01)
 - (bolliy) Requirements from ioBroker Check and Service Bot
 - (bolliy) dependency and configuration updates

@@ -24,7 +24,7 @@
     "@iobroker/adapter-core": "^3.2.2",
     "axios": "^1.7.7",
     "egoroof-blowfish": "^4.0.1",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-import": "^2.31.0",
     "http-cookie-agent": "^6.0.6",
     "qs": "^6.12.3",
     "tough-cookie": "^4.1.4"

@@ -17,7 +17,7 @@ const { HttpsCookieAgent } = require('http-cookie-agent/http');
 const tough = require('tough-cookie');
 const { extractKeys } = require('./lib/extractKeys');
 class Nissan extends utils.Adapter {
-  /**
+  	/**
    * @param {Partial<utils.AdapterOptions>} [options={}]
    */
   constructor(options) {
@@ -285,7 +285,7 @@ class Nissan extends utils.Adapter {
       url:
         'https://prod.eu2.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=' +
         encodeURIComponent(
-          'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-nc-android-prod&response_type=code&state=B5C9DC90&locale=de&nonce=' +
+        	'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-nc-android-prod&response_type=code&state=B5C9DC90&locale=de&nonce=' +
             nonce +
             '&redirect_uri=org.kamereon.service.nci:/oauth2redirect&scope=openid%20profile%20vehicles&response_type=code&prompt=',
         ),
@@ -315,7 +315,7 @@ class Nissan extends utils.Adapter {
         url:
           'https://prod.eu2.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=' +
           encodeURIComponent(
-            'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-nc-android-prod&response_type=code&state=B5C9DC90&locale=de&nonce=' +
+          	'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-nc-android-prod&response_type=code&state=B5C9DC90&locale=de&nonce=' +
               nonce +
               '&redirect_uri=org.kamereon.service.nci:/oauth2redirect&scope=openid%20profile%20vehicles&response_type=code&prompt=',
           ),
@@ -627,7 +627,7 @@ class Nissan extends utils.Adapter {
       this.refreshTokenInterval && clearInterval(this.refreshTokenInterval);
 
       callback();
-    } catch (e) {
+    } catch  {
       callback();
     }
   }

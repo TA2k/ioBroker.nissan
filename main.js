@@ -17,7 +17,7 @@ const { HttpsCookieAgent } = require('http-cookie-agent/http');
 const tough = require('tough-cookie');
 const { extractKeys } = require('./lib/extractKeys');
 class Nissan extends utils.Adapter {
-  	/**
+  /**
    * @param {Partial<utils.AdapterOptions>} [options={}]
    */
   constructor(options) {
@@ -129,14 +129,14 @@ class Nissan extends utils.Adapter {
       if (!this.isReady) {
         await this.getNissanEvVehicles();
       }
-    } catch(error) {
+    } catch (error) {
       this.isInLogin = false;
       if (error instanceof Error) this.log.error(error.message);
     }
     //bolliy --
     if (this.isConnected !== this.isInLogin) {
       this.isConnected = this.isInLogin;
-      this.setState('info.connection', this.isConnected , true);
+      this.setState('info.connection', this.isConnected, true);
     }
     //bolliy ++
   }
@@ -148,13 +148,12 @@ class Nissan extends utils.Adapter {
       if (status === 401) {
         this.log.debug('Nissan EV Session expired. Start Relogin');
       } else {
-        this.log.warn('Response Error status '+status+'. Start Relogin');
+        this.log.warn('Response Error status ' + status + '. Start Relogin');
       }
       await this.loginEV(status !== 401);
     }
   }
   //bolliy ++
-
 
   async updateNissanEv() {
     try {
@@ -196,10 +195,9 @@ class Nissan extends utils.Adapter {
       }
 
       this.log.debug('climateStatus...');
-      const climateStatus = await this.nissanEvClient.climateControlStatus()
-        .catch((error) => {
-          this.log.error(error);
-        });
+      const climateStatus = await this.nissanEvClient.climateControlStatus().catch((error) => {
+        this.log.error(error);
+      });
       if (climateStatus) {
         this.log.debug(climateStatus);
         this.extractKeys(this, this.vehicle.vin + '.climateStatus', JSON.parse(climateStatus));
@@ -207,10 +205,9 @@ class Nissan extends utils.Adapter {
       }
 
       this.log.debug('history...');
-      const history = await this.nissanEvClient.history()
-        .catch((error) => {
-          this.log.error(error);
-        });
+      const history = await this.nissanEvClient.history().catch((error) => {
+        this.log.error(error);
+      });
       if (history) {
         this.log.debug(history);
         this.extractKeys(this, this.vehicle.vin + '.history', JSON.parse(history));
@@ -219,7 +216,6 @@ class Nissan extends utils.Adapter {
     } catch (error) {
       if (error instanceof Error) this.log.error(error.message);
     }
-
   }
 
   async getNissanEvVehicles() {
@@ -285,7 +281,7 @@ class Nissan extends utils.Adapter {
       url:
         'https://prod.eu2.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=' +
         encodeURIComponent(
-        	'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-nc-android-prod&response_type=code&state=B5C9DC90&locale=de&nonce=' +
+          'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-nc-android-prod&response_type=code&state=B5C9DC90&locale=de&nonce=' +
             nonce +
             '&redirect_uri=org.kamereon.service.nci:/oauth2redirect&scope=openid%20profile%20vehicles&response_type=code&prompt=',
         ),
@@ -315,7 +311,7 @@ class Nissan extends utils.Adapter {
         url:
           'https://prod.eu2.auth.kamereon.org/kauth/json/realms/root/realms/a-ncb-prod/authenticate?locale=de&goto=' +
           encodeURIComponent(
-          	'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-nc-android-prod&response_type=code&state=B5C9DC90&locale=de&nonce=' +
+            'https://prod.eu2.auth.kamereon.org:443/kauth/oauth2/a-ncb-prod/authorize?client_id=a-ncb-nc-android-prod&response_type=code&state=B5C9DC90&locale=de&nonce=' +
               nonce +
               '&redirect_uri=org.kamereon.service.nci:/oauth2redirect&scope=openid%20profile%20vehicles&response_type=code&prompt=',
           ),
@@ -464,7 +460,7 @@ class Nissan extends utils.Adapter {
             { command: 'refresh', name: 'Force Refresh' },
           ];
           remoteArray.forEach((remote) => {
-            return this.setObjectNotExists(vehicle.vin + '.remote.' + remote.command,{
+            return this.setObjectNotExists(vehicle.vin + '.remote.' + remote.command, {
               type: 'state',
               common: {
                 name: remote.name || '',
@@ -493,7 +489,10 @@ class Nissan extends utils.Adapter {
     const yyyymmm = date.getFullYear() + '' + month;
     const statusArray = [
       { path: 'health-status', url: 'https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v1/cars/$vin/health-status?canGen=$gen' },
-      { path: 'battery-status', url: 'https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v1/cars/$vin/battery-status?canGen=$gen' },
+      {
+        path: 'battery-status',
+        url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v2/cars/$vin/battery-status',
+      },
       { path: 'lock-status', url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/lock-status' },
       { path: 'hvac-status', url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/hvac-status' },
       { path: 'location', url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/location' },
@@ -627,7 +626,8 @@ class Nissan extends utils.Adapter {
       this.refreshTokenInterval && clearInterval(this.refreshTokenInterval);
 
       callback();
-    } catch  {
+    } catch (e) {
+      this.log.error(e);
       callback();
     }
   }
@@ -674,9 +674,7 @@ class Nissan extends utils.Adapter {
           try {
             if (!this.nissanEvClient) throw new Error('Not connected to Nissan EV!');
             this.log.info('Start: ' + command);
-            this.log.info(
-              await this.nissanEvClient[command]()
-            );
+            this.log.info(await this.nissanEvClient[command]());
           } catch (error) {
             this.log.error(error);
           }

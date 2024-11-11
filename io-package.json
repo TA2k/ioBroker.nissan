@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "news": {
+      "0.1.5": {
+        "en": "battery status fixed",
+        "de": "batteriestatus behoben",
+        "ru": "статус батареи фиксированный",
+        "pt": "status da bateria fixo",
+        "nl": "batterijstatus vast",
+        "fr": "état de la batterie fixe",
+        "it": "stato della batteria fisso",
+        "es": "estado de la batería fijo",
+        "pl": "stan akumulatora stały",
+        "uk": "статус батареї фіксований",
+        "zh-cn": "电池状态固定"
+      },
       "0.1.4": {
         "en": "dependency and configuration updates\nbreaking change: added Admin 5 configuration\nConnectEV: update status before reading cachedeStatus\nimprove State roles and types\nConnectEV: update Blowfish v4.1",
         "de": "abhängigkeits- und konfigurationsupdates\nänderung: Admin 5 Konfiguration hinzugefügt\nConnectEV: Status vor dem Lesen von cachedeStatus aktualisieren\nverbesserung Staatliche Rollen und Typen\nConnectEV: Update Blowfish v4.1",
@@ -80,19 +93,6 @@
         "pl": "Spraw, aby Nissan EV był kompatybilny z węzłem >=18",
         "uk": "Зробіть Nissan EV сумісним із Node >=18",
         "zh-cn": "使 Nissan EV 与 Node >=18 兼容"
-      },
-      "0.0.12": {
-        "en": "Fix remote commands",
-        "de": "Korrigieren Sie Remote-Befehle",
-        "ru": "Исправление удаленных команд",
-        "pt": "Corrigir comandos remotos",
-        "nl": "Herstel opdrachten op afstand",
-        "fr": "Corriger les commandes à distance",
-        "it": "Correggi i comandi remoti",
-        "es": "Reparar comandos remotos",
-        "pl": "Napraw zdalne polecenia",
-        "uk": "Виправити віддалені команди",
-        "zh-cn": "修复远程命令"
       }
     },
     "titleLang": {

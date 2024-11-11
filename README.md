@@ -32,6 +32,10 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### 0.1.5 (2024-11-11)
+
+- battery status fixed
+
 ### 0.1.4 (2024-07-07)
 
 - (bolliy) dependency and configuration updates

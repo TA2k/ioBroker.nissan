@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "news": {
+      "0.1.7": {
+        "en": "Fix for battery status",
+        "de": "Fix für Batteriestatus",
+        "ru": "Исправление для статуса батареи",
+        "pt": "Correção para o status da bateria",
+        "nl": "Fix voor batterijstatus",
+        "fr": "Correction pour le statut de la batterie",
+        "it": "Correzione per lo stato della batteria",
+        "es": "Corrección para el estado de la batería",
+        "pl": "Poprawka dla stanu baterii",
+        "uk": "Виправлення для статусу батареї",
+        "zh-cn": "电池状态修复"
+      },
       "0.1.6": {
         "en": "Requirements from ioBroker Check and Service Bot\ndependency and configuration updates",
         "de": "Anforderungen von ioBroker Check und Service Bot\nabhängigkeits- und konfigurationsupdates",
@@ -114,13 +127,8 @@
       "link": "https://opensource.org/license/mit/",
       "type": "free"
     },
-    "authors": [
-      "TA2k <tombox2020@gmail.com>"
-    ],
-    "keywords": [
-      "nissan",
-      "leaf"
-    ],
+    "authors": ["TA2k <tombox2020@gmail.com>"],
+    "keywords": ["nissan", "leaf"],
     "platform": "Javascript/Node.js",
     "icon": "nissan.png",
     "enabled": true,
@@ -151,12 +159,8 @@
       }
     ]
   },
-  "encryptedNative": [
-    "password"
-  ],
-  "protectedNative": [
-    "password"
-  ],
+  "encryptedNative": ["password"],
+  "protectedNative": ["password"],
   "native": {
     "user": "",
     "password": "",

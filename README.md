@@ -32,11 +32,13 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
-* Upgrade to ESLint 9.x
-* node >= v18.18.0
+
+### 0.1.7 (2024-11-11)
+
+- battery status fixed
 
 ### 0.1.6 (2024-11-01)
+
 - (bolliy) dependency and configuration updates
 - (bolliy) Requirements from ioBroker Check and Service Bot
 - (bolliy) dependency and configuration updates

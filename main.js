@@ -46,6 +46,7 @@ class Nissan extends utils.Adapter {
     //bolliy --
     this.isConnected = false;
     this.isReady = false; //object path already created
+    this.useLegacyBattery = false;
     //bolliy ++
   }
 
@@ -525,6 +526,9 @@ class Nissan extends utils.Adapter {
       }
       statusArray.forEach(async (element) => {
         const url = element.url.replace('$vin', vin).replace('$gen', this.canGen[vin]).replace('$user', this.userId);
+        if (this.useLegacyBattery && element.path === 'battery-status') {
+          url.replace('v2', 'v1');
+        }
         await this.requestClient({
           method: 'get',
           url: url,
@@ -554,6 +558,11 @@ class Nissan extends utils.Adapter {
             this.log.error(`Failing to get ${element.path} for ${vin} code: ${error.response && error.response.status} `);
 
             if (error.response && error.response.status === 502) {
+              return;
+            }
+            if (error.response && error.response.status === 501 && element.path === 'battery-status') {
+              this.log.warn('Battery status v2 not available switching to v1');
+              this.useLegacyBattery = true;
               return;
             }
             if (error.response && error.response.status === 401 && element.path === 'cockpit') {

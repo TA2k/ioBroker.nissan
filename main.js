@@ -570,7 +570,7 @@ class Nissan extends utils.Adapter {
             if (error.response && error.response.status === 502) {
               return;
             }
-            if (error.response && (error.response.status === 501 || error.response.status === 403)) {
+            if (error.response && (error.response.status === 501 || error.response.status === 403 || error.response.status === 404)) {
               this.log.info(`Skip ${element.path} for ${vin} code: ${error.response && error.response.status} until next restart`);
               this.skipArray.push(vin + '.' + element.path);
               return;

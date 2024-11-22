@@ -501,7 +501,7 @@ class Nissan extends utils.Adapter {
       },
       {
         path: 'battery-statusv3',
-        url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v3/cars/$vin/battery-status?canGen=$gen',
+        url: 'https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v3/cars/$vin/battery-status?canGen=$gen',
       },
       { path: 'lock-status', url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/lock-status' },
       { path: 'hvac-status', url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/hvac-status' },

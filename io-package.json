@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.8",
+    "version": "0.1.9",
     "news": {
-      "0.1.8": {
+      "0.1.9": {
         "en": "battery status v2 moved to to batter-statusv2 object folder",
         "de": "batteriestatus v2 in den objektordner batter-statusv2 verschoben",
         "ru": "статус батареи v2 перенесен в папку объекта batter-statusv2",

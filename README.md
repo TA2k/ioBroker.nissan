@@ -32,7 +32,8 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 0.1.8 (2024-11-22)
+
+### 0.1.9 (2024-11-22)
 
 - battery status v2 moved to to batter-statusv2 object folder
 

@@ -46,7 +46,8 @@ class Nissan extends utils.Adapter {
     //bolliy --
     this.isConnected = false;
     this.isReady = false; //object path already created
-    this.useLegacyBattery = false;
+    this.skipArray = [];
+
     //bolliy ++
   }
 
@@ -531,7 +532,7 @@ class Nissan extends utils.Adapter {
 
       for (const element of statusArray) {
         const url = element.url.replace('$vin', vin).replace('$gen', this.canGen[vin]).replace('$user', this.userId);
-        if (this.useLegacyBattery && element.path === 'battery-statusv2') {
+        if (this.skipArray.includes(vin + '.' + element.path)) {
           continue;
         }
         await this.requestClient({
@@ -565,9 +566,9 @@ class Nissan extends utils.Adapter {
             if (error.response && error.response.status === 502) {
               return;
             }
-            if (error.response && error.response.status === 501 && element.path === 'battery-statusv2') {
-              this.log.info('Battery status v2 not available disabled until restart');
-              this.useLegacyBattery = true;
+            if (error.response && (error.response.status === 501 || error.response.status === 403)) {
+              this.log.info(`Skip ${element.path} for ${vin} code: ${error.response && error.response.status} until next restart`);
+              this.skipArray.push(vin + '.' + element.path);
               return;
             }
             if (error.response && error.response.status === 401 && element.path === 'cockpit') {

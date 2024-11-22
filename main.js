@@ -492,6 +492,10 @@ class Nissan extends utils.Adapter {
       { path: 'health-status', url: 'https://nci-bff-web-prod.apps.eu2.kamereon.io/bff-web/v1/cars/$vin/health-status?canGen=$gen' },
       {
         path: 'battery-status',
+        url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/battery-status',
+      },
+      {
+        path: 'battery-statusv2',
         url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v2/cars/$vin/battery-status',
       },
       { path: 'lock-status', url: 'https://alliance-platform-caradapter-prod.apps.eu2.kamereon.io/car-adapter/v1/cars/$vin/lock-status' },
@@ -524,10 +528,11 @@ class Nissan extends utils.Adapter {
         await this.setRemoteCommand('wake-up-vehicle', true, vin);
         await this.sleep(25000);
       }
-      statusArray.forEach(async (element) => {
+
+      for (const element of statusArray) {
         const url = element.url.replace('$vin', vin).replace('$gen', this.canGen[vin]).replace('$user', this.userId);
-        if (this.useLegacyBattery && element.path === 'battery-status') {
-          url.replace('v2', 'v1');
+        if (this.useLegacyBattery && element.path === 'battery-statusv2') {
+          continue;
         }
         await this.requestClient({
           method: 'get',
@@ -560,8 +565,8 @@ class Nissan extends utils.Adapter {
             if (error.response && error.response.status === 502) {
               return;
             }
-            if (error.response && error.response.status === 501 && element.path === 'battery-status') {
-              this.log.warn('Battery status v2 not available switching to v1');
+            if (error.response && error.response.status === 501 && element.path === 'battery-statusv2') {
+              this.log.info('Battery status v2 not available disabled until restart');
               this.useLegacyBattery = true;
               return;
             }
@@ -573,7 +578,7 @@ class Nissan extends utils.Adapter {
             this.log.error(error);
             error.response && this.log.error(JSON.stringify(error.response.data));
           });
-      });
+      }
     });
   }
   async refreshToken() {

@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "news": {
+      "0.1.8": {
+        "en": "battery status v2 moved to to batter-statusv2 object folder",
+        "de": "batteriestatus v2 in den objektordner batter-statusv2 verschoben",
+        "ru": "статус батареи v2 перенесен в папку объекта batter-statusv2",
+        "pt": "status da bateria v2 movido para pasta de objeto batter-statusv2",
+        "nl": "batterijstatus v2 verplaatst naar de batterijstatusv2-objectmap",
+        "fr": "état de la batterie v2 déplacé vers le dossier objet bater-statusv2",
+        "it": "stato della batteria v2 spostato alla cartella dell'oggetto battir-statusv2",
+        "es": "estado de la batería v2 se trasladó a la carpeta objeto batter-statusv2",
+        "pl": "status baterii v2 przeniesiony do folderu obiektu batter- statusv2",
+        "uk": "статус батареї v2 перейшов на папку об'єкта batter-statusv2",
+        "zh-cn": "电池状态 v2 移动到 bast- statusv2 对象文件夹"
+      },
       "0.1.7": {
         "en": "Fix for battery status",
         "de": "Fix für Batteriestatus",
@@ -80,19 +93,6 @@
         "pl": "login stały",
         "uk": "логін",
         "zh-cn": "登录已固定"
-      },
-      "0.0.15": {
-        "en": "Make Nissan EV compatible with Node >=18",
-        "de": "Machen Sie Nissan EV mit Knoten >=18 kompatibel",
-        "ru": "Сделать Nissan EV совместимым с Node >=18",
-        "pt": "Tornar o Nissan EV compatível com Node >=18",
-        "nl": "Maak Nissan EV compatibel met Node >=18",
-        "fr": "Rendre Nissan EV compatible avec Node >=18",
-        "it": "Rendi Nissan EV compatibile con Nodo >=18",
-        "es": "Hacer que Nissan EV sea compatible con Node >=18",
-        "pl": "Spraw, aby Nissan EV był kompatybilny z węzłem >=18",
-        "uk": "Зробіть Nissan EV сумісним із Node >=18",
-        "zh-cn": "使 Nissan EV 与 Node >=18 兼容"
       }
     },
     "titleLang": {

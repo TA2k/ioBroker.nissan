@@ -565,14 +565,14 @@ class Nissan extends utils.Adapter {
             this.extractKeys(this, vin + '.' + element.path, data, preferedArrayName, forceIndex);
           })
           .catch((error) => {
-            this.log.error(`Failing to get ${element.path} for ${vin} code: ${error.response && error.response.status} `);
-
-            if (error.response && error.response.status === 502) {
-              return;
-            }
             if (error.response && (error.response.status === 501 || error.response.status === 403 || error.response.status === 404)) {
               this.log.info(`Skip ${element.path} for ${vin} code: ${error.response && error.response.status} until next restart`);
               this.skipArray.push(vin + '.' + element.path);
+              return;
+            }
+            this.log.error(`Failing to get ${element.path} for ${vin} code: ${error.response && error.response.status} `);
+
+            if (error.response && error.response.status === 502) {
               return;
             }
             if (error.response && error.response.status === 401 && element.path === 'cockpit') {

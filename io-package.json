@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "news": {
+      "0.1.14": {
+        "en": "fix for nissan ev login",
+        "de": "fix für nissan ev login",
+        "ru": "фиксация для логина nissan ev",
+        "pt": "correção para nissan ev login",
+        "nl": "fix voor nissan ev login",
+        "fr": "correction pour la connexion de nissan ev",
+        "it": "correzione per nissan ev login",
+        "es": "fijado para nissan ev login",
+        "pl": "fix for nexiev login",
+        "uk": "виправити для nissan ev",
+        "zh-cn": "nissan ev 登录的修复"
+      },
       "0.1.13": {
         "en": "battery status v2/v3 moved to to batter-statusv2  v3 object folder",
         "de": "batteriestatus v2 in den objektordner batter-statusv2 verschoben",
@@ -80,19 +93,6 @@
         "pl": "Zaloguj się.",
         "uk": "Вхід фіксований.",
         "zh-cn": "登录已修复 ."
-      },
-      "0.1.0": {
-        "en": "login fixed",
-        "de": "Login gefixt",
-        "ru": "фиксированный",
-        "pt": "login fixo",
-        "nl": "login vast",
-        "fr": "login corrigé",
-        "it": "login fisso",
-        "es": "login fijo",
-        "pl": "login stały",
-        "uk": "логін",
-        "zh-cn": "登录已固定"
       }
     },
     "titleLang": {
@@ -127,8 +127,13 @@
       "link": "https://opensource.org/license/mit/",
       "type": "free"
     },
-    "authors": ["TA2k <tombox2020@gmail.com>"],
-    "keywords": ["nissan", "leaf"],
+    "authors": [
+      "TA2k <tombox2020@gmail.com>"
+    ],
+    "keywords": [
+      "nissan",
+      "leaf"
+    ],
     "platform": "Javascript/Node.js",
     "icon": "nissan.png",
     "enabled": true,
@@ -159,8 +164,12 @@
       }
     ]
   },
-  "encryptedNative": ["password"],
-  "protectedNative": ["password"],
+  "encryptedNative": [
+    "password"
+  ],
+  "protectedNative": [
+    "password"
+  ],
   "native": {
     "user": "",
     "password": "",

@@ -32,6 +32,9 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (bolliy) ConnectEV: Unset user-agent
+
 ### 0.1.14 (2025-01-16)
 
 - fix for nissan ev login

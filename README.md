@@ -33,6 +33,7 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+- (bolliy) dependency and configuration updates
 - (bolliy) ConnectEV: Unset user-agent
 
 ### 0.1.14 (2025-01-16)

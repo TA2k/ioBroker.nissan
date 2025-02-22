@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.14",
+    "version": "0.1.15",
     "news": {
+      "0.1.15": {
+        "en": "dependency and configuration updates\nConnectEV: Unset user-agent",
+        "de": "abhängigkeits- und konfigurationsupdates\nConnectEV: Unset user-agent",
+        "ru": "обновления зависимостей и конфигурации\nConnectEV: разблокировка пользовательского агента",
+        "pt": "atualizações de dependência e configuração\nConnectEV: Unset user-agent",
+        "nl": "afhankelijkheid en configuratie-updates\nConnectEV: Gebruiker-agent uitschakelen",
+        "fr": "mises à jour de la dépendance et de la configuration\nConnectEV: Désactivez l'utilisateur-agent",
+        "it": "aggiornamenti di dipendenza e configurazione\nConnectEV: Unset user-agent",
+        "es": "actualizaciones de dependencia y configuración\nConnectEV: Unset user-agent",
+        "pl": "aktualizacje zależności i konfiguracji\nConnectEV: Unset user- agent",
+        "uk": "оновлення залежності та конфігурації\nConnectEV: Незареєструвати користувача",
+        "zh-cn": "依赖和配置更新\n连接EV: 未设置的用户代理"
+      },
       "0.1.14": {
         "en": "fix for nissan ev login",
         "de": "fix für nissan ev login",
@@ -80,19 +93,6 @@
         "pl": "Odśwież Token fix",
         "uk": "Refresh Token виправити",
         "zh-cn": "刷新调试修正"
-      },
-      "0.1.1": {
-        "en": "Login fixed.",
-        "de": "Login gefixt.",
-        "ru": "Запись установлена.",
-        "pt": "Registo fixo.",
-        "nl": "Login gerepareerd.",
-        "fr": "Connexion corrigée.",
-        "it": "Login fisso.",
-        "es": "Acceder fijo.",
-        "pl": "Zaloguj się.",
-        "uk": "Вхід фіксований.",
-        "zh-cn": "登录已修复 ."
       }
     },
     "titleLang": {

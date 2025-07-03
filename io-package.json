@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.15",
+    "version": "0.1.16",
     "news": {
+      "0.1.16": {
+        "en": "dependency and configuration updates\nConnectEV: update API endpoint and enhance password encryption method",
+        "de": "abhängigkeits- und konfigurationsupdates\nConnectEV: Update API Endpoint und Verbesserung der Passwortverschlüsselung Methode",
+        "ru": "обновления зависимостей и конфигурации\nConnectEV: обновление конечной точки API и улучшение метода шифрования паролей",
+        "pt": "atualizações de dependência e configuração\nConnectEV: atualizar o endpoint da API e melhorar o método de criptografia de senha",
+        "nl": "afhankelijkheid en configuratie-updates\nConnectEV: update API-eindpunt en verbeter wachtwoordcoderingsmethode",
+        "fr": "mises à jour de la dépendance et de la configuration\nConnectEV: mettre à jour le paramètre API et améliorer la méthode de chiffrement des mots de passe",
+        "it": "aggiornamenti di dipendenza e configurazione\nConnectEV: aggiornare l'API endpoint e migliorare il metodo di crittografia password",
+        "es": "actualizaciones de dependencia y configuración\nConnectEV: Actualizar el punto final de API y mejorar el método de cifrado de contraseñas",
+        "pl": "aktualizacje zależności i konfiguracji\nConnectEV: zaktualizować punkt końcowy API i wzmocnić metodę szyfrowania hasłem",
+        "uk": "оновлення залежності та конфігурації\nConnectEV: оновлення API кінцевої точки та розширений метод шифрування пароля",
+        "zh-cn": "依赖和配置更新\nConnectEV:更新 API 端点并增强密码加密方法"
+      },
       "0.1.15": {
         "en": "dependency and configuration updates\nConnectEV: Unset user-agent",
         "de": "abhängigkeits- und konfigurationsupdates\nConnectEV: Unset user-agent",
@@ -80,19 +93,6 @@
         "pl": "aktualizacje zależności i konfiguracji\nzmiana łamania: dodana konfiguracja Admin 5\nConnectEV: stan aktualizacji przed czytaniem cachedeStatus\npoprawa Role i typy państw\nConnectEV: aktualizacja Blowfish v4.1",
         "uk": "оновлення залежності та конфігурації\nзміна перерву: додано налаштування Admin 5\nConnectEV: статус оновлення до читання cchedeStatus\nполіпшення Державні ролі та види\nConnectEV: оновлення Blowfish v4.1",
         "zh-cn": "依赖和配置更新\n断开更改: 添加管理员 5 配置\n连接EV: 读取缓存状态前的更新状态\n改进 国家的作用和类型\n连接EV: 更新 Blowfish v4.1"
-      },
-      "0.1.2": {
-        "en": "Refresh Token fix",
-        "de": "Refresh Token fix",
-        "ru": "Освещение Токена",
-        "pt": "Atualizar a correção Token",
-        "nl": "Tokenfix vernieuwen",
-        "fr": "Correction du jeton rafraîchi",
-        "it": "Refresh Token fix",
-        "es": "Refresh Token fix",
-        "pl": "Odśwież Token fix",
-        "uk": "Refresh Token виправити",
-        "zh-cn": "刷新调试修正"
       }
     },
     "titleLang": {

@@ -35,6 +35,7 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 
 ### **WORK IN PROGRESS**
 - (bolliy) dependency and configuration updates
+- (bolliy) ConnectEV: update API endpoint and enhance password encryption method
 
 ### 0.1.15 (2025-02-22)
 - (bolliy) dependency and configuration updates

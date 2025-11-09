@@ -94,6 +94,7 @@ class Nissan extends utils.Adapter {
 
       return;
     }
+
     await this.login();
     if (this.session.access_token) {
       await this.getVehicles();

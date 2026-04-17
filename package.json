@@ -25,7 +25,7 @@
     "axios": "^1.13.6",
     "egoroof-blowfish": "^4.0.2",
     "http-cookie-agent": "^7.0.3",
-    "qs": "^6.15.0",
+    "qs": "^6.15.1",
     "tough-cookie": "^5.1.2"
   },
   "devDependencies": {

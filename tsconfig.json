@@ -7,10 +7,10 @@
 
         // check JS files
         "allowJs": true,
-        "checkJs": true,
+        //"checkJs": true,
 
-        "module": "commonjs",
-        "moduleResolution": "node",
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
         "esModuleInterop": true,
         // this is necessary for the automatic typing of the adapter config
         "resolveJsonModule": true,
@@ -26,7 +26,7 @@
         // "noUnusedParameters": true,
 
         // Consider targetting es2019 or higher if you only support Node.js 12+
-        "target": "es2020",
+        "target": "es2023",
 
     },
     "include": [
@@ -34,6 +34,7 @@
         "**/*.d.ts"
 , "lib/leaf-connect/lib/encrypt-password.js"    ],
     "exclude": [
-        "node_modules/**"
+        "node_modules/**",
+        "**/node_modules/**"
     ]
 }

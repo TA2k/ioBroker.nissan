@@ -3,5 +3,6 @@
 	"Password": "Password",
 	"Force Update to receive new data. This will drain 12V Battery. Please check 12V Battery": "Force Update to receive new data. This will drain 12V Battery. Please check 12V Battery",
 	"Update interval (min)": "Update interval (min)",
-	"Old Nissan EV App for models before 2019": "Old Nissan EV App for models before 2019"
+	"Old Nissan EV App for models before 2019": "Old Nissan EV App for models before 2019",
+	"NissanConnect EV App Notice": "Notice: NissanConnect EV app service ends March 30, 2026 for older Leaf (pre-2019) and e-NV200 (pre-2022). Remote access will be unavailable."
 }

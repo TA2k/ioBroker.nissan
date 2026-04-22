@@ -61,6 +61,16 @@
             "type": "panel",
             "label": "vehicle before 2019",
             "items": {
+                "appDiscontinuationNotice": {
+                    "type": "staticText",
+                    "text": "NissanConnect EV App Notice",
+                    "xs": 12,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4,
+                    "xl": 4,
+                    "newLine": true
+                },            
                 "nissanev": {
                     "type": "checkbox",
                     "label": "Old Nissan EV App for models before 2019",
@@ -71,7 +81,7 @@
                     "md": 6,
                     "lg": 4,
                     "xl": 4
-                }, 
+                },
                 "regionev": {
                     "type": "select",
                     "label": "Region",

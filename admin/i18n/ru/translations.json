@@ -1,7 +1,8 @@
 {
-    "Nissan App Email": "Электронная почта приложения Nissan",
-    "Password": "Пароль",
-    "Force Update to receive new data. This will drain 12V Battery. Please check 12V Battery": "Принудительное обновление для получения новых данных. Это приведет к разрядке аккумулятора 12 В. Пожалуйста, проверьте батарею 12 В.",
-    "Update interval (min)": "Интервал обновления (мин)",
-    "Old Nissan EV App for models before 2019": "Старое приложение Nissan EV для моделей до 2019 года"
+	"Force Update to receive new data. This will drain 12V Battery. Please check 12V Battery": "Принудительное обновление для получения новых данных. Это приведет к разрядке аккумулятора 12 В. Пожалуйста, проверьте батарею 12 В.",
+	"Nissan App Email": "Электронная почта приложения Nissan",
+	"NissanConnect EV App Notice": "Примечание. Обслуживание приложения NissanConnect EV заканчивается 30 марта 2026 г. для более старых версий Leaf (до 2019 г.) и e-NV200 (до 2022 г.). Удаленный доступ будет недоступен.",
+	"Old Nissan EV App for models before 2019": "Старое приложение Nissan EV для моделей до 2019 года",
+	"Password": "Пароль",
+	"Update interval (min)": "Интервал обновления (мин)"
 }

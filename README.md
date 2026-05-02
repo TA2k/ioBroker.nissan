@@ -30,6 +30,9 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (copilot) Adapter requires node.js >= 22 now
+
 ### 0.1.17 (2026-03-14)
 - (bolliy) dependency and configuration updates
 

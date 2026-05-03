@@ -32,6 +32,7 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 -->
 ### 0.1.17 (2026-03-14)
 - (bolliy) dependency and configuration updates
+- (bolliy) add NissanConnect EV app service end notice 
 
 ### 0.1.17-alpha.0 (2025-11-22)
 - (bolliy) dependency and configuration updates

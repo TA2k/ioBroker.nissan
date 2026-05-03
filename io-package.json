@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.17",
+    "version": "0.1.18",
     "news": {
+      "0.1.18": {
+        "en": "add NissanConnect EV app service end notice",
+        "de": "fügen Sie NissanConnect EV App Service Endbemerkung hinzu",
+        "ru": "добавить приложение NissanConnect EV конец уведомления",
+        "pt": "adicionar NissanConnect EV serviço aviso final",
+        "nl": "toevoegen NissanConnect EV-app service einde bericht",
+        "fr": "ajouter l'avis de fin de service de NissanConnect EV",
+        "it": "aggiungere NissanConnect EV App servizio avviso di fine",
+        "es": "añadir NissanConnect EV app service end notice",
+        "pl": "dodać NissanConnect EV aplikacja ogłoszenie końcowe",
+        "uk": "додайте адресу електронної пошти NissanConnect EV",
+        "zh-cn": "添加 NissanConnect EV 应用程序服务结束通知"
+      },
       "0.1.17": {
         "en": "dependency and configuration updates",
         "de": "abhängigkeits- und konfigurationsupdates",
@@ -80,19 +93,6 @@
         "pl": "status baterii v2 przeniesiony do folderu obiektu batter- statusv2",
         "uk": "статус батареї v2 перейшов на папку об'єкта batter-statusv2",
         "zh-cn": "电池状态 v2 移动到 bast- statusv2 对象文件夹"
-      },
-      "0.1.7": {
-        "en": "Fix for battery status",
-        "de": "Fix für Batteriestatus",
-        "ru": "Исправление для статуса батареи",
-        "pt": "Correção para o status da bateria",
-        "nl": "Fix voor batterijstatus",
-        "fr": "Correction pour le statut de la batterie",
-        "it": "Correzione per lo stato della batteria",
-        "es": "Corrección para el estado de la batería",
-        "pl": "Poprawka dla stanu baterii",
-        "uk": "Виправлення для статусу батареї",
-        "zh-cn": "电池状态修复"
       }
     },
     "titleLang": {

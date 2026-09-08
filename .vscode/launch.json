@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+     {
+           //Terminal 1: dev-server run --noStart
+           //Terminal 2: dev-server upload
+           //Terminal 3: 
+           //node --inspect=0.0.0.0:9229 .dev-server/default/node_modules/iobroker.nissan/ --logs --force --debug
+           //node --inspect=0.0.0.0:9229 --inspect-wait .dev-server/default/node_modules/iobroker.nissan/ --logs --force --debug
+           //node --inspect=0.0.0.0:9229 --inspect-brk .dev-server/default/node_modules/iobroker.nissan/ --logs --force --debug
+            "name": "Attach to remote",
+            "port": 9229,
+            "request": "attach",
+            "resolveSourceMapLocations": [
+                "${workspaceFolder}/.dev-server/default/node_modules/**"
+            ],
+            "restart": true,
+            "type": "node",
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "${workspaceFolder}/.dev-server/default/node_modules/iobroker.nissan"
+    }
+  ]
+}

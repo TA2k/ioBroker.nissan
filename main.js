@@ -9,7 +9,7 @@
 const utils = require('@iobroker/adapter-core');
 const axios = require('axios').default;
 // const leafConnect = require("leaf-connect");
-const qs = require('qs');
+// const qs = require('qs');
 
 const { HttpsCookieAgent } = require('http-cookie-agent/http');
 const tough = require('tough-cookie');
@@ -63,8 +63,8 @@ class Nissan extends utils.Adapter {
 		this.session = {};
 		this.canGen = {};
 		//bolliy --
-		this.isConnected = false;
-		this.isReady = false; //object path already created
+		this._isConnected = false;
+		//this.isReady = false; //object path already created
 		this.skipArray = [];
 
 		//bolliy ++
@@ -77,7 +77,7 @@ class Nissan extends utils.Adapter {
 		// Initialize your adapter here
 
 		// Reset the connection indicator during startup
-		this.setState('info.connection', false, true);
+		this.setState('info.connection', this._isConnected, true);
 		if (this.config.interval < 0.5) {
 			this.log.info('Set interval to minimum 0.5');
 			this.config.interval = 0.5;
@@ -95,16 +95,26 @@ class Nissan extends utils.Adapter {
 		this.session = new KamereonSession(NISSAN_EU_SETTINGS, this.log);
 		try {
 			await this.session.login(this.config.user, this.config.password);
+			this.log.info('Login successful');
+			this.updateInfoConnection();
 		} catch (e) {
 			if (e instanceof NissanAuthError) {
-				this.log.error('Login fehlgeschlagen: Benutzername/Passwort falsch.');
+				this.log.error('Login failed: Incorrect username/password');
 			} else {
-				this.log.error(`Login fehlgeschlagen: ${e.message}`);
+				this.log.error(`Login failed: ${e.message}`);
 			}
 			return;
 		}
 
 		await this.getVehicles();
+
+		if (this.config.forceRefresh) {
+			this.log.info('Force Refresh is active. Please check your 12V Battery');
+		} else {
+			this.log.info(
+				'Force Refresh is not active. Updates only when you refresh in the App or via nissan.0.xx.remote.refresh',
+			);
+		}
 		try {
 			await this.updateVehicles(this.config.forceRefresh);
 		} catch (e) {
@@ -149,6 +159,17 @@ class Nissan extends utils.Adapter {
 			}, this.session.expires_in * 1000);
 		}
 		*/
+	}
+
+	updateInfoConnection() {
+		if (this._isConnected !== this.session.isLoggedIn()) {
+			this._isConnected = this.session.isLoggedIn() || false;
+			this.setState('info.connection', this._isConnected, true);
+		}
+	}
+
+	responseIsOk(res) {
+		return res.status === 200 && !!res.data && !res.data.errors;
 	}
 
 	async getVehicles() {
@@ -302,7 +323,21 @@ class Nissan extends utils.Adapter {
 					const res = await this.session.request('GET', url, {
 						headers: headers,
 					});
-					this.log.debug(JSON.stringify(res.data));
+
+					if (!this.responseIsOk(res)) {
+						if (res.status === 501 || res.status === 404) {
+							this.log.info(`Skip ${element.path} for ${vin} code: ${res.status} until next scheduled update`);
+							this.skipArray.push(`${vin}.${element.path}`);
+						} else {
+							this.log.debug(JSON.stringify(res.data));
+							this.log.error(
+								`Failing to get ${element.path} for ${vin} code: ${res.status} ${res.data.errors[0].status}`,
+							);
+						}
+						continue;
+					}
+
+					this.log.debug(`Status for ${vin} ${element.path}: ${JSON.stringify(res.data)}`);
 					let data = res.data;
 					if (data.data) {
 						data = data.data;
@@ -321,29 +356,31 @@ class Nissan extends utils.Adapter {
 					}
 					this.extractKeys(this, `${vin}.${element.path}`, data, preferedArrayName, forceIndex);
 				} catch (error) {
+					this.updateInfoConnection();
 					if (
 						error.response &&
 						(error.response.status === 501 || error.response.status === 403 || error.response.status === 404)
 					) {
 						this.log.info(
-							`Skip ${element.path} for ${vin} code: ${error.response && error.response.status} until next restart`,
+							`Skip ${element.path} for ${vin} code: ${error.response && error.response.status} until next scheduled update`,
 						);
 						this.skipArray.push(`${vin}.${element.path}`);
 						return;
 					}
 					this.log.error(`Failing to get ${element.path} for ${vin} code: ${error.response && error.response.status} `);
-
 					if (error.response && error.response.status === 502) {
 						return;
 					}
 					if (error.response && error.response.status === 401 && element.path === 'cockpit') {
 						this.log.warn('Authentication error, trying to refresh token');
-						this.refreshToken();
+						//this.refreshToken();
 						return;
 					}
 					this.log.error(error);
 					error.response && this.log.error(JSON.stringify(error.response.data));
 				}
+				this.updateInfoConnection();
+
 				/*
 				await this.requestClient({
 					method: 'get',
@@ -398,8 +435,10 @@ class Nissan extends utils.Adapter {
 					});
 				*/
 			} //of for loop
-		});
+		}); //for each vin
 	}
+
+	/*
 	async refreshToken() {
 		await this.requestClient({
 			method: 'post',
@@ -428,6 +467,8 @@ class Nissan extends utils.Adapter {
 				this.log.error(error);
 			});
 	}
+	*/
+
 	getNonce() {
 		//FF48AAFD017F43E6AA9022677CED2DC2
 		const length = 32;
@@ -457,7 +498,6 @@ class Nissan extends utils.Adapter {
 			this.refreshTimeout && clearTimeout(this.refreshTimeout);
 			this.updateInterval && clearInterval(this.updateInterval);
 			this.refreshTokenInterval && clearInterval(this.refreshTokenInterval);
-
 			callback();
 		} catch (e) {
 			this.log.error(`Error during unload: ${e}`);
@@ -504,7 +544,7 @@ class Nissan extends utils.Adapter {
 					await this.setState(id, value, true);
 					// Command executed successfully
 					this.refreshTimeout && clearTimeout(this.refreshTimeout);
-					this.refreshTimeout = setTimeout(async () => {
+					this.refreshTimeout = this.setTimeout(async () => {
 						await this.updateVehicles(true);
 					}, 25 * 1000);
 				}
@@ -598,8 +638,7 @@ class Nissan extends utils.Adapter {
 				data: data,
 			});
 			this.log.debug(`RemoteCommand response: ${JSON.stringify(res.data)}`);
-			const ok = res.status === 200 && !!res.data && !res.data.errors;
-			return ok;
+			return this.responseIsOk(res);
 		} catch (e) {
 			this.log.error(e);
 			return false;

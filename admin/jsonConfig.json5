@@ -56,51 +56,6 @@
                     "tooltip": "Update interval in minutes"
                 }
             }    
-        },
-        "tab2": {
-            "type": "panel",
-            "label": "vehicle before 2019",
-            "items": {
-                "appDiscontinuationNotice": {
-                    "type": "staticText",
-                    "text": "NissanConnect EV App Notice",
-                    "xs": 12,
-                    "sm": 12,
-                    "md": 6,
-                    "lg": 4,
-                    "xl": 4,
-                    "newLine": true
-                },            
-                "nissanev": {
-                    "type": "checkbox",
-                    "label": "Old Nissan EV App for models before 2019",
-                    "newLine": true,
-                    "tooltip": "Old Nissan EV App for models before 2019",
-                    "xs": 12,
-                    "sm": 12,
-                    "md": 6,
-                    "lg": 4,
-                    "xl": 4
-                },
-                "regionev": {
-                    "type": "select",
-                    "label": "Region",
-                    "options":[
-                        {"label": "Europe", "value":"NE"},
-                        {"label": "USA", "value":"NNA"},
-                        {"label": "Canada", "value":"NCI"},
-                        {"label": "Australia", "value":"NMA"},
-                        {"label": "Japan", "value":"NML"}
-                    ],
-                    "default": "NE",
-                    "xs": 12,
-                    "sm": 12,
-                    "md": 6,
-                    "lg": 4,
-                    "xl": 4,         
-                    "newLine": true
-                }
-            }
-        }              
+        } 
     }       
 }

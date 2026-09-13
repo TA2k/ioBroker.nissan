@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.18",
+    "version": "0.1.19",
     "news": {
+      "0.1.19": {
+        "en": "Adapter requires node.js >= 22 now.\nImplemented MyNISSAN OneID authentication",
+        "de": "Adapter benötigt jetzt node.js >= 22.\nMyNissan OneID authentifiziert",
+        "ru": "Теперь для адаптера требуется файл node.js >= 22.\nВнедрена аутентификация MyNissan OneID",
+        "pt": "O adaptador exige node.js >= 2.\nAutenticação MyNissan OneID implementada",
+        "nl": "Voor de adapter is nu node.js >= 22 nodig.\nMyNissan OneID-authenticatie geïmplementeerd",
+        "fr": "Adapter nécessite node.js >= 22.\nAuthentification MyNissan OneID mise en place",
+        "it": "Adapter richiede node.js >= 2 ora.\nAutenticazione MyNissan OneID implementata",
+        "es": "El adaptador necesita node.js >= 22 ahora.\nSe implementó la autenticación MyNissan OneID",
+        "pl": "Adapter wymaga teraz node.js >= 22.\nZaimplementowano uwierzytelnianie MyNissan OneID",
+        "uk": "Тепер адаптер вимагає node.js >= 22.\nРеалізовано автентифікацію OneID myNissan",
+        "zh-cn": "适配器现在需要 node.js >= 22。\n实现了 myNissan OneID 身份验证"
+      },
       "0.1.18": {
         "en": "add NissanConnect EV app service end notice",
         "de": "fügen Sie NissanConnect EV App Service Endbemerkung hinzu",
@@ -80,19 +93,6 @@
         "pl": "fix for nexiev login",
         "uk": "виправити для nissan ev",
         "zh-cn": "nissan ev 登录的修复"
-      },
-      "0.1.13": {
-        "en": "battery status v2/v3 moved to to batter-statusv2  v3 object folder",
-        "de": "batteriestatus v2 in den objektordner batter-statusv2 verschoben",
-        "ru": "статус батареи v2 перенесен в папку объекта batter-statusv2",
-        "pt": "status da bateria v2 movido para pasta de objeto batter-statusv2",
-        "nl": "batterijstatus v2 verplaatst naar de batterijstatusv2-objectmap",
-        "fr": "état de la batterie v2 déplacé vers le dossier objet bater-statusv2",
-        "it": "stato della batteria v2 spostato alla cartella dell'oggetto battir-statusv2",
-        "es": "estado de la batería v2 se trasladó a la carpeta objeto batter-statusv2",
-        "pl": "status baterii v2 przeniesiony do folderu obiektu batter- statusv2",
-        "uk": "статус батареї v2 перейшов на папку об'єкта batter-statusv2",
-        "zh-cn": "电池状态 v2 移动到 bast- statusv2 对象文件夹"
       }
     },
     "titleLang": {

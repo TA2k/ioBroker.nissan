@@ -31,6 +31,7 @@ Feel free to follow the discussions in the german [iobroker forum](https://forum
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+- (iobroker-bot) Adapter requires node.js >= 22 now.
 - (bolliy/claude) Implemented MyNISSAN OneID authentication
 
 ### 0.1.18 (2026-05-03)

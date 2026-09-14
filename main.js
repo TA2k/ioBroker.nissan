@@ -300,6 +300,14 @@ class Nissan extends utils.Adapter {
 				path: 'notification',
 				url: `${NISSAN_EU_SETTINGS.notifications_base_url}v2/notifications/users/$user/vehicles/$vin?from=1&langCode=DE&order=DESC&realm=a-ncb&to=20`,
 			},
+			{
+				path: 'pressure',
+				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v1/cars/$vin/pressure`,
+			},
+			{
+				path: 'res-state',
+				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v1/cars/$vin/res-state`,
+			},
 		];
 		const headers = {
 			'Content-Type': 'application/vnd.api+json',

@@ -333,7 +333,7 @@ class Nissan extends utils.Adapter {
 					});
 
 					if (!this.responseIsOk(res)) {
-						if (res.status === 501 || res.status === 404) {
+						if (res.status === 501 || res.status === 403 || res.status === 404) {
 							this.log.info(`Skip ${element.path} for ${vin} code: ${res.status} until next scheduled update`);
 							this.skipArray.push(`${vin}.${element.path}`);
 						} else {

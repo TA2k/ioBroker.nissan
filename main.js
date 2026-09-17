@@ -59,15 +59,12 @@ class Nissan extends utils.Adapter {
 		});
 		this.updateInterval = null;
 		this.extractKeys = extractKeys;
-		this.vinArray = [];
+		this.vehicles = [];
 		this.session = {};
 		this.canGen = {};
-		//bolliy --
-		this._isConnected = false;
-		//this.isReady = false; //object path already created
-		this.skipArray = [];
 
-		//bolliy ++
+		this._isConnected = false;
+		this.skipArray = [];
 	}
 
 	/**
@@ -109,10 +106,12 @@ class Nissan extends utils.Adapter {
 		await this.getVehicles();
 
 		if (this.config.forceRefresh) {
-			this.log.info('Force Refresh is active. Please check your 12V Battery');
+			this.log.info(
+				'Please check the charge level of the 12V onboard battery regularly! It could discharge quickly because "Force Refresh" is active.',
+			);
 		} else {
 			this.log.info(
-				'Force Refresh is not active. Updates only when you refresh in the App or via nissan.0.xx.remote.refresh',
+				'"Force Refresh" is not active. Updates only when you refresh in the App or via nissan.0.xx.remote.refresh',
 			);
 		}
 		try {
@@ -200,7 +199,13 @@ class Nissan extends utils.Adapter {
 			this.log.debug(JSON.stringify(res.data));
 			this.log.info(`Found ${res.data.data.length} vehicles`);
 			for (const vehicle of res.data.data) {
-				this.vinArray.push(vehicle.vin);
+				this.vehicles.push({
+					vin: vehicle.vin,
+					nickname: vehicle.nickname,
+					registrationNumber: vehicle.registrationNumber,
+					modelName: vehicle.modelName,
+				});
+
 				await this.setObjectNotExistsAsync(vehicle.vin, {
 					type: 'device',
 					common: {
@@ -259,7 +264,7 @@ class Nissan extends utils.Adapter {
 		const month = date.getMonth() + 1;
 		const monthStr = (month > 9 ? '' : '0') + month;
 		const yyyymmm = `${date.getFullYear()}${monthStr}`;
-		const statusArray = [
+		const statusDefault = [
 			{
 				path: 'health-status',
 				url: `${NISSAN_EU_SETTINGS.user_base_url}v1/cars/$vin/health-status?canGen=$gen`,
@@ -309,12 +314,61 @@ class Nissan extends utils.Adapter {
 				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v1/cars/$vin/res-state`,
 			},
 		];
+
+		const statusTownstar = [
+			{
+				path: 'health-status',
+				url: `${NISSAN_EU_SETTINGS.user_base_url}v1/cars/$vin/health-status?canGen=$gen`,
+			},
+			{
+				path: 'battery-status',
+				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v2/cars/$vin/battery-status`,
+			},
+			{
+				path: 'lock-status',
+				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v1/cars/$vin/lock-status`,
+			},
+			{
+				path: 'hvac-status',
+				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v1/cars/$vin/hvac-status`,
+			},
+			{
+				path: 'location',
+				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v1/cars/$vin/location`,
+			},
+			{
+				path: 'cockpit',
+				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v2/cars/$vin/cockpit`,
+			},
+			{
+				path: 'notification',
+				url: `${NISSAN_EU_SETTINGS.notifications_base_url}v2/notifications/users/$user/vehicles/$vin?from=1&langCode=DE&order=DESC&realm=a-ncb&to=20`,
+			},
+			{
+				path: 'pressure',
+				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v1/cars/$vin/pressure`,
+			},
+			{
+				path: 'res-state',
+				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v1/cars/$vin/res-state`,
+			},
+		];
+
 		const headers = {
 			'Content-Type': 'application/vnd.api+json',
 			Accept: '*/*',
 			'User-Agent': 'NissanConnect/2 CFNetwork/978.0.7 Darwin/18.7.0',
 		};
-		this.vinArray.forEach(async vin => {
+		this.vehicles.forEach(async vehicle => {
+			let statusArray = [];
+			if (vehicle.modelName.toUpperCase() === 'TOWNSTAR') {
+				this.log.debug(`Townstar detected for ${vehicle.vin}`);
+				statusArray = [...statusTownstar];
+			} else {
+				this.log.debug(`Default status for ${vehicle.vin}`);
+				statusArray = [...statusDefault];
+			}
+			const vin = vehicle.vin;
 			if (forceRefresh) {
 				await this.setRemoteCommand('refresh-battery-status', true, vin);
 				await this.setRemoteCommand('refresh-location', true, vin);
@@ -334,7 +388,12 @@ class Nissan extends utils.Adapter {
 
 					if (!this.responseIsOk(res)) {
 						if (res.status === 501 || res.status === 403 || res.status === 404) {
-							this.log.warn(`Skip ${element.path} for ${vin} code: ${res.status} until next scheduled update`);
+							const errorMessage = `Skip ${element.path} for ${vin} code: ${res.status} until next scheduled update`;
+							if (res.status === 501) {
+								this.log.info(errorMessage); //not implemented
+							} else {
+								this.log.warn(errorMessage); //403 forbidden, 404 not found, probably not available for this car
+							}
 							this.skipArray.push(`${vin}.${element.path}`);
 						} else {
 							this.log.debug(JSON.stringify(res.data));

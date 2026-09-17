@@ -45,7 +45,7 @@ SRP (Secure Remote Password) login is not supported. There are currently no publ
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-- (bolliy) add nissan Nissan Townstar support.
+- (bolliy) add Nissan Townstar support.
 
 ### 0.1.19 (2026-09-13)
 - (iobroker-bot) Adapter requires node.js >= 22 now.

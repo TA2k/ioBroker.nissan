@@ -388,7 +388,7 @@ class Nissan extends utils.Adapter {
 
 					if (!this.responseIsOk(res)) {
 						if (res.status === 501 || res.status === 403 || res.status === 404) {
-							const errorMessage = `Skip ${element.path} for ${vin} code: ${res.status} until next scheduled update`;
+							const errorMessage = `Skip ${element.path} for ${vin} code: ${res.status} ${res.data.errors[0].status || res.data.errors[0].detail} - until next scheduled update`;
 							if (res.status === 501) {
 								this.log.info(errorMessage); //not implemented
 							} else {
@@ -424,25 +424,7 @@ class Nissan extends utils.Adapter {
 					this.extractKeys(this, `${vin}.${element.path}`, data, preferedArrayName, forceIndex);
 				} catch (error) {
 					this.updateInfoConnection();
-					if (
-						error.response &&
-						(error.response.status === 501 || error.response.status === 403 || error.response.status === 404)
-					) {
-						this.log.info(
-							`Skip ${element.path} for ${vin} code: ${error.response && error.response.status} until next scheduled update`,
-						);
-						this.skipArray.push(`${vin}.${element.path}`);
-						return;
-					}
 					this.log.error(`Failing to get ${element.path} for ${vin} code: ${error.response && error.response.status} `);
-					if (error.response && error.response.status === 502) {
-						return;
-					}
-					if (error.response && error.response.status === 401 && element.path === 'cockpit') {
-						this.log.warn('Authentication error, trying to refresh token');
-						//this.refreshToken();
-						return;
-					}
 					this.log.error(error);
 					error.response && this.log.error(JSON.stringify(error.response.data));
 				}

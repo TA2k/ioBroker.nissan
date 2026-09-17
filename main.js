@@ -361,11 +361,12 @@ class Nissan extends utils.Adapter {
 		};
 		this.vehicles.forEach(async vehicle => {
 			let statusArray = [];
+			//TOWNSTAR has a different endpoints, so we need to check the modelName
 			if (vehicle.modelName.toUpperCase() === 'TOWNSTAR') {
 				this.log.debug(`Townstar detected for ${vehicle.vin}`);
 				statusArray = [...statusTownstar];
 			} else {
-				this.log.debug(`Default status for ${vehicle.vin}`);
+				this.log.debug(`Default status for ${vehicle.vin} (${vehicle.modelName})`);
 				statusArray = [...statusDefault];
 			}
 			const vin = vehicle.vin;
@@ -398,7 +399,7 @@ class Nissan extends utils.Adapter {
 						} else {
 							this.log.debug(JSON.stringify(res.data));
 							this.log.error(
-								`Failing to get ${element.path} for ${vin} code: ${res.status} ${res.data.errors[0].status}`,
+								`Failing to get ${element.path} for ${vin} code: ${res.status} ${res.data.errors[0].status || res.data.errors[0].detail}`,
 							);
 						}
 						continue;
@@ -424,7 +425,9 @@ class Nissan extends utils.Adapter {
 					this.extractKeys(this, `${vin}.${element.path}`, data, preferedArrayName, forceIndex);
 				} catch (error) {
 					this.updateInfoConnection();
-					this.log.error(`Failing to get ${element.path} for ${vin} code: ${error.response && error.response.status} `);
+					this.log.error(
+						`Failing to get ${element.path} for ${vin} code: ${error.response && error.response.status} ${(error.response && error.response.data.errors[0].status) || (error.response && error.response.data.errors[0].detail)}`,
+					);
 					this.log.error(error);
 					error.response && this.log.error(JSON.stringify(error.response.data));
 				}

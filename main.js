@@ -501,11 +501,14 @@ class Nissan extends utils.Adapter {
 				}
 				const vin = id.split('.')[2];
 				const command = id.split('.')[4];
+				const value = state.val;
 				if (command === 'refresh') {
+					this.log.info(`Receive Refreshing command for ${vin}`);
 					this.updateVehicles(true);
+					await this.setState(id, value, true);
 					return;
 				}
-				const value = state.val;
+				this.log.info(`Receive RemoteCommand ${command}: ${value} for ${vin}`);
 				if (await this.setRemoteCommand(command, value, vin)) {
 					await this.setState(id, value, true);
 					// Command executed successfully
@@ -619,7 +622,13 @@ class Nissan extends utils.Adapter {
 				data: data,
 			});
 			this.log.debug(`RemoteCommand response: ${JSON.stringify(res.data)}`);
-			return this.responseIsOk(res);
+			if (!this.responseIsOk(res)) {
+				this.log.warn(
+					`Failing to set ${command} for ${vin} code: ${res.status} ${res.data.errors[0].status || res.data.errors[0].detail}`,
+				);
+				return false;
+			}
+			return true;
 		} catch (e) {
 			this.log.error(e);
 			return false;
@@ -627,9 +636,6 @@ class Nissan extends utils.Adapter {
 	}
 
 	async _upgrade(vin) {
-		if (await tools.existsState(this, `${vin}.remote.horn-lights`)) {
-			await tools.deleteState(this, `${vin}.remote.horn-lights`);
-		}
 		if (await tools.existsState(this, `${vin}.remote.horn-lights`)) {
 			await tools.deleteState(this, `${vin}.remote.horn-lights`);
 		}

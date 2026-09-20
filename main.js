@@ -8,12 +8,12 @@
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
 const axios = require('axios').default;
-// const leafConnect = require("leaf-connect");
-// const qs = require('qs');
 
 const { HttpsCookieAgent } = require('http-cookie-agent/http');
 const tough = require('tough-cookie');
 const { extractKeys } = require('./lib/extractKeys');
+
+const tools = require('./lib/tools.js');
 
 //NEW --
 const { KamereonSession, NissanAuthError } = require('./lib/kamereonAuth.js');
@@ -363,6 +363,12 @@ class Nissan extends utils.Adapter {
 				statusArray = [...statusDefault];
 			}
 			const vin = vehicle.vin;
+
+			this._upgrade(vin).catch(error => {
+				this.log.error(`Failing to upgrade ${vin}`);
+				this.log.error(error);
+			});
+
 			if (forceRefresh) {
 				await this.setRemoteCommand('refresh-battery-status', true, vin);
 				await this.setRemoteCommand('refresh-location', true, vin);
@@ -617,6 +623,15 @@ class Nissan extends utils.Adapter {
 		} catch (e) {
 			this.log.error(e);
 			return false;
+		}
+	}
+
+	async _upgrade(vin) {
+		if (await tools.existsState(this, `${vin}.remote.horn-lights`)) {
+			await tools.deleteState(this, `${vin}.remote.horn-lights`);
+		}
+		if (await tools.existsState(this, `${vin}.remote.horn-lights`)) {
+			await tools.deleteState(this, `${vin}.remote.horn-lights`);
 		}
 	}
 }

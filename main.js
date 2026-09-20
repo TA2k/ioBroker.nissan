@@ -231,7 +231,8 @@ class Nissan extends utils.Adapter {
 					{ command: 'hvac-targetTemperature', name: 'AC Target Temperature', type: 'number', role: 'value' },
 					{ command: 'charging-start' },
 					{ command: 'engine-start' },
-					{ command: 'horn-lights' },
+					{ command: 'horn' },
+					{ command: 'lights' },
 					{ command: 'lock-unlock' },
 					{ command: 'refresh', name: 'Force Refresh' },
 				];
@@ -309,17 +310,9 @@ class Nissan extends utils.Adapter {
 				path: 'pressure',
 				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v1/cars/$vin/pressure`,
 			},
-			{
-				path: 'res-state',
-				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v1/cars/$vin/res-state`,
-			},
 		];
 
 		const statusTownstar = [
-			{
-				path: 'health-status',
-				url: `${NISSAN_EU_SETTINGS.user_base_url}v1/cars/$vin/health-status?canGen=$gen`,
-			},
 			{
 				path: 'battery-status',
 				url: `${NISSAN_EU_SETTINGS.car_adapter_base_url}v2/cars/$vin/battery-status`,
@@ -432,94 +425,9 @@ class Nissan extends utils.Adapter {
 					error.response && this.log.error(JSON.stringify(error.response.data));
 				}
 				this.updateInfoConnection();
-
-				/*
-				await this.requestClient({
-					method: 'get',
-					url: url,
-					headers: headers,
-				})
-					.then(res => {
-						this.log.debug(JSON.stringify(res.data));
-						let data = res.data;
-						if (data.data) {
-							data = data.data;
-						}
-						if (data.attributes) {
-							data = data.attributes;
-						}
-						let forceIndex = null;
-						let preferedArrayName = null;
-						if (element.path === 'notification') {
-							forceIndex = true;
-						}
-						if (element.path === 'trip-history') {
-							preferedArrayName = 'month';
-							forceIndex = true;
-						}
-						this.extractKeys(this, `${vin}.${element.path}`, data, preferedArrayName, forceIndex);
-					})
-					.catch(error => {
-						if (
-							error.response &&
-							(error.response.status === 501 || error.response.status === 403 || error.response.status === 404)
-						) {
-							this.log.info(
-								`Skip ${element.path} for ${vin} code: ${error.response && error.response.status} until next restart`,
-							);
-							this.skipArray.push(`${vin}.${element.path}`);
-							return;
-						}
-						this.log.error(
-							`Failing to get ${element.path} for ${vin} code: ${error.response && error.response.status} `,
-						);
-
-						if (error.response && error.response.status === 502) {
-							return;
-						}
-						if (error.response && error.response.status === 401 && element.path === 'cockpit') {
-							this.log.warn('Authentication error, trying to refresh token');
-							this.refreshToken();
-							return;
-						}
-						this.log.error(error);
-						error.response && this.log.error(JSON.stringify(error.response.data));
-					});
-				*/
 			} //of for loop
 		}); //for each vin
 	}
-
-	/*
-	async refreshToken() {
-		await this.requestClient({
-			method: 'post',
-			url: 'https://prod.eu2.auth.kamereon.org/kauth/oauth2/a-ncb-prod/access_token',
-
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-				Accept: 'application/json',
-			},
-			data: qs.stringify({
-				client_id: 'a-ncb-nc-android-prod',
-				client_secret: '6GKIax7fGT5yPHuNmWNVOc4q5POBw1WRSW39ubRA8WPBmQ7MOxhm75EsmKMKENem',
-				grant_type: 'refresh_token',
-				refresh_token: this.session.refresh_token,
-			}),
-		})
-			.then(res => {
-				this.log.debug('Refreshtoken success');
-				this.log.debug(JSON.stringify(res.data));
-				this.session.access_token = res.data.access_token;
-				this.setState('info.connection', true, true);
-				return res.data;
-			})
-			.catch(error => {
-				this.log.error('Refresh token failed');
-				this.log.error(error);
-			});
-	}
-	*/
 
 	getNonce() {
 		//FF48AAFD017F43E6AA9022677CED2DC2
@@ -657,14 +565,27 @@ class Nissan extends utils.Adapter {
 				data.data.attributes.targetTemperature = 21.0;
 			}
 		}
-		if (command === 'horn-lights') {
+		if (command === 'horn') {
 			data = {
 				data: {
-					type: this.convertToCamelCase(command),
+					type: 'HornLights',
 					attributes: {
 						duration: 2,
 						//target: 'horn_lights',
 						target: 'horn',
+						action: value ? 'start' : 'stop',
+					},
+				},
+			};
+		}
+		if (command === 'lights') {
+			data = {
+				data: {
+					type: 'HornLights',
+					attributes: {
+						duration: 2,
+						//target: 'horn_lights',
+						target: 'lights',
 						action: value ? 'start' : 'stop',
 					},
 				},

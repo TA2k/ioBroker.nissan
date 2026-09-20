@@ -566,9 +566,10 @@ class Nissan extends utils.Adapter {
 			}
 		}
 		if (command === 'horn') {
+			command = 'horn-lights';
 			data = {
 				data: {
-					type: 'HornLights',
+					type: this.convertToCamelCase(command),
 					attributes: {
 						duration: 2,
 						//target: 'horn_lights',
@@ -579,9 +580,10 @@ class Nissan extends utils.Adapter {
 			};
 		}
 		if (command === 'lights') {
+			command = 'horn-lights';
 			data = {
 				data: {
-					type: 'HornLights',
+					type: this.convertToCamelCase(command),
 					attributes: {
 						duration: 2,
 						//target: 'horn_lights',

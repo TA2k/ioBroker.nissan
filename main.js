@@ -607,8 +607,7 @@ class Nissan extends utils.Adapter {
 				data: {
 					type: this.convertToCamelCase(command),
 					attributes: {
-						target: 'lock_unlock',
-						action: value ? 'lock' : 'unlock',
+						lock: value ? 'lock' : 'unlock',
 					},
 				},
 			};

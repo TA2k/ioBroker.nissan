@@ -1,4 +1,8 @@
 # Older changes
+## 0.1.16 (2025-07-03)
+- (bolliy) dependency and configuration updates
+- (bolliy) ConnectEV: update API endpoint and enhance password encryption method
+
 ## 0.1.15 (2025-02-22)
 - (bolliy) dependency and configuration updates
 - (bolliy) ConnectEV: Unset user-agent

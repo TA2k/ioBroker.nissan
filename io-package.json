@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nissan",
-    "version": "0.1.19",
+    "version": "0.1.20",
     "news": {
+      "0.1.20": {
+        "en": "dependency and configuration updates\nadd Nissan Townstar support [#164](https://github.com/TA2k/ioBroker.nissan/issues/164).\nadd data of pressure status",
+        "de": "Abhängigkeit und Konfigurationsupdates\nNSA Townstar Support hinzufügen [#164] (https://github.com/TA2k/ioBroker.nissan/issues/164).\nDruckstatusdaten hinzufügen",
+        "ru": "обновления зависимостей и конфигураций\nдобавьте поддержку Nissan Townstar [#164] (https://github.com/TA2k/ioBroker.nissan/issues/164).\nдобавить данные о состоянии давления",
+        "pt": "atualizações de dependência e configuração\napoie o Nissan Townstar [#164] (https://github.com/TA2k/ioBroker.nissan/issues/164).\nadicionar dados de pressão",
+        "nl": "afhankelijkheids- en configuratie-updates\nondersteuning voor Nissan Townstar toevoegen [#164] (https://github.com/TA2k/ioBroker.nissan/issues/164).\ngegevens over de drukstatus toevoegen",
+        "fr": "mises à jour de dépendance et de configuration\najouter le support Nissan Townstar [#164] (https://github.com/TA2k/ioBroker.nissan/issues/164).\najouter des données de pression",
+        "it": "dipendenze e configurazioni\nsupporto Nissan Townstar [#164] (https://github.com/TA2k/ioBroker.nissan/issues/164).\naggiungere dati di pressione",
+        "es": "actualizaciones de dependencia y configuración\nañadir apoyo al Nissan Townstar [#164] (https://github.com/TA2k/ioBroker.nissan/issues/164).\nañadir datos del estado de presión",
+        "pl": "aktualizacje zależności i konfiguracji\ndodaj obsługę Nissana Townstar [#164] (https://github.com/TA2k/ioBroker.nissan/issues/164).\ndodaj dane stanu ciśnienia",
+        "uk": "залежність і оновлення конфігурації\nдодати підтримку Ніссан Таунстар [#164] (https://github.com/TA2k/ioBroker.nissan/issues/164).\nдодати дані стану тиску",
+        "zh-cn": "依赖关系和配置更新\n添加日产 Townstar 支持 [#164] (https://github.com/TA2k/ioBroker.nissan/issues/164)。\n添加压力状态数据"
+      },
       "0.1.19": {
         "en": "Adapter requires node.js >= 22 now.\nImplemented MyNISSAN OneID authentication",
         "de": "Adapter benötigt jetzt node.js >= 22.\nMyNissan OneID authentifiziert",
@@ -80,19 +93,6 @@
         "pl": "aktualizacje zależności i konfiguracji\nConnectEV: Unset user- agent",
         "uk": "оновлення залежності та конфігурації\nConnectEV: Незареєструвати користувача",
         "zh-cn": "依赖和配置更新\n连接EV: 未设置的用户代理"
-      },
-      "0.1.14": {
-        "en": "fix for nissan ev login",
-        "de": "fix für nissan ev login",
-        "ru": "фиксация для логина nissan ev",
-        "pt": "correção para nissan ev login",
-        "nl": "fix voor nissan ev login",
-        "fr": "correction pour la connexion de nissan ev",
-        "it": "correzione per nissan ev login",
-        "es": "fijado para nissan ev login",
-        "pl": "fix for nexiev login",
-        "uk": "виправити для nissan ev",
-        "zh-cn": "nissan ev 登录的修复"
       }
     },
     "titleLang": {

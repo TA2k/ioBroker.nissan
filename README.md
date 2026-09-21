@@ -45,9 +45,6 @@ SRP (Secure Remote Password) login is not supported. There are currently no publ
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-- (bolliy) configuration update
-
-### 0.1.20-a.0 (2026-09-21)
 - (bolliy) dependency and configuration updates
 - (bolliy) add Nissan Townstar support [#164](https://github.com/TA2k/ioBroker.nissan/issues/164).
 - (bolliy) add data of pressure status
